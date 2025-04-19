@@ -80,7 +80,7 @@
             <li><a href="#process">실크인쇄 명판</a></li>
             <li><a href="#cases">부식명판</a></li>
             <li><a href="#info">표지판</a></li>
-            <li><a href="#address">오시는 길</a></li>
+            <li><a href="#address" onclick="return handleAddressLink(event)">오시는 길</a></li>
         </ul>
     </div>
 </header>
@@ -106,6 +106,21 @@
     </div>
 </div>
 <script>
+
+function handleAddressLink(event) {
+    const target = document.getElementById('address');
+
+    if (!target) {
+        // id="address"가 없으면 다른 페이지로 이동
+        window.location.href = '/menu/menu06.do';
+        return false; // 기본 앵커 동작 막기
+    }
+
+    // 있으면 기본 동작 (해시 이동) 유지
+    return true;
+}
+
+
 // 상단으로 가기 버튼
 const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 

@@ -5,8 +5,8 @@
 <script src="${pageContext.request.contextPath}/static/vendor/jquery/jquery-3.7.1.min.js"></script>
 
 <!-- ✅ Tabulator @v6.3.1 -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/vendor/tabulator/6.3.1/tabulator.min.css">
-<script src="${pageContext.request.contextPath}/static/vendor/tabulator/6.3.1/tabulator.min.js"></script>
+<link href="${pageContext.request.contextPath}/static/vendor/tabulator/dist/css/tabulator_simple.min.css" rel="stylesheet">
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/vendor/tabulator/dist/js/tabulator.min.js"></script>
 
 <!-- ✅ SweetAlert2 @v11.16.1 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/vendor/sweetalert2/11.16.1/sweetalert2.css">
