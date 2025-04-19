@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring5-template-jdk8" />
+        <module name="shinwon" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="CMS_shin" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
