@@ -68,8 +68,8 @@
         <div class="footer-column">
             <h3>바로가기</h3>
             <ul>
-                <li><a href="#home">홈</a></li>
-                <li><a href="#about">조각명판</a></li>
+                <li><a href="/home/home.do">홈</a></li>
+                <li><a href="/menu/menu01.do">조각명판</a></li>
                 <li><a href="#products">실크인쇄 명판</a></li>
                 <li><a href="#process">부식명판</a></li>
                 <li><a href="#cases">표지판</a></li>
