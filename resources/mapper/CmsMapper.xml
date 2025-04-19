@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CmsMapper">
+
+    <select id="login" parameterType="AdminVO" resultType="AdminVO">
+        select *
+        from cms_admin_info
+        where lgn_id = #{lgn_id} and lgn_passwd = #{lgn_passwd}
+        limit 1;
+    </select>
+
+
+    <select id="getMenuTree" resultType="MenuVO">
+        select *
+        from cms_board_mng
+    </select>
+
+</mapper>

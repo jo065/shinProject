@@ -36,6 +36,18 @@
             <mvc:exclude-mapping path="/login" />
             <bean class="com.d0iloppa.spring5.template.interceptor.SessionInterceptor"/>
         </mvc:interceptor>
+
+        <mvc:interceptor>
+            <!-- 인터셉터 적용 대상 -->
+            <mvc:mapping path="/cms/**" />
+            <!-- 예외경로 -->
+            <mvc:exclude-mapping path="/cms/login" />
+            <mvc:exclude-mapping path="/cms/loginPost" />
+            <mvc:exclude-mapping path="/cms/logout" />
+            <bean class="com.d0iloppa.spring5.template.interceptor.CmsInterceptor"/>
+        </mvc:interceptor>
+
+
     </mvc:interceptors>
 
 </beans>
