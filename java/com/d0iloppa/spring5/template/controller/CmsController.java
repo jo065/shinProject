@@ -6,6 +6,7 @@ package com.d0iloppa.spring5.template.controller;
 import com.d0iloppa.spring5.template.config.AppConfig;
 import com.d0iloppa.spring5.template.model.AdminVO;
 import com.d0iloppa.spring5.template.model.HomeVO;
+import com.d0iloppa.spring5.template.model.MenuVO;
 import com.d0iloppa.spring5.template.service.CmsService;
 import com.d0iloppa.spring5.template.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,11 +117,18 @@ public class CmsController {
             result.put("success", true);
             result.put("message", "트리 저장 완료");
         } catch (Exception e) {
+            e.printStackTrace();
             result.put("success", false);
             result.put("message", "저장 실패: " + e.getMessage());
         }
 
         return result;
+    }
+
+    @GetMapping("api/menuFlatList")
+    @ResponseBody
+    public List<MenuVO> getMenuFlatList() {
+        return cmsService.getMenuList(); // 모든 메뉴 SELECT * FROM cms_board_mng
     }
 
 

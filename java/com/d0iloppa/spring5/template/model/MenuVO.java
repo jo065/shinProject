@@ -1,5 +1,8 @@
 package com.d0iloppa.spring5.template.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author doil
  * @date 25. 4. 20.
@@ -14,6 +17,16 @@ public class MenuVO {
     String page_type;
     String page_path;
 
+    private List<MenuVO> children = new ArrayList<>();
+
+
+    public List<MenuVO> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<MenuVO> children) {
+        this.children = children;
+    }
 
     public String getMenu_name() {
         return menu_name;

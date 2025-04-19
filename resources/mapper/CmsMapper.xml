@@ -16,6 +16,73 @@
     <select id="getMenuTree" resultType="MenuVO">
         select *
         from cms_board_mng
+        ORDER BY parent_id NULLS FIRST, sort_order ASC
     </select>
+
+    <insert id="insertMenu" parameterType="list">
+        INSERT INTO cms_board_mng (
+        parent_id, menu_name, page_type, page_path, bbs_id, sort_order
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.parent, jdbcType=BIGINT},
+            #{item.text},
+            #{item.page_type, jdbcType=INTEGER},
+            #{item.page_path},
+            #{item.bbs_id, jdbcType=BIGINT},
+            #{item.sort_order, jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertMenuOne" parameterType="map" useGeneratedKeys="true" keyProperty="tree_id">
+        INSERT INTO cms_board_mng (
+        parent_id, menu_name, page_type, page_path, bbs_id, sort_order
+        )
+        VALUES (
+        #{parent, jdbcType=BIGINT},
+        #{text},
+        #{page_type, jdbcType=INTEGER},
+        #{page_path},
+        #{bbs_id, jdbcType=BIGINT},
+        #{sort_order, jdbcType=INTEGER}
+        )
+    </insert>
+
+
+    <update id="updateMenu" parameterType="list">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE cms_board_mng
+            SET
+            parent_id = #{item.parent},
+            menu_name = #{item.text},
+            page_type = #{item.page_type},
+            page_path = #{item.page_path},
+            bbs_id = #{item.bbs_id},
+            sort_order = #{item.sort_order}
+            WHERE tree_id = #{item.tree_id}
+        </foreach>
+    </update>
+
+    <delete id="deleteMenu" parameterType="list">
+        DELETE FROM cms_board_mng
+        WHERE tree_id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateOrphanageMenu" parameterType="list">
+        UPDATE cms_board_mng
+        SET parent_id = NULL
+        WHERE parent_id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+
 
 </mapper>
