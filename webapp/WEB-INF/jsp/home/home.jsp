@@ -287,7 +287,7 @@
               </div>
             <div class="about-image">
                 <div class="button-box">
-                    <a href="/menu/menu01.do" class="plate-button">
+                    <a href="/menu/menu02.do" class="plate-button">
                         <i class="fa-regular fa-share-from-square"></i> 조각명판
                     </a>
                     <button class="plate-button"><i class="fa-regular fa-share-from-square"></i> 실크인쇄</button>

@@ -34,7 +34,7 @@ public class MenuController {
     private HomeService homeService;
 
     @RequestMapping(value = "menu01.do", method = RequestMethod.GET)
-    public ModelAndView home(HttpServletRequest request, HttpServletResponse response, HomeVO homeVO) {
+    public ModelAndView menu01(HttpServletRequest request, HttpServletResponse response, HomeVO homeVO) {
         // viewName
     	ModelAndView mv = new ModelAndView("menu/menu01");
     	
@@ -44,6 +44,20 @@ public class MenuController {
     	
         mv.addObject("msg", testMsg);
         
+        return mv;
+    }
+
+    @RequestMapping(value = "menu02.do", method = RequestMethod.GET)
+    public ModelAndView menu02(HttpServletRequest request, HttpServletResponse response, HomeVO homeVO) {
+        // viewName
+        ModelAndView mv = new ModelAndView("menu/menu02");
+
+        String _ct = appConfig.get("config.test", "NONE DATA");
+
+        String testMsg = String.format("config 비교 : (전역변수)%s : (스코프변수)%s", configTest, _ct);
+
+        mv.addObject("msg", testMsg);
+
         return mv;
     }
     
