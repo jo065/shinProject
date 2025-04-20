@@ -114,7 +114,7 @@
           <strong>${admin.lgn_id}</strong> 님 어서오세요.
         </span>
         <!-- 홈페이지 이동 버튼 -->
-         <a href="/" class="btn btn-home" style="margin-right:5px;">
+         <a href="/home/home.do" class="btn btn-home" style="margin-right:5px;">
            <i class="fa-solid fa-house"></i> 홈페이지
          </a>
 

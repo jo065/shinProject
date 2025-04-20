@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -223,8 +224,16 @@ public class CmsController {
 
 
     @RequestMapping(value = "admin", method = RequestMethod.GET)
-    public ModelAndView admin(@RequestParam(value = "menu", required = false, defaultValue = "menuMng") String menu) {
+    public ModelAndView admin(
+            @RequestParam(value = "menu", required = false, defaultValue = "menuMng") String menu,
+            @RequestParam(value = "bbs_id", required = false) Long bbs_id) {
         ModelAndView mv = new ModelAndView("cms/main");
+
+
+        if (bbs_id != null) {
+            mv.addObject("bbs_id", bbs_id); // 필요하다면 JSP에 전달
+        }
+
 
         String contentPage = "menuMng.jsp"; // 기본값
 
@@ -237,6 +246,9 @@ public class CmsController {
                 break;
             case "config":
                 contentPage = "config.jsp";
+                break;
+            case "manage":
+                contentPage = "admin_bbsContainer.jsp";
                 break;
             // default는 그대로 dashboard
         }
@@ -355,6 +367,127 @@ public class CmsController {
             e.printStackTrace();
             result.put("success", false);
             result.put("message", "저장 실패: " + e.getMessage());
+        }
+
+        return result;
+    }
+
+
+    @PostMapping("api/insertContent")
+    @ResponseBody
+    public Map<String, Object> insertContent(HttpServletRequest request, @RequestBody Map<String, Object> data) {
+        Map<String, Object> result = new HashMap<>();
+
+        HttpSession session = request.getSession();
+        AdminVO admin = (AdminVO) session.getAttribute("admin");
+        String lgn_id = admin.getLgn_id();
+        data.put("reg_id", lgn_id);
+
+
+        if(cmsService.insertContent(data)>0){
+            result.put("success",true);
+        }else{
+            result.put("success", false);
+        }
+
+
+        return result;
+    }
+
+
+
+
+    @PostMapping("/api/uploadImage")
+    @ResponseBody
+    public Map<String, Object> uploadImage(
+            HttpServletRequest request,
+            @RequestParam("filepond") MultipartFile file,
+            @RequestParam(value = "mode", required = false, defaultValue = "1") int mode) throws IOException {
+
+
+        HttpSession session = request.getSession();
+        AdminVO admin = (AdminVO) session.getAttribute("admin");
+        String lgn_id = admin.getLgn_id();
+
+        Long fileId = cmsService.saveTempFile(mode, file, lgn_id); // 저장 후 ID 리턴
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("file_id", fileId);
+
+        return resultMap;
+    }
+
+
+    @PostMapping("api/updateContent")
+    @ResponseBody
+    public Map<String, Object> updateContent(HttpServletRequest request, @RequestBody Map<String, Object> data) {
+        Map<String, Object> result = new HashMap<>();
+
+        HttpSession session = request.getSession();
+        AdminVO admin = (AdminVO) session.getAttribute("admin");
+        String lgn_id = admin.getLgn_id();
+        data.put("reg_id", lgn_id);
+
+
+        if(cmsService.updateContent(data)>0){
+            result.put("success",true);
+        }else{
+            result.put("success", false);
+        }
+
+
+        return result;
+    }
+
+
+
+
+
+
+    @DeleteMapping("/api/deleteTempImage")
+    @ResponseBody
+    public ResponseEntity<?> deleteTempImage(@RequestBody String fileIdStr) {
+        try {
+            Long fileId = Long.parseLong(fileIdStr);
+            cmsService.deleteTempFile(fileId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
+
+
+
+    @PostMapping("api/deleteContents")
+    @ResponseBody
+    public Map<String, Object> deleteContents(HttpServletRequest request, @RequestBody Map<String, Object> data) {
+        Map<String, Object> result = new HashMap<>();
+
+        HttpSession session = request.getSession();
+        AdminVO admin = (AdminVO) session.getAttribute("admin");
+        String lgn_id = admin.getLgn_id();
+        data.put("reg_id", lgn_id);
+
+        String contentIdList = (String) data.get("contentIdList");
+        if(contentIdList == null || contentIdList.trim().length() == 0){
+            result.put("success",false);
+            return result;
+        }
+
+        String[] split = contentIdList.split(",");
+
+        try{
+
+            for(String _content_id : split){
+                Long content_id = Long.parseLong(_content_id);
+                cmsService.deleteContent(content_id);
+            }
+            result.put("success",true);
+        }catch(Exception e){
+            e.printStackTrace();
+            result.put("success",false);
         }
 
         return result;

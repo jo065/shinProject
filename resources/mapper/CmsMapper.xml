@@ -153,8 +153,102 @@
         limit 1;
     </select>
 
+    <select id="getContentInfo" parameterType="Long" resultType="hmap">
+        SELECT *
+        FROM cms_content_info
+        WHERE  content_id = #{content_id}
+        limit 1;
+    </select>
 
 
+
+    <insert id="insertFile" parameterType="hmap" useGeneratedKeys="true" keyProperty="file_id">
+        INSERT INTO cms_file (
+            file_type,
+            file_path,
+            file_name,
+            file_size,
+            reg_id,
+            reg_dt
+        ) VALUES (
+            #{file_type},
+            #{file_path},
+            #{file_name},
+            #{file_size},
+            #{reg_id},
+            NOW()
+        )
+    </insert>
+
+    <insert id="insertFileLink" parameterType="hmap">
+        INSERT INTO cms_file_link (
+            file_id,
+            content_id,
+            file_order,
+            link_dt
+        ) VALUES (
+            #{file_id},
+            #{content_id},
+            #{file_order},
+            now()
+        )
+    </insert>
+
+    <insert id="insertContent" parameterType="hmap" useGeneratedKeys="true" keyProperty="content_id">
+        INSERT INTO cms_content_info (
+            bbs_id,
+            title,
+            contents,
+            content_type,
+            view_cnt,
+            use_yn,
+            reg_id,
+            reg_dt
+        ) VALUES (
+            #{bbs_id},
+            #{title},
+            #{contents},
+            #{content_type},                      -- 💡 현재 타입은 슬라이더로 고정
+            0,                      -- 💡 조회수 기본값
+            true,                   -- 💡 사용 여부 기본값
+            #{reg_id},
+            now()
+        )
+    </insert>
+
+    <update id="updateContent" parameterType="hmap">
+        UPDATE cms_content_info
+        SET
+            title = #{title},
+            contents = #{contents},
+            mod_id = #{reg_id},
+            mod_dt = NOW()
+        WHERE content_id = #{content_id}
+    </update>
+
+    <delete id="deleteContent" parameterType="Long">
+        DELETE FROM cms_content_info
+        WHERE content_id = #{content_id}
+    </delete>
+
+
+
+
+    <delete id="deleteFile" parameterType="Long">
+        DELETE FROM cms_file WHERE file_id = #{file_id}
+    </delete>
+
+    <delete id="deleteFile_link" parameterType="Long">
+        DELETE FROM cms_file_link WHERE file_id = #{file_id}
+    </delete>
+
+
+
+    <select id="getLinkedFileIdList" parameterType="Long" resultType="Long">
+        select file_id
+        from cms_file_link cfl
+        where content_id = #{content_id}
+    </select>
 
 
 </mapper>

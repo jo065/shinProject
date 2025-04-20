@@ -4,21 +4,36 @@
 package com.d0iloppa.spring5.template.service;
 
 
+import com.d0iloppa.spring5.template.config.AppConfig;
 import com.d0iloppa.spring5.template.dao.CmsDAO;
-import com.d0iloppa.spring5.template.dao.HomeDAO;
 import com.d0iloppa.spring5.template.model.AdminVO;
-import com.d0iloppa.spring5.template.model.HomeVO;
 import com.d0iloppa.spring5.template.model.MenuVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class CmsService {
-	
+
+
+	@Autowired
+	private AppConfig appConfig;
+
+
+	@Value("${cms.file.root}")
+	private String cmsFILE_ROOT;
+
 	@Autowired
     private CmsDAO cmsDAO;
 
@@ -238,5 +253,216 @@ public class CmsService {
 
 	public MenuVO getPageInfo(Long treeId) {
 		return cmsDAO.selectOne("CmsMapper.getPageInfo",treeId);
+	}
+
+	public Long saveTempFile(int mode, MultipartFile file, String lgn_id) throws IOException {
+		String rootPath = cmsFILE_ROOT;
+		if (rootPath == null || rootPath.trim().isEmpty()) {
+			throw new RuntimeException("파일 저장 경로가 지정되지 않았습니다.");
+		}
+
+		String datePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+		Path saveDir = Paths.get(rootPath, datePath);
+
+		try {
+			if (!Files.exists(saveDir)) {
+				Files.createDirectories(saveDir);
+			}
+
+			String originalFileName = file.getOriginalFilename();
+			if (originalFileName == null || originalFileName.trim().isEmpty()) {
+				throw new RuntimeException("파일명이 비어 있습니다.");
+			}
+
+			String ext = "";
+			if (originalFileName.contains(".")) {
+				ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+			}
+
+			// ✅ 유일한 파일명으로 저장 (UUID)
+			String uuid = UUID.randomUUID().toString();
+			String saveFileName = uuid + ext;
+			Path targetPath = saveDir.resolve(saveFileName);
+			file.transferTo(targetPath.toFile());
+
+			// ✅ DB에 저장할 정보 구성
+
+			Map<String, Object> fileInfo = new HashMap<>();
+			fileInfo.put("file_type", ext.toLowerCase().replace(".", ""));         // 예: "jpg", "png"
+			fileInfo.put("file_path", "/" + datePath + "/" + saveFileName);                          // 예: "/2025/04/21/uuid.jpg"
+			fileInfo.put("file_name", originalFileName);                           // 원본 파일명
+			fileInfo.put("file_size", file.getSize());
+			fileInfo.put("reg_id", lgn_id);
+
+			if(mode==1){
+				cmsDAO.insert("CmsMapper.insertFile", fileInfo);
+			}else{
+				cmsDAO.update("CmsMapper.updateFile", fileInfo);
+			}
+
+
+
+			return (Long) fileInfo.get("file_id");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("파일 저장 중 오류 발생", e);
+		}
+	}
+
+	public void deleteTempFile(Long fileId) {
+		if (fileId == null) return;
+
+		// 1. DB에서 파일 정보 조회
+		Map<String, Object> fileInfo = cmsDAO.selectOne("CmsMapper.getFileInfo", fileId);
+		if (fileInfo == null) return;
+
+		// 2. 실제 파일 경로
+		String filePath = (String) fileInfo.get("file_path");
+		if (filePath != null) {
+			Path fullPath = Paths.get(cmsFILE_ROOT, filePath);
+			try {
+				Files.deleteIfExists(fullPath);  // 파일이 존재할 경우만 삭제
+			} catch (IOException e) {
+				e.printStackTrace(); // 삭제 실패 시 로그 출력
+			}
+		}
+
+		// 3. DB 레코드 삭제
+		cmsDAO.delete("CmsMapper.deleteFile", fileId);
+		cmsDAO.delete("CmsMapper.deleteFile_link", fileId);
+		
+		
+	}
+
+	public int insertContent(Map<String, Object> data) {
+
+
+		// Long으로 변환 처리
+		Object bbsIdObj = data.get("bbs_id");
+		if (bbsIdObj instanceof String) {
+			data.put("bbs_id", Long.parseLong((String) bbsIdObj));
+		} else if (bbsIdObj instanceof Number) {
+			data.put("bbs_id", ((Number) bbsIdObj).longValue());
+		}
+
+		Object fileIdObj = data.get("file_id");
+		if (fileIdObj instanceof String) {
+			data.put("file_id", Long.parseLong((String) fileIdObj));
+		} else if (fileIdObj instanceof Number) {
+			data.put("file_id", ((Number) fileIdObj).longValue());
+		}
+
+
+		data.put("content_type", 3);
+
+
+		int result = cmsDAO.insert("CmsMapper.insertContent", data); // content_id 자동 생성
+
+		// 2. 첨부파일 연결 (있을 경우)
+		if (fileIdObj != null && !"".equals(fileIdObj.toString())) {
+			Map<String, Object> linkMap = new HashMap<>();
+			linkMap.put("content_id", data.get("content_id"));  // insertContent 실행 후 content_id가 자동으로 들어감
+			linkMap.put("file_id", Long.parseLong(fileIdObj.toString()));
+			linkMap.put("file_order", 1);
+
+			result = cmsDAO.insert("CmsMapper.insertFileLink", linkMap);
+		}
+
+		return result;
+
+
+	}
+
+	public int updateContent(Map<String, Object> data) {
+
+
+
+
+		// Long으로 변환 처리
+		Object content_id = data.get("content_id");
+		if (content_id instanceof String) {
+			data.put("content_id", Long.parseLong((String) content_id));
+		} else if (content_id instanceof Number) {
+			data.put("content_id", ((Number) content_id).longValue());
+		}
+
+		// 기존 file_id
+		Object fileIdObj = data.get("file_id");
+		Long file_id = null;
+		if (fileIdObj instanceof String) {
+			data.put("file_id", Long.parseLong((String) fileIdObj));
+			file_id = Long.parseLong((String) fileIdObj);
+		} else if (fileIdObj instanceof Number) {
+			data.put("file_id", ((Number) fileIdObj).longValue());
+			file_id = ((Number) fileIdObj).longValue();
+		}
+
+
+		Object new_fileIdObj = data.get("new_file_id");
+
+		data.put("content_type", 3);
+
+		int result = cmsDAO.update("CmsMapper.updateContent",data);
+
+
+		if (new_fileIdObj != null && !"".equals(new_fileIdObj.toString())) {
+
+
+
+			bronkenLinkProcess(file_id);
+
+
+			Map<String, Object> linkMap = new HashMap<>();
+			linkMap.put("content_id", data.get("content_id"));  // insertContent 실행 후 content_id가 자동으로 들어감
+			linkMap.put("file_id", Long.parseLong(new_fileIdObj.toString()));
+			linkMap.put("file_order", 1);
+
+			result = cmsDAO.insert("CmsMapper.insertFileLink", linkMap);
+		}
+
+
+		return result;
+	}
+
+	private void bronkenLinkProcess(Long oldId) {
+
+		if(oldId==null) return;
+
+
+		Map<String, Object> fileInfo = cmsDAO.selectOne("CmsMapper.getFileInfo", oldId);
+		if (fileInfo == null) return;
+
+		// 2. 실제 파일 경로
+		String filePath = (String) fileInfo.get("file_path");
+		if (filePath != null) {
+			Path fullPath = Paths.get(cmsFILE_ROOT, filePath);
+			try {
+				Files.deleteIfExists(fullPath);  // 파일이 존재할 경우만 삭제
+			} catch (IOException e) {
+				e.printStackTrace(); // 삭제 실패 시 로그 출력
+			}
+		}
+
+		// 3. DB 레코드 삭제
+		cmsDAO.delete("CmsMapper.deleteFile", oldId);
+		cmsDAO.delete("CmsMapper.deleteFile_link", oldId);
+
+
+
+
+
+	}
+
+	public void deleteContent(Long contentId) {
+
+		// 1. 해당 파일에 링크된 파일리스트 수집
+		List<Long> linkedFileList = cmsDAO.selectList("CmsMapper.getLinkedFileIdList", contentId);
+
+		for(Long file_id : linkedFileList){
+			bronkenLinkProcess(file_id);
+		}
+		// 2. 컨텐츠 삭제
+		cmsDAO.delete("CmsMapper.deleteContent", contentId);
 	}
 }

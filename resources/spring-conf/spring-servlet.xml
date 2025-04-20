@@ -18,6 +18,11 @@
     <!-- 📦 @Component, @Controller 등 자동 스캔 -->
     <context:component-scan base-package="com.d0iloppa.spring5.template" />
 
+    <!-- 멀티파트 설정 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="-1" /> <!-- 무제한 -->
+    </bean>
+
     <!-- 👁️ ViewResolver 설정 (JSP) -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />

@@ -133,7 +133,9 @@
             cellClick: function (e, cell) {
             const rowData = cell.getRow().getData();
                 const {bbs_id} = rowData;
-                window.location.href = '/cms/bbsAdmin/' + bbs_id;
+                // window.location.href = '/cms/bbsAdmin/' + bbs_id;
+                window.location.href = '/cms/admin?menu=manage&bbs_id=' + bbs_id;
+
              }
          }
       ]
