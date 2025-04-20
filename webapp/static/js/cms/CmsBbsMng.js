@@ -22,11 +22,19 @@ class CmsBbsMng {
         return;
       }
 
-      if (this.bbsInfo.bbs_type == 2) {
-        this._renderGallery();
-      } else {
-        this._renderList();
+      switch (Number(this.bbsInfo.bbs_type)) {
+        case 2:
+          this._renderGallery();
+          break;
+        case 3:
+          this._renderSlider();
+          break;
+        default:
+          this._renderList(); // 1, 4 등
+          break;
       }
+
+
     } catch (e) {
       console.error(e);
       this._renderError("서버 오류가 발생했습니다.");
@@ -48,8 +56,37 @@ class CmsBbsMng {
     });
   }
 
+  _renderSlider() {
+    this.container.innerHTML = `
+      <div class="swiper-container" id="bbsSlider">
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <!-- 슬라이드 내용은 setData()에서 추가 -->
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+    `;
+
+    // Swiper 인스턴스 초기화
+    this.swiper = new Swiper(".mySwiper", {
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      }
+    });
+  }
+
+
   _renderList() {
-    this.container.innerHTML = `<div>📋 일반 게시판 (탭 뷰 예정)</div>`;
+    this.container.innerHTML = `<div>📋 게시판 </div>`;
   }
 
   _renderError(msg) {
@@ -57,8 +94,22 @@ class CmsBbsMng {
   }
 
   setData(dataList) {
-    // 📌 추후 이미지 리스트를 동적으로 바인딩하려면 여기에 구현
-  }
+    const type = Number(this.bbsInfo?.bbs_type);
+
+    if (type === 3 && this.swiper) {
+      const wrapper = this.container.querySelector(".swiper-wrapper");
+      wrapper.innerHTML = ''; // 기존 슬라이드 제거
+
+      dataList.forEach(item => {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.innerHTML = `<img src="${item.image_url}" alt="${item.title || ''}" style="width:100%; height:auto;">`;
+        wrapper.appendChild(slide);
+      });
+
+      this.swiper.update(); // 슬라이드 갱신
+    }
+   }
 }
 
 

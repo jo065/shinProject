@@ -34,6 +34,11 @@ public class CmsController {
     private CmsService cmsService;
 
 
+    @Value("${cms.file.root}")
+    private String cmsFILE_ROOT;
+
+
+
 
     @GetMapping("/bbs/getBBSInfo/{bbs_id}")
     @ResponseBody

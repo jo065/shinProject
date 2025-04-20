@@ -9,6 +9,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 
+<!-- Swiper.js CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 
 <link href="${pageContext.request.contextPath}/static/css/cms/Bbs.style.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/static/js/cms/CmsBbsMng.js"></script>
