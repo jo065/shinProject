@@ -22,3 +22,7 @@
 <!-- Bootstrap 5.4.5 -->
 <script src="${pageContext.request.contextPath}/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/vendor/bootstrap/css/bootstrap.min.css">
+
+
+<!-- common -->
+<script src="${pageContext.request.contextPath}/static/js/common/common.js"></script>
