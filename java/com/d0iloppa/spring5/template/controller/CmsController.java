@@ -9,8 +9,13 @@ import com.d0iloppa.spring5.template.model.HomeVO;
 import com.d0iloppa.spring5.template.model.MenuVO;
 import com.d0iloppa.spring5.template.service.CmsService;
 import com.d0iloppa.spring5.template.service.HomeService;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -40,6 +50,7 @@ public class CmsController {
 
 
 
+
     @GetMapping("/bbs/getBBSInfo/{bbs_id}")
     @ResponseBody
     public Map<String, Object> getBBSInfo(@PathVariable("bbs_id") Long bbs_id) {
@@ -48,6 +59,74 @@ public class CmsController {
         Map<String, Object> bbsInfo = cmsService.getBbsInfo(bbs_id);
         return bbsInfo;
     }
+
+
+    @GetMapping("/bbs/getContentsList/{bbs_id}")
+    @ResponseBody
+    public Map<String, Object> contentsList(@PathVariable("bbs_id") Long bbs_id) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        List<Map<String, Object>> contentsList = cmsService.getContentsList(bbs_id);
+
+        resultMap.put("data", contentsList);
+
+
+        return resultMap;
+    }
+
+
+    @GetMapping("/cdn/img/{file_id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> cdn(
+            @PathVariable("file_id") Long file_id,
+            @RequestParam(value = "thumb", required = false, defaultValue = "false") boolean isThumb
+    ) throws IOException {
+        Map<String, Object> fileInfo = cmsService.getFileInfo(file_id);
+        if (fileInfo == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String relativePath = (String) fileInfo.get("file_path");
+        String fullPath = cmsFILE_ROOT + relativePath;
+
+        Path path = Paths.get(fullPath);
+        if (!Files.exists(path)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String contentType = Files.probeContentType(path);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        try {
+            if (isThumb) {
+                // 썸네일 생성 (예: 300px 폭으로 리사이징, 비율 유지)
+                Thumbnails.of(fullPath)
+                        .size(200, 200) // 최대 크기 지정 (비율 유지됨)
+                        .keepAspectRatio(true)
+                        .toOutputStream(out);
+            } else {
+                // 원본 그대로
+                byte[] fileBytes = Files.readAllBytes(path);
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_TYPE, contentType != null ? contentType : "application/octet-stream")
+                        .body(fileBytes);
+            }
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, contentType != null ? contentType : MediaType.IMAGE_JPEG_VALUE)
+                    .body(out.toByteArray());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
+
+
+
 
     @GetMapping("/bbsAdmin/{bbs_id}")
     public ModelAndView bbsAdmin(@PathVariable("bbs_id") Long bbs_id) {

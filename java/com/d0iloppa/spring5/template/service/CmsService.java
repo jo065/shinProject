@@ -227,4 +227,16 @@ public class CmsService {
 	public Map<String, Object> getBbsInfo(Long bbsId) {
 		return cmsDAO.selectOne("CmsMapper.getBbsInfo", bbsId);
 	}
+
+	public List<Map<String, Object>> getContentsList(Long bbsId) {
+		return cmsDAO.selectList("CmsMapper.getContentsList", bbsId);
+	}
+
+	public Map<String, Object> getFileInfo(Long fileId) {
+		return cmsDAO.selectOne("CmsMapper.getFileInfo", fileId);
+	}
+
+	public MenuVO getPageInfo(Long treeId) {
+		return cmsDAO.selectOne("CmsMapper.getPageInfo",treeId);
+	}
 }

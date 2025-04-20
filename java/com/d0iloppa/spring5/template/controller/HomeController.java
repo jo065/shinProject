@@ -35,8 +35,8 @@ public class HomeController {
 	
 	@Autowired
 	private AppConfig appConfig;
-	
-	@Value("${config.test}")
+
+    @Value("${config.test}")
     private String configTest;
 	
     @Autowired

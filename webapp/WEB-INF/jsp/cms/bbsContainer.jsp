@@ -24,5 +24,5 @@
 <div id="bbsArea" style=""></div>
 
 <script>
-
+let a = new CmsBbsMng('#bbsArea',${bbs_id});
 </script>

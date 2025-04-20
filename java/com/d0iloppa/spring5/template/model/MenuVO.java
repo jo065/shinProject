@@ -14,7 +14,7 @@ public class MenuVO {
     Long bbs_id;
     String menu_name;
     Integer sort_order;
-    String page_type;
+    Integer page_type;
     String page_path;
 
     private List<MenuVO> children = new ArrayList<>();
@@ -68,11 +68,11 @@ public class MenuVO {
         this.sort_order = sort_order;
     }
 
-    public String getPage_type() {
+    public Integer getPage_type() {
         return page_type;
     }
 
-    public void setPage_type(String page_type) {
+    public void setPage_type(Integer page_type) {
         this.page_type = page_type;
     }
 

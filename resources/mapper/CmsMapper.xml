@@ -130,6 +130,29 @@
         LIMIT 1;
     </select>
 
+    <select id="getContentsList" parameterType="Long" resultType="hmap">
+        SELECT
+            a.*, c.file_id , c.file_path
+        FROM  cms_content_info a  LEFT JOIN cms_file_link b ON a.content_id = b.content_id left join cms_file c on b.file_id = c.file_id
+        WHERE  a.bbs_id = #{bbs_id}
+        ORDER BY  a.reg_dt DESC;
+
+    </select>
+
+    <select id="getFileInfo" parameterType="Long" resultType="hmap">
+        SELECT *
+        FROM cms_file
+        WHERE  file_id = #{file_id}
+        limit 1;
+    </select>
+
+    <select id="getPageInfo" parameterType="Long" resultType="MenuVO">
+        select *
+        from cms_board_mng cbm
+        WHERE tree_id = #{tree_id}
+        limit 1;
+    </select>
+
 
 
 
