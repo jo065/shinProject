@@ -78,6 +78,7 @@
 <div id="sampleArea">
   <h4>메뉴 구성 테스트</h4>
 
+
     <div style="display: flex; align-items: center; gap: 20px;">
 
       <div>
@@ -92,6 +93,18 @@
   <div id="menuPreview" style="display:none; margin-top: 20px; padding: 10px; border: 1px solid #ddd;"></div>
 
   <div id="menuPreview_v2" style="margin-top: 20px; padding: 10px; border: 1px solid #ddd;"></div>
+
+  <h5> 호출방법 </h5>
+  <div id="code" style="
+    margin-top: 20px;
+    padding: 12px 16px;
+    background-color: #c8c7c7;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #333;
+    white-space: pre;"></div>
 </div>
 
 
@@ -346,6 +359,15 @@ $(function () {
       direction: direction
     })
 
+
+    const sampleCode = `
+        const menu = new CmsMenuMng('#targetElement', {
+          maxDepth: -1,           // -1: 무제한
+          direction: 'horizontal' // 또는 'vertical'
+        });
+    `;
+
+      $('#code').text(sampleCode);
 
 
       $.ajax({
