@@ -83,6 +83,54 @@
     </update>
 
 
+    <select id="getBoardList" resultType="hmap">
+        select *
+        from cms_board_info cbi
+        where use_yn = true
+    </select>
+
+    <insert id="bbsInsert" parameterType="hmap">
+        INSERT INTO cms_board_info (
+            bbs_name,
+            bbs_type,
+            use_yn,
+            reg_id,
+            reg_dt
+        ) VALUES (
+            #{bbs_name},
+            #{bbs_type},
+            true,
+            #{reg_id, jdbcType=VARCHAR},
+            NOW()
+        )
+    </insert>
+
+    <update id="bbsUpdate" parameterType="hmap">
+        UPDATE cms_board_info
+        SET
+            bbs_name = #{bbs_name},
+            bbs_type = #{bbs_type},
+            mod_id = #{mod_id},
+            mod_dt = NOW()
+        WHERE bbs_id = #{bbs_id}
+    </update>
+
+    <update id="bbsDelete" parameterType="hmap">
+        UPDATE cms_board_info
+        SET
+            use_yn = false
+        WHERE bbs_id = #{bbs_id}
+    </update>
+
+    <select id="getBbsInfo" parameterType="Long" resultType="hmap">
+        SELECT *
+        FROM cms_board_info
+        where bbs_id = #{bbs_id}
+        LIMIT 1;
+    </select>
+
+
+
 
 
 </mapper>

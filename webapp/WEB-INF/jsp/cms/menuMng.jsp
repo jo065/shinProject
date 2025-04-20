@@ -4,11 +4,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
 
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/cms/CmsMenuMng.js"></script>
+<link href="${pageContext.request.contextPath}/static/css/cms/CmsMenu.style.css" rel="stylesheet">
+
+<body>
 <h4>메뉴 관리</h4>
 
 <div id="container" style="display: flex; gap: 20px;">
   <!-- 좌측: 트리 구조 -->
-  <div style="width: 50%;">
+  <div style="width: 30%;">
     <div style="margin-bottom: 10px;">
       <button id="btnAdd">+</button>
       <button id="btnDelete">−</button>
@@ -18,7 +23,7 @@
   </div>
 
   <!-- 우측: 상세 설정 -->
-  <div style="width: 50%; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+  <div style="width: 20%; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
     <h4>선택된 메뉴 정보</h4>
 
     <div style="margin-bottom: 10px;">
@@ -54,9 +59,21 @@
 
 <div id="sampleArea">
   <h4>메뉴 구성 테스트</h4>
-  <button id="btnPreviewMenu">📋 메뉴 확인 (재로딩)</button>
 
-  <div id="menuPreview" style="margin-top: 20px; padding: 10px; border: 1px solid #ddd;"></div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+
+      <div>
+        <label><strong>방향:</strong></label>
+        <label><input type="radio" name="direction" value="horizontal" checked/> horizontal (가로) </label>
+        <label><input type="radio" name="direction" value="vertical"/> vertical (세로)</label>
+      </div>
+
+      <button id="btnPreviewMenu">📋 메뉴 확인 (재로딩)</button>
+    </div>
+
+  <div id="menuPreview" style="display:none; margin-top: 20px; padding: 10px; border: 1px solid #ddd;"></div>
+
+  <div id="menuPreview_v2" style="margin-top: 20px; padding: 10px; border: 1px solid #ddd;"></div>
 </div>
 
 
@@ -69,6 +86,7 @@ let currentNodeId = null;
 
 
 $(function () {
+
     setTimeout(() => {
         $("#btnPreviewMenu").click();
     },10);
@@ -103,59 +121,59 @@ $(function () {
   });
 
 
-// 선택
-$('#menuTree').on('select_node.jstree', function (e, data) {
-  const node = data.node;
+    // 선택
+    $('#menuTree').on('select_node.jstree', function (e, data) {
+      const node = data.node;
 
-  // 루트는 선택 자체 막기
-  if (node.id === "root") {
-    $('#menuTree').jstree(true).deselect_node(node);
-    return;
-  }
+      // 루트는 선택 자체 막기
+      if (node.id === "root") {
+        $('#menuTree').jstree(true).deselect_node(node);
+        return;
+      }
 
-  currentNodeId = node.id;
+      currentNodeId = node.id;
 
-  // 우선순위: original → data → fallback
-  const source = node.data && Object.keys(node.data).length > 0
-    ? node.data
-    : (node.original || {});
+      // 우선순위: original → data → fallback
+      const source = node.data && Object.keys(node.data).length > 0
+        ? node.data
+        : (node.original || {});
 
-    // 선택된 노드 정보 오른쪽에 표시
-    $('#menuName').val(node.text);
-    $('#pageType').val(source.page_type || 1);
-    $('#bbsSelect').val(source.bbs_id || '');
-    $('#pagePath').val(source.page_path || '');
-});
+        // 선택된 노드 정보 오른쪽에 표시
+        $('#menuName').val(node.text);
+        $('#pageType').val(source.page_type || 1);
+        $('#bbsSelect').val(source.bbs_id || '');
+        $('#pagePath').val(source.page_path || '');
+    });
 
-  // 저장
- $('#btnLocalSave').click(function () {
-   if (!currentNodeId) return;
+     // 저장
+     $('#btnLocalSave').click(function () {
+       if (!currentNodeId) return;
 
-   const tree = $('#menuTree').jstree(true);
-   const node = tree.get_node(currentNodeId);
+       const tree = $('#menuTree').jstree(true);
+       const node = tree.get_node(currentNodeId);
 
-   // UI 값 읽기
-   const text = $('#menuName').val();
-   const page_type = parseInt($('#pageType').val());
-   const bbs_id = $('#bbsSelect').val() || null;
-   const page_path = $('#pagePath').val();
+       // UI 값 읽기
+       const text = $('#menuName').val();
+       const page_type = parseInt($('#pageType').val());
+       const bbs_id = $('#bbsSelect').val() || null;
+       const page_path = $('#pagePath').val();
 
-   // data 객체 보장
-   if (!node.data) node.data = {};
+       // data 객체 보장
+       if (!node.data) node.data = {};
 
-   // 값 반영
-   node.data.page_type = page_type;
-   node.data.bbs_id = bbs_id;
-   node.data.page_path = page_path;
+       // 값 반영
+       node.data.page_type = page_type;
+       node.data.bbs_id = bbs_id;
+       node.data.page_path = page_path;
 
-   if (node.data.isNew == null) {
-     node.data.isNew = false;
-   }
+       if (node.data.isNew == null) {
+         node.data.isNew = false;
+       }
 
-   tree.rename_node(node, text);
+       tree.rename_node(node, text);
 
-   Swal.fire('임시저장 완료. [적용] 버튼을 눌러야 최종 반영됩니다.')
- });
+       Swal.fire('임시저장 완료. [적용] 버튼을 눌러야 최종 반영됩니다.')
+     });
 
 
 
@@ -231,23 +249,26 @@ $('#menuTree').on('select_node.jstree', function (e, data) {
 
     // 적용 (서버에 현재 트리 상태 전송)
     $('#btnApply').click(function () {
-      const flat = $('#menuTree').jstree(true).get_json('#', { flat: true });
+
+      const tree = $('#menuTree').jstree(true);
+      const flat = tree.get_json('#', { flat: true });
 
       const result = flat.map((n, index) => {
+        const _t = tree.get_node(n.id);
         const source =
           n.data && Object.keys(n.data).length > 0
             ? n.data
-            : (n.original || {});
+            : (_t.original || {});
 
         return {
           id: n.id,
           parent: n.parent,
           text: n.text,
-          sort_order: index + 1,
-          page_type: source.page_type ?? 1,
-          bbs_id: source.bbs_id ?? null,
-          page_path: source.page_path ?? '',
-          isNew: source.isNew ?? false
+          sort_order: Number(index + 1),
+          page_type: Number(source.page_type ?? 1),
+          bbs_id: source.bbs_id != null ? Number(source.bbs_id) : null,
+          page_path: source.page_path ?? '/',
+          isNew: Boolean(source.isNew ?? false)
         };
       });
 
@@ -267,14 +288,27 @@ $('#menuTree').on('select_node.jstree', function (e, data) {
            }else{
             Swal.fire('저장에 실패하였습니다.')
            }
-
         }
       });
+
+
+
     });
 
 
 
  $('#btnPreviewMenu').click(function () {
+
+    const direction = $('input[name="direction"]:checked').val();
+    console.log(direction);
+
+    const menu = new CmsMenuMng('#menuPreview_v2',{
+      maxDepth: -1,           // 무제한
+      direction: direction
+    })
+
+
+
       $.ajax({
         url: '/cms/api/menuFlatList',  // ← DB에서 메뉴 전체 가져오는 API (계층 X, flat 구조)
         method: 'GET',
@@ -347,3 +381,4 @@ function renderMenuTree_jQuery(treeList) {
 
 
 </script>
+</body>

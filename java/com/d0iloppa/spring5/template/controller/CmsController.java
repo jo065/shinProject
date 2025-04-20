@@ -33,6 +33,44 @@ public class CmsController {
     @Autowired
     private CmsService cmsService;
 
+
+
+    @GetMapping("/bbs/getBBSInfo/{bbs_id}")
+    @ResponseBody
+    public Map<String, Object> getBBSInfo(@PathVariable("bbs_id") Long bbs_id) {
+
+        // 게시판 기본 정보 가져오기
+        Map<String, Object> bbsInfo = cmsService.getBbsInfo(bbs_id);
+        return bbsInfo;
+    }
+
+    @GetMapping("/bbs/{bbs_id}")
+    public ModelAndView bbsView(@PathVariable("bbs_id") Long bbs_id) {
+
+        ModelAndView mv = new ModelAndView("cms/bbsContainer");
+
+        // 게시판 기본 정보 가져오기
+        Map<String, Object> bbsInfo = cmsService.getBbsInfo(bbs_id);
+
+        if (bbsInfo == null) {
+            // 없는 게시판일 경우 404 또는 에러처리 페이지 이동도 가능
+            mv.setViewName("error/404");
+            return mv;
+        }
+
+        // model에 데이터 추가
+        mv.addObject("bbs_id", bbsInfo.get("bbs_id"));
+        mv.addObject("bbs_type", bbsInfo.get("bbs_type"));
+        mv.addObject("bbs_name", bbsInfo.get("bbs_name"));
+
+        return mv;
+    }
+
+
+
+
+
+
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
@@ -130,6 +168,93 @@ public class CmsController {
     public List<MenuVO> getMenuFlatList() {
         return cmsService.getMenuList(); // 모든 메뉴 SELECT * FROM cms_board_mng
     }
+
+    @GetMapping("api/boardList")
+    @ResponseBody
+    public List<Map<String, Object>> getBoardList() {
+        return cmsService.getBoardList();
+    }
+
+    @PostMapping("api/bbsInsert")
+    @ResponseBody
+    public Map<String, Object> bbsInsert(HttpServletRequest request, @RequestBody Map<String, Object> data) {
+        Map<String, Object> result = new HashMap<>();
+
+        HttpSession session = request.getSession();
+        AdminVO admin = (AdminVO) session.getAttribute("admin");
+        String lgn_id = admin.getLgn_id();
+        data.put("reg_id", lgn_id);
+        data.put("mod_id", lgn_id);
+
+
+        try {
+            cmsService.bbsInsert(data); // 트리 저장 로직 위임
+            result.put("success", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("success", false);
+            result.put("message", "저장 실패: " + e.getMessage());
+        }
+
+        return result;
+    }
+
+
+    @PostMapping("api/bbsUpdate")
+    @ResponseBody
+    public Map<String, Object> bbsUpdate(HttpServletRequest request, @RequestBody Map<String, Object> data) {
+        Map<String, Object> result = new HashMap<>();
+
+        HttpSession session = request.getSession();
+        AdminVO admin = (AdminVO) session.getAttribute("admin");
+        String lgn_id = admin.getLgn_id();
+        data.put("mod_id", lgn_id);
+
+
+        try {
+            cmsService.bbsUpdate(data); // 트리 저장 로직 위임
+            result.put("success", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("success", false);
+            result.put("message", "저장 실패: " + e.getMessage());
+        }
+
+        return result;
+    }
+
+    @PostMapping("api/bbsDelete")
+    @ResponseBody
+    public Map<String, Object> bbsDelete(HttpServletRequest request, @RequestBody Map<String, Object> data) {
+        Map<String, Object> result = new HashMap<>();
+
+        String bbsIdList = (String) data.get("bbs_id_list");
+        String[] split = bbsIdList.split(",");
+        List<Long> _list = new ArrayList<>();
+        for(String _id : split){
+            Long parse = Long.parseLong(_id);
+            _list.add(parse);
+        }
+
+
+        try {
+            Map<String, Object> deleteItem = new HashMap<>();
+
+            for(Long id : _list){
+                deleteItem.put("bbs_id", id);
+                cmsService.bbsDelete(deleteItem);
+            }
+            result.put("success", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("success", false);
+            result.put("message", "저장 실패: " + e.getMessage());
+        }
+
+        return result;
+    }
+
+
 
 
 

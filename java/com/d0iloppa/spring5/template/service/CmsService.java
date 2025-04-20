@@ -182,4 +182,49 @@ public class CmsService {
 
 
 	}
+
+	public List<Map<String, Object>> getBoardList() {
+
+		return cmsDAO.selectList("CmsMapper.getBoardList");
+	}
+
+	public int bbsInsert(Map<String, Object> data) {
+
+		Object bbsTypeObj = data.get("bbs_type");
+		if (bbsTypeObj instanceof String) {
+			data.put("bbs_type", Integer.parseInt((String) bbsTypeObj));
+		} else if (bbsTypeObj instanceof Number) {
+			data.put("bbs_type", ((Number) bbsTypeObj).intValue());
+		}
+
+		return cmsDAO.update("CmsMapper.bbsInsert", data);
+	}
+
+	public int bbsUpdate(Map<String, Object> data) {
+
+		Object bbsIdObj = data.get("bbs_id");
+		if (bbsIdObj instanceof String) {
+			data.put("bbs_id", Long.parseLong((String) bbsIdObj));
+		} else if (bbsIdObj instanceof Number) {
+			data.put("bbs_id", ((Number) bbsIdObj).longValue());
+		}
+
+		// 💡 bbs_type을 Integer로 캐스팅
+		Object bbsTypeObj = data.get("bbs_type");
+		if (bbsTypeObj instanceof String) {
+			data.put("bbs_type", Integer.parseInt((String) bbsTypeObj));
+		} else if (bbsTypeObj instanceof Number) {
+			data.put("bbs_type", ((Number) bbsTypeObj).intValue());
+		}
+
+		return cmsDAO.update("CmsMapper.bbsUpdate", data);
+	}
+
+	public int bbsDelete(Map<String, Object> data) {
+		return cmsDAO.update("CmsMapper.bbsDelete", data);
+	}
+
+	public Map<String, Object> getBbsInfo(Long bbsId) {
+		return cmsDAO.selectOne("CmsMapper.getBbsInfo", bbsId);
+	}
 }

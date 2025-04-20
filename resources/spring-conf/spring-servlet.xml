@@ -44,6 +44,7 @@
             <mvc:exclude-mapping path="/cms/login" />
             <mvc:exclude-mapping path="/cms/loginPost" />
             <mvc:exclude-mapping path="/cms/logout" />
+            <mvc:exclude-mapping path="/cms/bbs/**" />
             <bean class="com.d0iloppa.spring5.template.interceptor.CmsInterceptor"/>
         </mvc:interceptor>
 
