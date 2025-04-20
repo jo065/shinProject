@@ -44,6 +44,28 @@ public class CmsController {
         return bbsInfo;
     }
 
+    @GetMapping("/bbsAdmin/{bbs_id}")
+    public ModelAndView bbsAdmin(@PathVariable("bbs_id") Long bbs_id) {
+
+        ModelAndView mv = new ModelAndView("cms/admin_bbsContainer");
+
+        // 게시판 기본 정보 가져오기
+        Map<String, Object> bbsInfo = cmsService.getBbsInfo(bbs_id);
+
+        if (bbsInfo == null) {
+            // 없는 게시판일 경우 404 또는 에러처리 페이지 이동도 가능
+            mv.setViewName("error/404");
+            return mv;
+        }
+
+        // model에 데이터 추가
+        mv.addObject("bbs_id", bbsInfo.get("bbs_id"));
+        mv.addObject("bbs_type", bbsInfo.get("bbs_type"));
+        mv.addObject("bbs_name", bbsInfo.get("bbs_name"));
+
+        return mv;
+    }
+
     @GetMapping("/bbs/{bbs_id}")
     public ModelAndView bbsView(@PathVariable("bbs_id") Long bbs_id) {
 

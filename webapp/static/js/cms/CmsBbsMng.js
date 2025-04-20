@@ -3,70 +3,64 @@
  * @author : doil
  */
 class CmsBbsMng {
-  constructor(el, bbsId) {
+  constructor(el, bbs_id) {
     this.container = typeof el === 'string' ? document.querySelector(el) : el;
-    this.bbsId = bbsId;
-    this.bbsInfo = null; // 게시판 정보 캐싱
+    this.bbs_id = bbs_id;
+    this.bbsInfo = null;
+    this.galleryInstance = null;
 
-    this.init();
+    this._init();
   }
 
-  async init() {
+  async _init() {
     try {
-      await this._loadInfo();
-      this._render();
-    } catch (err) {
-      console.error('게시판 정보를 불러오는 중 오류 발생:', err);
-      this.container.innerHTML = '<p style="color:red">게시판 정보를 불러올 수 없습니다.</p>';
+      const res = await fetch(`/cms/bbs/getBBSInfo/${this.bbs_id}`);
+      this.bbsInfo = await res.json();
+
+      if (!this.bbsInfo) {
+        this._renderError("게시판 정보를 불러올 수 없습니다.");
+        return;
+      }
+
+      if (this.bbsInfo.bbs_type == 2) {
+        this._renderGallery();
+      } else {
+        this._renderList();
+      }
+    } catch (e) {
+      console.error(e);
+      this._renderError("서버 오류가 발생했습니다.");
     }
-  }
-
-  async _loadInfo() {
-    const response = await fetch(`/cms/bbs/getBBSInfo/${this.bbsId}`);
-    if (!response.ok) throw new Error('네트워크 오류');
-    this.bbsInfo = await response.json();
-  }
-
-  _render() {
-    if (!this.bbsInfo) return;
-
-    const type = String(this.bbsInfo.bbs_type);
-
-    switch (type) {
-      case '1':
-      case '3':
-      case '4':
-        this._renderList(); break;
-      case '2':
-        this._renderGallery(); break;
-      default:
-        this.container.innerHTML = '<p style="color:gray">지원하지 않는 게시판 유형입니다.</p>';
-    }
-  }
-
-  _renderList() {
-    const tableEl = document.createElement('div');
-    this.container.innerHTML = '';
-    this.container.appendChild(tableEl);
-
-    new Tabulator(tableEl, {
-      layout: "fitColumns",
-      height: 500,
-      ajaxURL: `/cms/api/bbsList/${this.bbsId}`,
-      placeholder: "게시물이 없습니다.",
-      columns: [
-        { title: "번호", field: "rownum", width: 80, hozAlign: "center" },
-        { title: "제목", field: "title", hozAlign: "left" },
-        { title: "작성자", field: "writer", width: 120, hozAlign: "center" },
-        { title: "등록일", field: "reg_dt", width: 140, hozAlign: "center" }
-      ]
-    });
   }
 
   _renderGallery() {
-    this.container.innerHTML = `<div class="gallery-notice">🖼 갤러리형 게시판은 준비 중입니다.</div>`;
+    this.container.innerHTML = `
+      <div class="gallery-wrap" id="bbsGallery">
+        <a href="/static/img/hello.jpg" class="glightbox" data-gallery="bbsGallery">
+          <img src="/static/img/hello.jpg" alt="샘플 이미지" style="width:200px; height:auto;">
+        </a>
+      </div>
+    `;
+
+    // 💡 GLightbox 인스턴스 생성
+    this.galleryInstance = GLightbox({
+      selector: '#bbsGallery .glightbox'
+    });
+  }
+
+  _renderList() {
+    this.container.innerHTML = `<div>📋 일반 게시판 (탭 뷰 예정)</div>`;
+  }
+
+  _renderError(msg) {
+    this.container.innerHTML = `<div style="color:red;">${msg}</div>`;
+  }
+
+  setData(dataList) {
+    // 📌 추후 이미지 리스트를 동적으로 바인딩하려면 여기에 구현
   }
 }
+
 
 // 전역 노출용
 window.CmsBbsMng = CmsBbsMng;

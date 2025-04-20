@@ -87,6 +87,7 @@
         select *
         from cms_board_info cbi
         where use_yn = true
+        order by bbs_id asc;
     </select>
 
     <insert id="bbsInsert" parameterType="hmap">

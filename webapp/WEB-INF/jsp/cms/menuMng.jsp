@@ -39,16 +39,34 @@
       </select>
     </div>
 
-    <div style="margin-bottom: 10px;">
-      <label>게시판 선택</label><br/>
-      <select id="bbsSelect" style="width: 100%;">
-        <option value="">- 선택 -</option>
-      </select>
-    </div>
+<div style="margin-bottom: 10px;">
+  <label>게시판 선택</label>
+  <a href="/cms/admin?menu=bbsMng" style="
+    display: inline-block;
+    padding: 4px 8px;
+    margin-left: 8px;
+    font-size: 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+  ">⚙️ 게시판 관리</a>
+  <br/>
+  <select id="bbsSelect" style="width: 100%; margin-top: 6px;">
+    <option value="">- 선택 -</option>
+  </select>
+</div>
+
 
     <div style="margin-bottom: 10px;">
       <label>페이지 경로</label><br/>
-      <input type="text" id="pagePath" value="" style="width: 100%;" />
+       <label onclick="applyBbsPath()" style="font-size: 12px; color: #888; margin-bottom:3px;">
+          ※ 페이지 타입이 <strong>게시판 페이지</strong>인 경우,
+          <code style="background-color: #b2b2b2;padding: 2px 6px;border-radius: 4px;font-size: 11px;font-family: monospace;color: #a21010;">/cms/bbs</code> 로 지정하면 자동으로 해당 게시판으로 이동됩니다. <strong>[ 본 영역을 클릭하면 경로값을 적용 ] </strong>
+       </label><br/>
+      <input type="text" id="pagePath" value="" style="margin-top:5px; width: 100%;" />
     </div>
 
     <button id="btnLocalSave">저장</button>
@@ -87,9 +105,26 @@ let currentNodeId = null;
 
 $(function () {
 
-    setTimeout(() => {
-        $("#btnPreviewMenu").click();
-    },10);
+
+
+    loadingBbsList();
+
+    $('#pageType').on('change', function () {
+        const value = $(this).val();
+
+        if (value === '1') {
+          $('#bbsSelect').prop('disabled', false);  // 활성화
+        } else {
+          $('#bbsSelect').prop('disabled', true);   // 비활성화
+        }
+     });
+
+      setTimeout(() => {
+             $("#btnPreviewMenu").click();
+             $('#pageType').trigger('change');
+         },10);
+
+
 
 
 
@@ -133,6 +168,7 @@ $(function () {
 
       currentNodeId = node.id;
 
+
       // 우선순위: original → data → fallback
       const source = node.data && Object.keys(node.data).length > 0
         ? node.data
@@ -143,6 +179,9 @@ $(function () {
         $('#pageType').val(source.page_type || 1);
         $('#bbsSelect').val(source.bbs_id || '');
         $('#pagePath').val(source.page_path || '');
+
+        $('#pageType').trigger('change');
+
     });
 
      // 저장
@@ -377,6 +416,28 @@ function renderMenuTree_jQuery(treeList) {
 }
 
 
+function loadingBbsList() {
+  const $select = $("#bbsSelect");
+  $select.empty();
+  $select.append('<option value="">- 선택 -</option>');
+
+  $.ajax({
+    url: '/cms/api/boardList',
+    method: 'GET',
+    dataType: 'json',
+    success: function (boardList) {
+      boardList.forEach(function(bbs) {
+        var option = '<option value="' + bbs.bbs_id + '">' + bbs.bbs_name + '</option>';
+        $select.append(option);
+      });
+    }
+  });
+}
+
+
+function applyBbsPath(){
+    $("#pagePath").val('/cms/bbs');
+}
 
 
 

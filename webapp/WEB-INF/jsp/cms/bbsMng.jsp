@@ -7,6 +7,7 @@
 <link href="${pageContext.request.contextPath}/static/css/cms/CmsMenu.style.css" rel="stylesheet">
 
 <body>
+<h4>게시판 관리</h4>
 
 <div style="padding: 20px; margin: 0 auto;">
   <!-- 상단 버튼 영역 -->
@@ -16,7 +17,7 @@
   </div>
 
   <!-- 테이블 영역 -->
-  <div id="boardTable"></div>
+  <div id="boardTable" style="width:60%"></div>
 </div>
 
 <script>
@@ -36,14 +37,15 @@
         {
           title: "게시판 유형",
           field: "bbs_type",
+          headerHozAlign: "center",
           width: 150,
           formatter: function(cell){
            const value = cell.getValue();
                const typeMap = {
                  "1": "공지사항",
                  "2": "갤러리",
-                 "3": "FAQ",
-                 "4": "Q&A"
+                 "3": "포토 슬라이더",
+                 "4": "게시판"
                };
 
                return typeMap[value] || "알 수 없음";
@@ -52,9 +54,11 @@
 
         { title: "게시판 이름", field: "bbs_name", hozAlign: "left" },
         {
-            title: "수정",
-            formatter: () => "<button class='btnMove'>수정</button>",
-            width: 150,
+            title: "게시판 수정",
+            headerSort: false,
+            headerHozAlign: "center",
+            formatter: () => "<button class='btnMove'>📝수정</button>",
+            width: 100,
             hozAlign: "center",
             cellClick: function (e, cell) {
               const rowData = cell.getRow().getData();
@@ -70,8 +74,8 @@
                       <select id="swalBbsType" class="swal2-input" style="width: 100%;">
                         <option value="1" ${rowData.bbs_type == 1 ? 'selected' : ''}>공지사항</option>
                         <option value="2" ${rowData.bbs_type == 2 ? 'selected' : ''}>갤러리</option>
-                        <option value="3" ${rowData.bbs_type == 3 ? 'selected' : ''}>FAQ</option>
-                        <option value="4" ${rowData.bbs_type == 4 ? 'selected' : ''}>Q&A</option>
+                        <option value="3" ${rowData.bbs_type == 3 ? 'selected' : ''}>포토 슬라이더</option>
+                        <option value="4" ${rowData.bbs_type == 4 ? 'selected' : ''}>게시판</option>
                       </select>
                     </div>
 
@@ -107,22 +111,36 @@
 
         },
         {
-          title: "게시판 확인",
-          formatter: () => "<button class='btnMove'>확인</button>",
-          width: 150,
+          title: "게시판 이동",
+          formatter: () => "<button class='btnMove'>🔗 이동</button>",
+          width: 100,
+          headerHozAlign: "center",
           hozAlign: "center",
+          headerSort: false,
           cellClick: function (e, cell) {
             const rowData = cell.getRow().getData();
-            window.location.href = `/cms/bbs/${rowData.bbs_id}`;
+            const {bbs_id} = rowData;
+            window.location.href = '/cms/bbs/' + bbs_id;
           }
-        }
+        },
+         {
+            title: "컨텐츠 관리",
+            formatter: () => "<button class='btnMove'>⚙️ 관리</button>",
+            width: 100,
+            headerHozAlign: "center",
+            hozAlign: "center",
+            headerSort: false,
+            cellClick: function (e, cell) {
+            const rowData = cell.getRow().getData();
+                const {bbs_id} = rowData;
+                window.location.href = '/cms/bbsAdmin/' + bbs_id;
+             }
+         }
       ]
     });
 
 
 });
-
-
 
 function bbsAdd() {
   Swal.fire({
@@ -134,8 +152,8 @@ function bbsAdd() {
           <select id="swalBbsType" class="swal2-input" style="width: 100%;">
             <option value="1" selected>공지사항</option>
             <option value="2">갤러리</option>
-            <option value="3">FAQ</option>
-            <option value="4">Q&A</option>
+            <option value="3">포토 슬라이더</option>
+            <option value="4">게시판</option>
           </select>
         </div>
 
