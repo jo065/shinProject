@@ -9,7 +9,7 @@ import com.d0iloppa.spring5.template.model.HomeVO;
 import com.d0iloppa.spring5.template.model.MenuVO;
 import com.d0iloppa.spring5.template.service.CmsService;
 import com.d0iloppa.spring5.template.service.HomeService;
-import net.coobird.thumbnailator.Thumbnails;
+//import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -102,10 +102,10 @@ public class CmsController {
         try {
             if (isThumb) {
                 // 썸네일 생성 (예: 300px 폭으로 리사이징, 비율 유지)
-                Thumbnails.of(fullPath)
+                /*Thumbnails.of(fullPath)
                         .size(200, 200) // 최대 크기 지정 (비율 유지됨)
                         .keepAspectRatio(true)
-                        .toOutputStream(out);
+                        .toOutputStream(out);*/
             } else {
                 // 원본 그대로
                 byte[] fileBytes = Files.readAllBytes(path);
