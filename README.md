@@ -154,7 +154,7 @@ let bbs = new CmsBbsMng('#selector', bbs_id);
 # db.username=... (공유 필요)
 # db.password=... (비공개 필요)
 ```
-※ 커밋 시 실수 방지를 위해 수동으로 `git reset HEAD app.properties` 처리 필요
+※ 커밋 시 실수 방지를 위해 수동으로 ` git reset HEAD resources/config/app.properties` 처리 필요
 
 ---
 
