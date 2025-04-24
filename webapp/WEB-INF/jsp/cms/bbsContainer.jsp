@@ -24,5 +24,12 @@
 <div id="bbsArea" style=""></div>
 
 <script>
-let a = new CmsBbsMng('#bbsArea',${bbs_id});
+    let g_bbs = new CmsBbsMng('#bbsArea', ${bbs_id}, {
+        height:300,
+        events:{
+            rowDblClick: (e, row) => {
+                console.log('오버라이딩 테스트');
+            }
+        }
+    });
 </script>
