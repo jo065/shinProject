@@ -50,4 +50,8 @@ public class CmsDAO extends AbstractDAO {
         sqlSession.update("CmsMapper.updateOrphanageMenu", deleteList);
 
     }
+
+    public Map<String, Object> getContent(Long contentId) {
+        return sqlSession.selectOne("CmsMapper.getContent", contentId);
+    }
 }

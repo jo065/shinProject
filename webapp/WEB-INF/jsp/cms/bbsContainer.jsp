@@ -1,35 +1,56 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!-- 💡 공통 스타일/스크립트 로드 -->
-<link href="${pageContext.request.contextPath}/static/vendor/tabulator/dist/css/tabulator.min.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/static/vendor/tabulator/dist/js/tabulator.min.js"></script>
-
-<!-- GLightbox CSS & JS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
-<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-
-<!-- Swiper.js CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
-
-<link href="${pageContext.request.contextPath}/static/css/cms/Bbs.style.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/static/js/cms/CmsBbsMng.js"></script>
+<%@ include file="../common/plugin.jsp" %>
+<%@ include file="./cms_plugins.jsp" %>
 
 <!-- 💡 숨겨진 파라미터 전달 (필요시 JS에서 활용) -->
 <input type="hidden" id="bbs_id" value="${bbs_id}" />
 <input type="hidden" id="bbs_type" value="${bbs_type}" />
 
-<div id="bbsArea" style=""></div>
 
 <script>
-    let g_bbs = new CmsBbsMng('#bbsArea', ${bbs_id}, {
-        height:300,
-        events:{
-            rowDblClick: (e, row) => {
-                console.log('오버라이딩 테스트');
-            }
-        }
+    let menu;
+    let g_bbs;
+
+    $(document).ready(function() {
+
+        menu = new CmsMenuMng('#menu', {
+                maxDepth: -1,           // -1: 무제한
+                direction: 'horizontal' // 또는 'vertical'
+            });
+
+        g_bbs = new CmsBbsMng('#bbsArea', ${bbs_id}, {
+            height:300,
+                events:{
+                    rowDblClick: (e, row) => {
+                        console.log('오버라이딩 테스트');
+                    }
+                }
+         });
     });
+
 </script>
+
+<header style="display:none">
+    <menu style="
+          display: flex;
+          align-items: center;   /* 수직 가운데 정렬 */
+          justify-content: center; /* 수평 가운데 정렬 */
+          gap: 40px; /* 로고와 메뉴 사이 간격 */
+      ">
+      <div id="logo">
+        <img src="/static/img/logo.png" alt="Logo" style="width: 230px;">
+      </div>
+        <div id="menu">메뉴영역</div>
+    </menu>
+</header>
+
+
+<%@ include file="../common/header.jsp" %>
+
+<main style="padding:10px;">
+    <div id="bbsArea" style=""></div>
+</main>
+
+ <%@ include file="../common/footer.jsp" %>

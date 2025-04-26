@@ -465,4 +465,24 @@ public class CmsService {
 		// 2. 컨텐츠 삭제
 		cmsDAO.delete("CmsMapper.deleteContent", contentId);
 	}
+
+	public MenuVO findMenu(Long menuId) {
+
+		List<MenuVO> menuList = getMenuList();
+
+
+		MenuVO targetMenu = menuList.stream()
+				.filter(menu -> Objects.equals(menu.getTree_id(), menuId))
+				.findFirst()
+				.orElseGet(() -> {
+					MenuVO emptyMenu = new MenuVO();
+					emptyMenu.setPage_path(""); // pagePath만 ""로 초기화
+					return emptyMenu;
+				});
+		return targetMenu;
+	}
+
+	public Map<String, Object> getContent(Long contentId) {
+		return cmsDAO.getContent(contentId);
+	}
 }

@@ -16,6 +16,7 @@
 
 
 <input type="hidden" id="bbs_id" value="${bbs_id}" />
+<input type="hidden" id="bbs_type" value="${bbs_type}" />
 
 <div id="container" style="padding: 20px;">
   <h4>📁 컨텐츠 관리</h4>

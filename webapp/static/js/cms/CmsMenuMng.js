@@ -60,20 +60,27 @@ class CmsMenuMng {
       li.setAttribute('data-page-path', node.page_path || '');
       li.setAttribute('data-bbs-id', node.bbs_id ?? -1);
 
+      let pagePath = node.page_path || '#';
+      let href = '';
+
+
       const a = document.createElement('a');
-      let href = node.page_path || '#';
 
-        // 조건: 게시판 페이지이면서, page_path가 "/cms/bbs"로 시작하고, bbs_id가 존재할 때
-        if (
-          String(node.page_type) === "1" &&
-          href.startsWith("/cms/bbs") &&
-          node.bbs_id != null &&
-          node.bbs_id !== -1
-        ) {
-          href = `/cms/bbs/${node.bbs_id}`;
-        }
+      if(
+        String(node.page_type) === "1" &&
+        pagePath.startsWith("/cms/bbs") &&
+        node.bbs_id != null &&
+        node.bbs_id !== -1
+      ) {
+          // 게시판 링크인 경우
+           href = `/cms/bbs/${node.bbs_id}`;
+      } else {
+          // 그 외에는 menuAccess 경유
+          href = `/cms/menuAccess/${node.tree_id}`;
+      }
 
-        a.href = href;
+
+       a.href = href;
 
 
       a.textContent = node.menu_name;

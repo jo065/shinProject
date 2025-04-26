@@ -46,12 +46,15 @@
             <!-- 인터셉터 적용 대상 -->
             <mvc:mapping path="/cms/**" />
             <!-- 예외경로 -->
+
             <mvc:exclude-mapping path="/cms/login" />
             <mvc:exclude-mapping path="/cms/loginPost" />
             <mvc:exclude-mapping path="/cms/logout" />
             <mvc:exclude-mapping path="/cms/bbs/**" />
             <mvc:exclude-mapping path="/cms/cdn/**" />
             <mvc:exclude-mapping path="/cms/view/**" />
+            <mvc:exclude-mapping path="/cms/api/menuFlatList" />
+            <mvc:exclude-mapping path="/cms/menuAccess/**" />
             <bean class="com.d0iloppa.spring5.template.interceptor.CmsInterceptor"/>
         </mvc:interceptor>
 

@@ -1,9 +1,10 @@
 let adminTable = null;
 let bbs_id = null;
+let bbs_type = null;
 
 $(document).ready(function () {
   bbs_id = $("#bbs_id").val();
-
+  bbs_type = $("#bbs_type").val();
 
   tabulatorInit();
 });
@@ -78,84 +79,146 @@ function tabulatorInit(){
 
 }
 function insertContent() {
-  Swal.fire({
-    title: '컨텐츠 등록',
-    html: `
-      <table style="width:100%; text-align:left; font-size:14px;">
-        <tr>
-          <td style="width:80px;">제목</td>
-          <td><input type="text" id="swalTitle" class="swal2-input" style="width:87%;" /></td>
-        </tr>
-        <tr>
-          <td>본문</td>
-          <td><textarea id="swalContents" class="swal2-textarea" style="width:87%; height:80px;"></textarea></td>
-        </tr>
-        <tr>
-          <td>이미지</td>
-          <td>
-            <input type="file" id="fileUpload" />
-          </td>
-        </tr>
-      </table>
-    `,
-    didOpen: () => {
-      FilePond.registerPlugin(FilePondPluginImagePreview);
 
-      FilePond.create(document.getElementById('fileUpload'), {
-        allowMultiple: false,
-        allowImagePreview: true,
-        server: {
-          process: {
-            url: '/cms/api/uploadImage',
-            method: 'POST',
-            ondata: (formData) => {
-              formData.append('mode', 1); // 등록
-              return formData;
-            },
-            onload: (res) => {
-              const { file_id } = JSON.parse(res);
-              document.getElementById('fileUpload').setAttribute('data-uploaded-file-id', file_id);
-              return file_id;
+    let _bbs_type = Number.parseInt(bbs_type);
+
+    switch(_bbs_type){
+        case 1:
+            bbsContentInsert();
+            break;
+        case 2:
+            imageContentInsert();
+            break;
+        case 3:
+            imageContentInsert();
+            break;
+        case 4:
+            bbsContentInsert();
+            break;
+    }
+
+}
+
+function bbsContentInsert(){
+    window.location.href = `/cms/admin?menu=editor&bbs_id=${bbs_id}`;
+}
+
+function imageContentInsert(){
+    Swal.fire({
+        title: '컨텐츠 등록',
+        html: `
+          <table style="width:100%; text-align:left; font-size:14px;">
+            <tr>
+              <td style="width:80px;">제목</td>
+              <td><input type="text" id="swalTitle" class="swal2-input" style="width:87%;" /></td>
+            </tr>
+            <tr>
+              <td>본문</td>
+              <td><textarea id="swalContents" class="swal2-textarea" style="width:87%; height:80px;"></textarea></td>
+            </tr>
+            <tr>
+              <td>이미지</td>
+              <td>
+                <input type="file" id="fileUpload" />
+              </td>
+            </tr>
+          </table>
+        `,
+        didOpen: () => {
+          FilePond.registerPlugin(FilePondPluginImagePreview);
+
+          FilePond.create(document.getElementById('fileUpload'), {
+            allowMultiple: false,
+            allowImagePreview: true,
+            server: {
+              process: {
+                url: '/cms/api/uploadImage',
+                method: 'POST',
+                ondata: (formData) => {
+                  formData.append('mode', 1); // 등록
+                  return formData;
+                },
+                onload: (res) => {
+                  const { file_id } = JSON.parse(res);
+                  document.getElementById('fileUpload').setAttribute('data-uploaded-file-id', file_id);
+                  return file_id;
+                }
+              },
+              revert: '/cms/api/deleteTempImage'
             }
-          },
-          revert: '/cms/api/deleteTempImage'
+          });
+        },
+        showCancelButton: true,
+        confirmButtonText: '등록',
+        cancelButtonText: '취소',
+        preConfirm: () => {
+          return {
+            bbs_id: document.getElementById('bbs_id').value, // 게시판 ID는 숨겨진 input에서 가져옴
+            title: document.getElementById('swalTitle').value,
+            contents: document.getElementById('swalContents').value,
+            file_id: document.getElementById('fileUpload').getAttribute('data-uploaded-file-id') || null
+          };
         }
-      });
-    },
-    showCancelButton: true,
-    confirmButtonText: '등록',
-    cancelButtonText: '취소',
-    preConfirm: () => {
-      return {
-        bbs_id: document.getElementById('bbs_id').value, // 게시판 ID는 숨겨진 input에서 가져옴
-        title: document.getElementById('swalTitle').value,
-        contents: document.getElementById('swalContents').value,
-        file_id: document.getElementById('fileUpload').getAttribute('data-uploaded-file-id') || null
-      };
-    }
-  }).then(result => {
-    if (result.isConfirmed) {
-      $.ajax({
-        url: '/cms/api/insertContent',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(result.value),
-        success: function (res) {
-          if (res.success) {
-            Swal.fire('✅ 등록 완료', '', 'success');
-            adminTable.setData(); // 목록 새로고침
-          } else {
-            Swal.fire('⚠️ 등록 실패', '잠시 후 다시 시도해주세요.', 'error');
-          }
+      }).then(result => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: '/cms/api/insertContent',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(result.value),
+            success: function (res) {
+              if (res.success) {
+                Swal.fire('✅ 등록 완료', '', 'success');
+                adminTable.setData(); // 목록 새로고침
+              } else {
+                Swal.fire('⚠️ 등록 실패', '잠시 후 다시 시도해주세요.', 'error');
+              }
+            }
+          });
         }
-      });
+    });
+}
+
+
+function editContent(rowData){
+
+    let _bbs_type = Number.parseInt(bbs_type);
+
+    switch(_bbs_type){
+        case 1:
+            editBBSContent(rowData);
+            break;
+        case 2:
+            editImageContent(rowData);
+            break;
+        case 3:
+            editImageContent(rowData);
+            break;
+        case 4:
+            editBBSContent(rowData);
+            break;
     }
-  });
+}
+
+function editBBSContent(rowData) {
+
+    const { content_id = null } = rowData;
+    if (!content_id) {
+        Swal.fire({
+            icon: 'error',
+            title: '오류 발생',
+            text: '컨텐츠 ID를 확인할 수 없습니다.',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    window.location.href = `/cms/admin?menu=editor&bbs_id=${bbs_id}&content_id=${content_id}`;
 }
 
 
 
-function editContent(rowData) {
+function editImageContent(rowData) {
   Swal.fire({
     title: '컨텐츠 수정',
     html: `

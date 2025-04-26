@@ -52,6 +52,22 @@
   border-bottom: 2px solid #0d6efd;
 }
 
+
+
+.cms-menu-horizontal > li > a {
+  display: inline-block;
+  padding: 8px 16px;
+  font-weight: 500;
+  color: #222;
+  border-bottom: 2px solid transparent; /* ✅ 기본에 투명한 border 세팅 */
+  transition: border-bottom-color 0.3s, color 0.3s; /* ✅ 부드럽게 */
+}
+
+.cms-menu-horizontal > li:hover > a {
+  color: #0d6efd;
+  border-bottom-color: #0d6efd; /* ✅ 색깔만 바꾸기 */
+}
+
 /* ------------------------------
    ✅ 서브메뉴 wrapper (2depth 이상)
 ------------------------------ */

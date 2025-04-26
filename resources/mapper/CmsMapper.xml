@@ -250,5 +250,24 @@
         where content_id = #{content_id}
     </select>
 
+    <select id="getContent" parameterType="Long" resultType="hmap">
+        SELECT
+            a.*,
+            string_agg(c.file_id::text, ',') AS file_ids,
+            string_agg(c.file_path, ',') AS file_paths
+        FROM
+            cms_content_info a
+        LEFT JOIN
+            cms_file_link b ON a.content_id = b.content_id
+        LEFT JOIN
+            cms_file c ON b.file_id = c.file_id
+        WHERE
+            a.content_id = #{content_id}
+        GROUP BY
+            a.content_id
+        LIMIT 1;
+
+    </select>
+
 
 </mapper>

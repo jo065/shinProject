@@ -19,18 +19,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 @RequestMapping("/cms")
@@ -43,6 +48,14 @@ public class CmsController {
 	
     @Autowired
     private CmsService cmsService;
+
+
+    @Autowired
+    private ServletContext servletContext;
+
+    @Autowired
+    private RequestMappingHandlerMapping handlerMapping;
+
 
 
     @Value("${cms.file.root}")
@@ -75,6 +88,64 @@ public class CmsController {
 
         return resultMap;
     }
+
+    @GetMapping("/bbs/getContent/{content_id}")
+    @ResponseBody
+    public Map<String, Object> getContent(@PathVariable("content_id") Long content_id) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Map<String, Object> content = cmsService.getContent(content_id);
+
+        resultMap.put("data", content);
+
+        return resultMap;
+    }
+
+
+
+    @GetMapping("/menuAccess/{menu_id}")
+    public ModelAndView menuAccess(@PathVariable("menu_id") Long menuId, HttpServletRequest request) {
+
+
+
+        String pagePath = cmsService.findMenu(menuId).getPage_path();
+
+        ModelAndView mv = new ModelAndView();
+
+        // 💡 PathTraversal 공격 막기
+        if (pagePath.contains("..")) {
+            mv.setViewName("cms/cmsStatic");
+            return mv;
+        }
+
+
+        try {
+            HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request) {
+                @Override
+                public String getRequestURI() {
+                    return pagePath;
+                }
+            };
+
+            HandlerExecutionChain handler = handlerMapping.getHandler(wrapper);
+
+            if (handler != null) {
+                mv.setViewName("redirect:" + pagePath);
+            } else {
+
+                String includePath = "../" + (pagePath.startsWith("/") ? pagePath.substring(1) : pagePath);
+                mv.addObject("pagePath", includePath);
+
+                mv.setViewName("cms/cmsStatic");
+            }
+        } catch (Exception e) {
+            mv.setViewName("cms/cmsStatic");
+        }
+
+        return mv;
+    }
+
 
 
     @GetMapping("/cdn/img/{file_id}")
@@ -235,6 +306,19 @@ public class CmsController {
         }
 
 
+        Map<String, Object> bbsInfo = cmsService.getBbsInfo(bbs_id);
+
+        if (bbsInfo != null) {
+            // model에 데이터 추가
+            mv.addObject("bbs_id", bbsInfo.get("bbs_id"));
+            mv.addObject("bbs_type", bbsInfo.get("bbs_type"));
+            mv.addObject("bbs_name", bbsInfo.get("bbs_name"));
+        }
+
+
+
+
+
         String contentPage = "menuMng.jsp"; // 기본값
 
         switch (menu) {
@@ -249,6 +333,10 @@ public class CmsController {
                 break;
             case "manage":
                 contentPage = "admin_bbsContainer.jsp";
+                break;
+
+            case "editor":
+                contentPage = "editor/content.jsp";
                 break;
             // default는 그대로 dashboard
         }
