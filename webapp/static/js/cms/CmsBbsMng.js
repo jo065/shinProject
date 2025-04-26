@@ -232,7 +232,16 @@ class CmsBbsMng {
 
     const defaultEvents = {
       rowClick: (e, row) => {
-        console.log("✅ 기본 rowClick:", row.getData());
+        // 게시글 이동
+        // http://localhost:8080/cms/bbs/viewContent/19
+
+        const {content_id = content_id} = row.getData();
+        if (content_id) {
+                window.location.href = `/cms/bbs/viewContent/${content_id}`;
+        } else {
+                console.warn('⚠️ content_id가 없습니다.');
+        }
+
       },
       rowDblClick: (e, row) => {
         console.log("✨ 기본 rowDblClick:", row.getData());

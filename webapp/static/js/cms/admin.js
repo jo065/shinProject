@@ -84,14 +84,14 @@ function tabulatorInit(){
 
 }
 
-function moveBBSContent(data = {}){
-    const { content_id = false } = data;
+function moveBBSContent(data = {}) {
+    const { content_id } = data;
 
-    if(!content_id) return;
-
-
-    console.log(data);
-
+    if (content_id) {
+        window.location.href = `/cms/bbs/viewContent/${content_id}`;
+    } else {
+        console.warn('⚠️ content_id가 없습니다.');
+    }
 }
 
 
