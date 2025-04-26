@@ -1,0 +1,51 @@
+.swiper-wrapper{
+    height:auto;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f8f8; /* 이미지 없을 때 대비용 */
+  height: 600px; /* 원하는 최대 높이 */
+}
+
+.swiper-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+/* 썸네일 영역 래퍼 - 여백 및 배치 조정 */
+.mySwiperThumbs {
+  margin-top: 10px;
+  padding: 0 10px;
+  height: 100px; /* 최대 높이 제한 */
+  box-sizing: border-box;
+}
+
+/* 썸네일 슬라이드 조정 */
+.mySwiperThumbs .swiper-slide {
+  width: auto !important;
+  max-width: 120px;
+  height: 100%; /* 높이 채움 */
+  margin-right: 8px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+/* 활성 썸네일 강조 */
+.mySwiperThumbs .swiper-slide-thumb-active {
+  opacity: 1;
+  border: 2px solid #0d6efd;
+  border-radius: 4px;
+}
+
+/* 썸네일 이미지 */
+.mySwiperThumbs .swiper-slide img {
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}

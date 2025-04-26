@@ -1,0 +1,188 @@
+/* ------------------------------
+   🌐 CMS 메뉴 스타일 - 정리 버전
+   - horizontal(수평), vertical(수직) 지원
+   - 최대 depth 제한 가능
+   - hover 시 submenu 표시
+--------------------------------- */
+
+/* ✅ 공통 초기화 */
+.cms-menu-horizontal ul,
+.cms-menu-horizontal li,
+.cms-menu-vertical ul,
+.cms-menu-vertical li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ 링크 초기화 */
+.cms-menu-horizontal a,
+.cms-menu-vertical a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+/* ------------------------------
+   ✅ 수평 메뉴 (1depth)
+------------------------------ */
+.cms-menu-horizontal {
+  display: flex;
+  gap: 40px;
+  padding: 0 20px;
+  margin: 0;
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
+
+.cms-menu-horizontal > li {
+  position: relative;
+  padding: 16px 0;
+}
+
+.cms-menu-horizontal > li > a {
+  display: inline-block;
+  padding: 8px 16px;
+  font-weight: 500;
+  color: #222;
+}
+
+.cms-menu-horizontal > li:hover > a {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
+}
+
+
+
+.cms-menu-horizontal > li > a {
+  display: inline-block;
+  padding: 8px 16px;
+  font-weight: 500;
+  color: #222;
+  border-bottom: 2px solid transparent; /* ✅ 기본에 투명한 border 세팅 */
+  transition: border-bottom-color 0.3s, color 0.3s; /* ✅ 부드럽게 */
+}
+
+.cms-menu-horizontal > li:hover > a {
+  color: #0d6efd;
+  border-bottom-color: #0d6efd; /* ✅ 색깔만 바꾸기 */
+}
+
+/* ------------------------------
+   ✅ 서브메뉴 wrapper (2depth 이상)
+------------------------------ */
+.submenu-wrapper {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #343a40;
+  padding: 10px;
+  width: max-content;
+  min-width: 220px;
+  z-index: 100;
+  border-radius: 4px;
+}
+
+/* 서브메뉴 리스트 (2depth 이상) */
+.submenu-wrapper ul {
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.submenu-wrapper ul li {
+  color: white;
+}
+
+.submenu-wrapper ul li a {
+  color: #ddd;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.submenu-wrapper ul li a:hover {
+  text-decoration: underline;
+}
+
+/* 핵심: 상위 메뉴 hover 시 submenu 노출 */
+.cms-menu-horizontal > li:hover .submenu-wrapper {
+  display: block;
+}
+
+.cms-menu-vertical > li {
+  position: relative;
+}
+
+/* vertical에서도 hover 시 서브메뉴 보이기 */
+.cms-menu-vertical > li:hover > .submenu-wrapper {
+  display: block;
+  position: relative;     /* absolute 아님! */
+  background: none;
+  padding: 0;
+}
+
+
+/* ------------------------------
+   ✅ 수직 메뉴
+------------------------------ */
+.cms-menu-vertical {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.cms-menu-vertical > li {
+  padding: 4px 4px;
+  cursor: pointer;
+}
+
+.cms-menu-vertical > li:hover {
+}
+
+/* ------------------------------
+   ✅ depth 2 이상 전용 스타일
+------------------------------ */
+.cms-menu-vertical ul[data-depth]:not([data-depth="1"]),
+.cms-menu-horizontal ul[data-depth]:not([data-depth="1"]) {
+  background-color: #343a40;
+  // border-left: 1px solid #ccc;
+  padding-left: 12px;
+  margin-top: 6px;
+}
+
+.cms-menu-vertical ul[data-depth]:not([data-depth="1"]) li a {
+  color: #dcdcdc;
+  font-weight: 400;
+}
+
+/* ------------------------------
+   ✅ 서브 ul 공통 여백
+------------------------------ */
+.cms-menu-horizontal li ul li,
+.cms-menu-vertical li ul li {
+  margin-bottom: 6px;
+}
+
+.cms-menu-horizontal li ul li:hover,
+.cms-menu-vertical li ul li:hover {
+}
+
+/* 기존 horizontal 메뉴의 하위 ul - 수평 배치 제거 */
+.cms-menu-horizontal ul[data-depth]:not([data-depth="1"]) {
+  display: block !important;  /* ← flex 막기 */
+  padding: 4px;
+  border-radius: 4px;
+}
+
+/* depth 2 이상 메뉴의 li는 수직 정렬 */
+.cms-menu-horizontal ul[data-depth]:not([data-depth="1"]) > li {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* 링크도 white로 명시 */
+.cms-menu-horizontal ul[data-depth]:not([data-depth="1"]) > li > a {
+  color: white;
+}

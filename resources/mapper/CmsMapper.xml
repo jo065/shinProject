@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CmsMapper">
+
+    <select id="login" parameterType="AdminVO" resultType="AdminVO">
+        select *
+        from cms_admin_info
+        where lgn_id = #{lgn_id} and lgn_passwd = #{lgn_passwd}
+        limit 1;
+    </select>
+
+
+    <select id="getMenuTree" resultType="MenuVO">
+        select *
+        from cms_board_mng
+        ORDER BY parent_id NULLS FIRST, sort_order ASC
+    </select>
+
+    <insert id="insertMenu" parameterType="list">
+        INSERT INTO cms_board_mng (
+        parent_id, menu_name, page_type, page_path, bbs_id, sort_order
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.parent, jdbcType=BIGINT},
+            #{item.text},
+            #{item.page_type, jdbcType=INTEGER},
+            #{item.page_path},
+            #{item.bbs_id, jdbcType=BIGINT},
+            #{item.sort_order, jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertMenuOne" parameterType="map" useGeneratedKeys="true" keyProperty="tree_id">
+        INSERT INTO cms_board_mng (
+        parent_id, menu_name, page_type, page_path, bbs_id, sort_order
+        )
+        VALUES (
+        #{parent, jdbcType=BIGINT},
+        #{text},
+        #{page_type, jdbcType=INTEGER},
+        #{page_path},
+        #{bbs_id, jdbcType=BIGINT},
+        #{sort_order, jdbcType=INTEGER}
+        )
+    </insert>
+
+
+    <update id="updateMenu" parameterType="list">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE cms_board_mng
+            SET
+            parent_id = #{item.parent},
+            menu_name = #{item.text},
+            page_type = #{item.page_type},
+            page_path = #{item.page_path},
+            bbs_id = #{item.bbs_id},
+            sort_order = #{item.sort_order}
+            WHERE tree_id = #{item.tree_id}
+        </foreach>
+    </update>
+
+    <delete id="deleteMenu" parameterType="list">
+        DELETE FROM cms_board_mng
+        WHERE tree_id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateOrphanageMenu" parameterType="list">
+        UPDATE cms_board_mng
+        SET parent_id = NULL
+        WHERE parent_id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <select id="getBoardList" resultType="hmap">
+        select *
+        from cms_board_info cbi
+        where use_yn = true
+        order by bbs_id asc;
+    </select>
+
+    <insert id="bbsInsert" parameterType="hmap">
+        INSERT INTO cms_board_info (
+            bbs_name,
+            bbs_type,
+            use_yn,
+            reg_id,
+            reg_dt
+        ) VALUES (
+            #{bbs_name},
+            #{bbs_type},
+            true,
+            #{reg_id, jdbcType=VARCHAR},
+            NOW()
+        )
+    </insert>
+
+    <update id="bbsUpdate" parameterType="hmap">
+        UPDATE cms_board_info
+        SET
+            bbs_name = #{bbs_name},
+            bbs_type = #{bbs_type},
+            mod_id = #{mod_id},
+            mod_dt = NOW()
+        WHERE bbs_id = #{bbs_id}
+    </update>
+
+    <update id="bbsDelete" parameterType="hmap">
+        UPDATE cms_board_info
+        SET
+            use_yn = false
+        WHERE bbs_id = #{bbs_id}
+    </update>
+
+    <select id="getBbsInfo" parameterType="Long" resultType="hmap">
+        SELECT *
+        FROM cms_board_info
+        where bbs_id = #{bbs_id}
+        LIMIT 1;
+    </select>
+
+    <select id="getContentsList" parameterType="Long" resultType="hmap">
+        SELECT
+            a.*,
+            MIN(c.file_id) AS file_id,          -- 대표 file_id
+            MIN(c.file_path) AS file_path,      -- 대표 file_path
+            STRING_AGG(c.file_id::text, ',') AS file_ids, -- 모든 file_id 리스트
+            STRING_AGG(c.file_path, ',') AS file_paths    -- 모든 file_path 리스트
+        FROM
+            cms_content_info a
+        LEFT JOIN
+            cms_file_link b ON a.content_id = b.content_id
+        LEFT JOIN
+            cms_file c ON b.file_id = c.file_id
+        WHERE
+            a.bbs_id = #{bbs_id}
+        GROUP BY
+            a.content_id
+        ORDER BY
+            MAX(a.reg_dt) DESC;
+    </select>
+
+    <select id="getFileInfo" parameterType="Long" resultType="hmap">
+        SELECT *
+        FROM cms_file
+        WHERE  file_id = #{file_id}
+        limit 1;
+    </select>
+
+    <select id="getPageInfo" parameterType="Long" resultType="MenuVO">
+        select *
+        from cms_board_mng cbm
+        WHERE tree_id = #{tree_id}
+        limit 1;
+    </select>
+
+    <select id="getContentInfo" parameterType="Long" resultType="hmap">
+        SELECT *
+        FROM cms_content_info
+        WHERE  content_id = #{content_id}
+        limit 1;
+    </select>
+
+
+
+    <insert id="insertFile" parameterType="hmap" useGeneratedKeys="true" keyProperty="file_id">
+        INSERT INTO cms_file (
+            file_type,
+            file_path,
+            file_name,
+            file_size,
+            reg_id,
+            reg_dt
+        ) VALUES (
+            #{file_type},
+            #{file_path},
+            #{file_name},
+            #{file_size},
+            #{reg_id},
+            NOW()
+        )
+    </insert>
+
+    <insert id="insertFileLink" parameterType="hmap">
+        INSERT INTO cms_file_link (
+            file_id,
+            content_id,
+            file_order,
+            link_dt
+        ) VALUES (
+            #{file_id},
+            #{content_id},
+            #{file_order},
+            now()
+        )
+    </insert>
+
+    <insert id="insertContent" parameterType="hmap" useGeneratedKeys="true" keyProperty="content_id">
+        INSERT INTO cms_content_info (
+            bbs_id,
+            title,
+            contents,
+            content_type,
+            view_cnt,
+            use_yn,
+            reg_id,
+            reg_dt
+        ) VALUES (
+            #{bbs_id},
+            #{title},
+            #{contents},
+            #{content_type},                      -- 💡 현재 타입은 슬라이더로 고정
+            0,                      -- 💡 조회수 기본값
+            true,                   -- 💡 사용 여부 기본값
+            #{reg_id},
+            now()
+        )
+    </insert>
+
+    <update id="updateContent" parameterType="hmap">
+        UPDATE cms_content_info
+        SET
+            title = #{title},
+            contents = #{contents},
+            mod_id = #{reg_id},
+            mod_dt = NOW()
+        WHERE content_id = #{content_id}
+    </update>
+
+    <delete id="deleteContent" parameterType="Long">
+        DELETE FROM cms_content_info
+        WHERE content_id = #{content_id}
+    </delete>
+
+
+
+
+    <delete id="deleteFile" parameterType="Long">
+        DELETE FROM cms_file WHERE file_id = #{file_id}
+    </delete>
+
+    <delete id="deleteFile_link" parameterType="Long">
+        DELETE FROM cms_file_link WHERE file_id = #{file_id}
+    </delete>
+
+
+
+    <select id="getLinkedFileIdList" parameterType="Long" resultType="Long">
+        select file_id
+        from cms_file_link cfl
+        where content_id = #{content_id}
+    </select>
+
+    <select id="getContent" parameterType="Long" resultType="hmap">
+        SELECT
+            a.*,
+            string_agg(c.file_id::text, ',') AS file_ids,
+            string_agg(c.file_path, ',') AS file_paths
+        FROM
+            cms_content_info a
+        LEFT JOIN
+            cms_file_link b ON a.content_id = b.content_id
+        LEFT JOIN
+            cms_file c ON b.file_id = c.file_id
+        WHERE
+            a.content_id = #{content_id}
+        GROUP BY
+            a.content_id
+        LIMIT 1;
+
+    </select>
+
+
+</mapper>
