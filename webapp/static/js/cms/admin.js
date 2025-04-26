@@ -373,34 +373,42 @@ function editImageContent(rowData) {
 
 
 
-function deleteContents(){
-
+function deleteContents() {
     const selectedRows = adminTable.getSelectedData();
 
-      if (selectedRows.length === 0) {
-        Swal.fire('삭제할 항목을 선택해주세요.');
+    if (selectedRows.length === 0) {
+        Swal.fire('⚠️ 삭제할 항목을 선택해주세요.');
         return;
-      }
+    }
 
-      const contentIdList = selectedRows.map(row => row.content_id).join(',');
+    const contentIdList = selectedRows.map(row => row.content_id).join(',');
 
-     $.ajax({
-             url: '/cms/api/deleteContents',
-             type: 'POST',
-             contentType: 'application/json',
-             data: JSON.stringify({
-                contentIdList : contentIdList
-             }),
-             success: function (res) {
-               if (res.success) {
-                 Swal.fire('✅ 삭제 완료', '변경사항이 반영되었습니다.', 'success');
-                 adminTable.setData();
-               } else {
-                 Swal.fire('❌ 삭제 실패', '저장 중 오류가 발생했습니다.');
-               }
-             }
-       });
-
-
-
+    Swal.fire({
+        title: '정말 삭제하시겠습니까?',
+        text: '삭제된 데이터는 복구할 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/cms/api/deleteContents',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ contentIdList: contentIdList }),
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire('✅ 삭제 완료', '변경사항이 반영되었습니다.', 'success');
+                        adminTable.setData(); // 데이터 새로고침
+                    } else {
+                        Swal.fire('❌ 삭제 실패', '저장 중 오류가 발생했습니다.', 'error');
+                    }
+                },
+                error: function () {
+                    Swal.fire('❌ 서버 오류', '잠시 후 다시 시도해주세요.', 'error');
+                }
+            });
+        }
+    });
 }
