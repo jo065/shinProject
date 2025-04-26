@@ -132,11 +132,23 @@
 
     <select id="getContentsList" parameterType="Long" resultType="hmap">
         SELECT
-            a.*, c.file_id , c.file_path
-        FROM  cms_content_info a  LEFT JOIN cms_file_link b ON a.content_id = b.content_id left join cms_file c on b.file_id = c.file_id
-        WHERE  a.bbs_id = #{bbs_id}
-        ORDER BY  a.reg_dt DESC;
-
+            a.*,
+            MIN(c.file_id) AS file_id,          -- 대표 file_id
+            MIN(c.file_path) AS file_path,      -- 대표 file_path
+            STRING_AGG(c.file_id::text, ',') AS file_ids, -- 모든 file_id 리스트
+            STRING_AGG(c.file_path, ',') AS file_paths    -- 모든 file_path 리스트
+        FROM
+            cms_content_info a
+        LEFT JOIN
+            cms_file_link b ON a.content_id = b.content_id
+        LEFT JOIN
+            cms_file c ON b.file_id = c.file_id
+        WHERE
+            a.bbs_id = #{bbs_id}
+        GROUP BY
+            a.content_id
+        ORDER BY
+            MAX(a.reg_dt) DESC;
     </select>
 
     <select id="getFileInfo" parameterType="Long" resultType="hmap">

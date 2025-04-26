@@ -403,6 +403,7 @@ public class CmsController {
     public Map<String, Object> bbsInsert(HttpServletRequest request, @RequestBody Map<String, Object> data) {
         Map<String, Object> result = new HashMap<>();
 
+
         HttpSession session = request.getSession();
         AdminVO admin = (AdminVO) session.getAttribute("admin");
         String lgn_id = admin.getLgn_id();
@@ -427,6 +428,7 @@ public class CmsController {
     @ResponseBody
     public Map<String, Object> bbsUpdate(HttpServletRequest request, @RequestBody Map<String, Object> data) {
         Map<String, Object> result = new HashMap<>();
+
 
         HttpSession session = request.getSession();
         AdminVO admin = (AdminVO) session.getAttribute("admin");
@@ -489,6 +491,7 @@ public class CmsController {
         data.put("reg_id", lgn_id);
 
 
+
         if(cmsService.insertContent(data)>0){
             result.put("success",true);
         }else{
@@ -532,6 +535,8 @@ public class CmsController {
         AdminVO admin = (AdminVO) session.getAttribute("admin");
         String lgn_id = admin.getLgn_id();
         data.put("reg_id", lgn_id);
+
+        String appened_img = data.getOrDefault("appened_img", "").toString();
 
 
         if(cmsService.updateContent(data)>0){

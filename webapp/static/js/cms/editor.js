@@ -286,6 +286,11 @@ function saveContent() {
 }
 
 function updateContent(data) {
+
+    const concatenated = uploadedImageIds.join(',');
+
+    data.appened_img = concatenated;
+
     data.content_id = content_id;
 
     $.ajax({
@@ -338,6 +343,10 @@ function updateContent(data) {
 
 
 function insertContent(data){
+
+ const concatenated = uploadedImageIds.join(',');
+
+data.appened_img= concatenated;
 
  $.ajax({
         url: '/cms/api/insertContent',

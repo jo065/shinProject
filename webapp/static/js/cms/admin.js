@@ -24,9 +24,35 @@ function tabulatorInit(){
         return response.data;  // ✅ response에서 data만 추출
       },
       columns: [
-        { title: "", formatter: "rowSelection", hozAlign: "center", width: 50, headerSort: false },
+        {
+            title: "",
+            formatter: "rowSelection",
+            titleFormatter: "rowSelection",
+            hozAlign: "center",
+            headerHozAlign: "center",
+            width: 50,
+            headerSort: false
+        },
         { title: "제목", field: "title", hozAlign: "left", widthGrow: 2 },
-        { title: "등록일", field: "reg_dt", hozAlign: "center", width: 160 },
+        {
+                   title: "작성일",
+                   field: "reg_dt",
+                   width: 200,
+                   formatter: function(cell) {
+                     const value = cell.getValue();
+                     const date = new Date(value);
+
+                     // YYYY-MM-DD HH:mm:ss 형식으로 포매팅
+                     const yyyy = date.getFullYear();
+                     const MM = String(date.getMonth() + 1).padStart(2, '0');
+                     const dd = String(date.getDate()).padStart(2, '0');
+                     const hh = String(date.getHours()).padStart(2, '0');
+                     const mm = String(date.getMinutes()).padStart(2, '0');
+                     const ss = String(date.getSeconds()).padStart(2, '0');
+
+                     return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`;
+                   }
+        },
         {
           title: "파일명",
           field: "file_path",

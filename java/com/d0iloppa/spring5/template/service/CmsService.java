@@ -212,7 +212,7 @@ public class CmsService {
 			data.put("bbs_type", ((Number) bbsTypeObj).intValue());
 		}
 
-		return cmsDAO.update("CmsMapper.bbsInsert", data);
+		return cmsDAO.insert("CmsMapper.bbsInsert", data);
 	}
 
 	public int bbsUpdate(Map<String, Object> data) {
@@ -369,6 +369,29 @@ public class CmsService {
 			result = cmsDAO.insert("CmsMapper.insertFileLink", linkMap);
 		}
 
+
+
+		String appened_img = data.getOrDefault("appened_img", "").toString();
+
+		if (!"".equals(appened_img)) {
+			String[] splits = appened_img.split(",");
+			int idx = 1;
+			for (String img_id : splits) {
+				try {
+					Map<String, Object> linkMap = new HashMap<>();
+					linkMap.put("content_id", data.get("content_id")); // insertContent 실행 후 content_id
+					linkMap.put("file_id", Long.parseLong(img_id.trim())); // 숫자로 변환
+					linkMap.put("file_order", idx++);
+
+					result = cmsDAO.insert("CmsMapper.insertFileLink", linkMap);
+				} catch (NumberFormatException e) {
+					// 잘못된 데이터는 그냥 스킵하고 넘어간다
+					continue;
+				}
+			}
+		}
+
+
 		return result;
 
 
@@ -419,6 +442,28 @@ public class CmsService {
 			linkMap.put("file_order", 1);
 
 			result = cmsDAO.insert("CmsMapper.insertFileLink", linkMap);
+		}
+
+
+
+		String appened_img = data.getOrDefault("appened_img", "").toString();
+
+		if (!"".equals(appened_img)) {
+			String[] splits = appened_img.split(",");
+			int idx = 1;
+			for (String img_id : splits) {
+				try {
+					Map<String, Object> linkMap = new HashMap<>();
+					linkMap.put("content_id", data.get("content_id")); // insertContent 실행 후 content_id
+					linkMap.put("file_id", Long.parseLong(img_id.trim())); // 숫자로 변환
+					linkMap.put("file_order", idx++);
+
+					result = cmsDAO.insert("CmsMapper.insertFileLink", linkMap);
+				} catch (NumberFormatException e) {
+					// 잘못된 데이터는 그냥 스킵하고 넘어간다
+					continue;
+				}
+			}
 		}
 
 
