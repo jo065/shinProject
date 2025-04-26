@@ -6,8 +6,32 @@ $(document).ready(function () {
   bbs_id = $("#bbs_id").val();
   bbs_type = $("#bbs_type").val();
 
+  let bbs_info = loadBBSInfo(bbs_id);
+  console.log(bbs_info);
+
+
+  $("#container h4").append(' > ' + bbs_info.bbs_name);
+
   tabulatorInit();
 });
+
+function loadBBSInfo(bbs_id) {
+    let result = null;
+
+    $.ajax({
+        url: `/cms/bbs/getBBSInfo/${bbs_id}`,   // 💬 서버에서 게시판 정보 가져오기
+        method: 'GET',
+        async:false,
+        success: function (response) {
+            result = response;
+        },
+        error: function () {
+            Swal.fire('서버 오류로 게시판 정보 조회에 실패했습니다.', '', 'error');
+        }
+    });
+
+    return result;
+}
 
 function tabulatorInit(){
 
