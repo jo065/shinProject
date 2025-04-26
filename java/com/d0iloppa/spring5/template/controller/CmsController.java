@@ -102,6 +102,23 @@ public class CmsController {
         return resultMap;
     }
 
+    @GetMapping("/bbs/viewContent/{content_id}")
+    public ModelAndView moveToBbsContent(@PathVariable("content_id") Long content_id, HttpServletRequest request) {
+
+        ModelAndView mv = new ModelAndView();
+
+        String includePath = "../cms/content/content.jsp";
+
+        mv.addObject("pagePath", includePath);
+        mv.addObject("content_id");
+
+        mv.setViewName("cms/cmsStatic");
+
+
+
+        return mv;
+    }
+
 
 
     @GetMapping("/menuAccess/{menu_id}")

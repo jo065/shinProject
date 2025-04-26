@@ -41,6 +41,11 @@ function tabulatorInit(){
           cellClick: function (e, cell) {
               const data = cell.getRow().getData();
 
+              if(bbs_type == 1 || bbs_type == 4){
+                moveBBSContent(data);
+                return;
+              }
+
               const imageTag = data.file_id
                 ? `<img src="/cms/cdn/img/${data.file_id}" alt="첨부 이미지" style="width:100%; max-width:400px; margin-top:12px; border-radius:6px;">`
                 : "";
@@ -78,6 +83,18 @@ function tabulatorInit(){
     });
 
 }
+
+function moveBBSContent(data = {}){
+    const { content_id = false } = data;
+
+    if(!content_id) return;
+
+
+    console.log(data);
+
+}
+
+
 function insertContent() {
 
     let _bbs_type = Number.parseInt(bbs_type);
