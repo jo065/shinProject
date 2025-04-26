@@ -9,8 +9,15 @@ $(document).ready(function () {
   let bbs_info = loadBBSInfo(bbs_id);
   console.log(bbs_info);
 
+  let labelMap = {
+     "1" : "공지사항",
+     "2" : "갤러리",
+     "3" : "포토 슬라이더",
+     "4" : "게시판"
+  }
 
-  $("#container h4").append(' > ' + bbs_info.bbs_name);
+
+  $("#container h4").append(` >  ${bbs_info.bbs_name} (게시판 유형 : ${labelMap[bbs_type]})`);
 
   tabulatorInit();
 });
