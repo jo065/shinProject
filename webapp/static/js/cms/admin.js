@@ -110,7 +110,7 @@ function tabulatorInit(){
               Swal.fire({
                 title: data.title || "제목 없음",
                 html: `
-                  <div style="text-align:left;">
+                  <div style="text-align:center;">
                     <div style="margin-bottom:10px; font-size:14px;">
                       <div style="padding: 6px 0;"> 본문 : ${data.contents || "(내용 없음)"}</div>
                     </div>
@@ -183,15 +183,15 @@ function imageContentInsert(){
         html: `
           <table style="width:100%; text-align:left; font-size:14px;">
             <tr>
-              <td style="width:80px;">제목</td>
-              <td><input type="text" id="swalTitle" class="swal2-input" style="width:87%;" /></td>
+              <td style="width:80px; text-align: center; background: #333333; color: white; border-radius: 3px;">제목</td>
+              <td><input type="text" id="swalTitle" class="swal2-input" style="width:100%; margin: 0;" /></td>
             </tr>
             <tr>
-              <td>본문</td>
-              <td><textarea id="swalContents" class="swal2-textarea" style="width:87%; height:80px;"></textarea></td>
+              <td style="text-align: center; background: #333333; color: white; border-radius: 3px;">본문</td>
+              <td><textarea id="swalContents" class="swal2-textarea" style="width:100%; margin: 0; height:80px;"></textarea></td>
             </tr>
             <tr>
-              <td>이미지</td>
+              <td style="text-align: center; background: #333333; color: white; border-radius: 3px;">이미지</td>
               <td>
                 <input type="file" id="fileUpload" />
               </td>
@@ -296,17 +296,17 @@ function editImageContent(rowData) {
   Swal.fire({
     title: '콘텐츠 수정',
     html: `
-      <table style="width:100%; text-align:left; font-size:14px;">
+      <table style="width:100%; text-align:center; font-size:14px;">
         <tr>
-          <td style="width:80px;">제목</td>
-          <td><input type="text" id="swalTitle" class="swal2-input" style="width:87%;" value="${rowData.title || ''}" /></td>
+          <td style="width:80px; text-align: center; background: #333333; color: white; border-radius: 3px;">제목</td>
+          <td><input type="text" id="swalTitle" class="swal2-input" style="width:100%; margin: 0;" value="${rowData.title || ''}" /></td>
         </tr>
         <tr>
-          <td>본문</td>
-          <td><textarea id="swalContents" class="swal2-textarea" style="width:87%; height:80px;">${rowData.contents || ''}</textarea></td>
+          <td style="text-align: center; background: #333333; color: white; border-radius: 3px;">본문</td>
+          <td><textarea id="swalContents" class="swal2-textarea" style="width:100%; margin: 0; height:80px;">${rowData.contents || ''}</textarea></td>
         </tr>
         <tr>
-          <td>이미지</td>
+          <td style="text-align: center; background: #333333; color: white; border-radius: 3px;">이미지</td>
           <td><input type="file" id="fileUpload" /></td>
         </tr>
       </table>

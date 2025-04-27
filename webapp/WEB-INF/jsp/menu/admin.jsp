@@ -47,7 +47,7 @@
                     background-color: #0747a6;
                 }
     </style>
-
+.filepond--root {margin-bottom : 0 !importanat;}
 </head>
 <body>
      <section class="admin-section">

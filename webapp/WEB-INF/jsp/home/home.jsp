@@ -343,6 +343,7 @@ let tabsData = [];
 
 function initTabs(flatList) {
   tabsData = flatList.filter(item => item.bbs_id != null);
+  console.log("tabsData", tabsData);
 
   const tabButtons = document.getElementById('tabButtons');
   const tabContents = document.getElementById('tabContents');
@@ -360,9 +361,11 @@ function initTabs(flatList) {
     button.textContent = item.menu_name;
     button.setAttribute('data-tab', tabId);
 
-    // 여기서 바로 클릭 이벤트 연결
-    button.addEventListener('click', function (e) {
+    // 클릭 이벤트 연결
+    button.addEventListener('click', function(e) {
+      // 모든 탭 버튼에서 active 클래스 제거
       document.querySelectorAll('#tabButtons .tab-btn').forEach(btn => btn.classList.remove('active'));
+      // 현재 클릭된 버튼에 active 클래스 추가
       button.classList.add('active');
       openTab(tabId, item.bbs_id);
     });
@@ -370,26 +373,39 @@ function initTabs(flatList) {
     tabButtons.appendChild(button);
   });
 
-
-   if (tabsData.length > 0) {
-     setTimeout(() => {
-       // 추가: 버튼에도 active 클래스 주기
-       const firstButton = document.querySelector('#tabButtons .tab-btn');
-       if (firstButton) {
-         firstButton.classList.add('active');
-       }
-       openTab(`tab${tabsData[0].bbs_id}`, tabsData[0].bbs_id);
-     }, 0);
-   }
-
+  // 첫 번째 탭을 기본으로 활성화
+  if (tabsData.length > 0) {
+    setTimeout(() => {
+      const firstButton = document.querySelector('#tabButtons .tab-btn');
+      if (firstButton) {
+        firstButton.classList.add('active');
+        openTab(`tab${tabsData[0].bbs_id}`, tabsData[0].bbs_id);
+      }
+    }, 0);
+  }
 }
 
 
 async function openTab(tabId, bbs_id) {
-  document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-  const targetContent = document.getElementById(tabId);
+  // 모든 탭 콘텐츠에서 active 클래스 제거
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active');
+  });
 
-  if (targetContent) targetContent.classList.add('active');
+  // 클릭된 탭에 해당하는 콘텐츠 활성화
+  const targetContent = document.getElementById(tabId);
+  if (targetContent) {
+    targetContent.classList.add('active');
+  }
+
+  // 탭 버튼의 active 상태도 업데이트 (직접 클릭하지 않은 경우를 위해)
+  document.querySelectorAll('#tabButtons .tab-btn').forEach(btn => {
+    if (btn.getAttribute('data-tab') === tabId) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
 
   if (swiper) {
     swiper.destroy(true, true);

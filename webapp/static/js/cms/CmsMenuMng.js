@@ -21,6 +21,14 @@ class CmsMenuMng {
      .then(flatList => {
        console.log('--- flatList ---', flatList);
 
+                  if (typeof initTabs === "function") {
+                          initTabs(flatList); // initTabs 함수가 존재하면 호출
+                        } else {
+                          console.log("initTabs 함수가 정의되지 않았습니다.");
+                        }
+
+
+
                // 1. bbs_id가 있는 항목만 찾기
                const bbsId = document.getElementById('bbs_id')?.value;
 
