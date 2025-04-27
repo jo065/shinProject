@@ -6,7 +6,7 @@
        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
        header { background-color: #fff; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); position: fixed; width: 100%; z-index: 1000; transition: all 0.3s ease; }
        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; max-width: 1200px; margin: 0 auto; }
-       .logo { font-size: 24px; font-weight: 700; color: #1a3c6e; }
+       .logo { font-size: 24px; font-weight: 700; color: #1a3c6e; margin-bottom: 10px;}
 
        .nav-menu { display: flex; list-style: none; }
        .nav-menu li { margin-left: 30px; }
@@ -79,7 +79,22 @@
          font-size: 16px;
          transition: color 0.3s ease;
        }
+.admin-btn {
+    border-radius: 3px;
+    padding: 2px 12px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    background: #f1f1f1;
+}
 
+#targetElement a.active {
+    border-bottom: 2px solid #2b7ae1;
+    color: #2b7ae1;
+    font-weight: bold;
+}
 </style>
 <header>
 <button id="scrollToTopBtn" class="scroll-to-top-btn">
@@ -91,8 +106,12 @@
                 <img src="/static/img/logo.png" alt="Logo" style="width: 230px;">
             </a>
         </div>
-       <div id="targetElement"></div>
+       <div id="targetElement" style="margin-top: 10px;"></div>
     </div>
+
+ <div class="admin-btn">
+    <a href="/cms/admin" style="color: #999999; text-decoration: none;"><i class="fa-solid fa-lock"></i> 관리자 로그인</a>
+  </div>
 </header>
 
 <!-- 메인 배너 섹션 -->
@@ -117,21 +136,51 @@
 </div>
 <script>
 
-function drawMenu() {
-  const target = document.getElementById('targetElement');
+ document.addEventListener('DOMContentLoaded', function() {
+     const menu = new CmsMenuMng('#targetElement', {
+       maxDepth: -1,
+       direction: 'horizontal'
+     });
 
-  if (target) {
-    target.innerHTML = '';  // ul 안만들고 비우기만
-  }
+     setTimeout(() => {
+         highlightCurrentMenu();
+     }, 200);
+ });
 
-  new CmsMenuMng('#targetElement', {
-    maxDepth: -1,
-    direction: 'horizontal'
-  });
-}
+ function highlightCurrentMenu() {
+     let currentPath = window.location.pathname.split('?')[0].replace(/\/$/, '');
+     const links = document.querySelectorAll('#targetElement a');
 
+     // 1. 만약 /cms/bbs/숫자 형태라면 bbs_id 추출
+     let bbsId = null;
+     const bbsMatch = currentPath.match(/^\/cms\/bbs\/(\d+)$/);
+     if (bbsMatch) {
+         bbsId = bbsMatch[1]; // '1', '2', '3' 같은 숫자 문자열
+         currentPath = '/cms/bbs'; // 비교를 위해 경로를 "/cms/bbs"로 통일
+     }
 
+     links.forEach(link => {
+         const parentLi = link.closest('li');
+         let pagePath = parentLi ? parentLi.getAttribute('data-page-path') : null;
+         let linkBbsId = parentLi ? parentLi.getAttribute('data-bbs-id') : null;
 
+         if (pagePath) {
+             pagePath = pagePath.replace(/\/$/, '');
+
+             if (currentPath === '/cms/bbs') {
+                 // 게시판인 경우
+                 if (bbsId && linkBbsId === bbsId) {
+                     link.classList.add('active');
+                 }
+             } else {
+                 // 일반 경로 일치
+                 if (pagePath === currentPath) {
+                     link.classList.add('active');
+                 }
+             }
+         }
+     });
+ }
 
 
 

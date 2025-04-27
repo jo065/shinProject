@@ -167,8 +167,10 @@
 
 /* 샘플 영역 */
 #sampleArea {
-    margin-top: 30px;
-    display: none;
+        margin-top: 30px;
+        width: 1600px;
+        text-align: center;
+        margin-left: 32px;
 }
 
 /* 샘플 방향 선택 */
@@ -250,7 +252,7 @@ input, select {    border: 1px solid #c3c3c3;}
       <div class="input-group">
         <label class="path-hint" onclick="applyBbsPath()" style="cursor:pointer; margin-top: 10px;">
           ※ 페이지 타입이 <strong>게시판 페이지</strong>인 경우,
-          <code style="background-color: #b2b2b2; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-family: monospace; color: #a21010;">/cms/bbs</code>로 지정하면 이동됩니다. <strong>[클릭 시 적용]</strong>
+          <code style="background-color: #d9d9d9; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-family: monospace; color: #ed4e4e;">/cms/bbs</code>로 지정하면 이동됩니다. <strong>[클릭 시 적용]</strong>
         </label>
         <input type="text" id="pagePath" />
       </div>
@@ -263,9 +265,8 @@ input, select {    border: 1px solid #c3c3c3;}
   </div>
 </div>
 
+ <h3 style="margin-top: 70px;margin-left: 40px;">메뉴 구성 테스트</h3>
 <div id="sampleArea">
-  <h4>메뉴 구성 테스트</h4>
-
   <div class="direction-control">
     <div>
       <label><strong>방향:</strong></label>
@@ -279,8 +280,6 @@ input, select {    border: 1px solid #c3c3c3;}
   <div id="menuPreview" class="menu-preview" style="display:none;"></div>
   <div id="menuPreview_v2" class="menu-preview-v2"></div>
 
-  <h5>호출방법</h5>
-  <div id="code"></div>
 </div>
 
 
@@ -344,6 +343,18 @@ $(function () {
 
   $('#menuTree').on('ready.jstree', function (e, data) {
     data.instance.open_all();
+
+     setTimeout(() => {
+           const allNodes = data.instance.get_json('#', { flat: true });
+
+           console.log("allNodes", allNodes); // 전체 노드 구조 찍어보는 건 여전히 유용함
+
+           if (allNodes.length > 1) { // 1번 인덱스가 존재하는지 체크
+             const firstNodeId = allNodes[1].id; //1번째(두 번째 노드) 선택
+             console.log("firstNodeId (1번째 인덱스)", firstNodeId);
+             data.instance.select_node(firstNodeId);
+           }
+         }, 100);
   });
 
 

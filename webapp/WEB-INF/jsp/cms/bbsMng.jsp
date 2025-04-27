@@ -172,7 +172,7 @@ border: none; background: none; cursor: pointer;
           }
         },
          {
-            title: "컨텐츠 관리",
+            title: "콘텐츠 관리",
             formatter: () => "<button class='btnMove'>⚙️ 관리</button>",
             width: 100,
             headerHozAlign: "center",

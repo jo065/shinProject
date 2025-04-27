@@ -7,7 +7,9 @@
 <!-- 💡 숨겨진 파라미터 전달 (필요시 JS에서 활용) -->
 <input type="hidden" id="bbs_id" value="${bbs_id}" />
 <input type="hidden" id="bbs_type" value="${bbs_type}" />
-
+<style>
+.ginner-container {height: 720px;}
+</style>
 
 <script>
     let menu;
@@ -32,25 +34,14 @@
 
 </script>
 
-<header style="display:none">
-    <menu style="
-          display: flex;
-          align-items: center;   /* 수직 가운데 정렬 */
-          justify-content: center; /* 수평 가운데 정렬 */
-          gap: 40px; /* 로고와 메뉴 사이 간격 */
-      ">
-      <div id="logo">
-        <img src="/static/img/logo.png" alt="Logo" style="width: 230px;">
-      </div>
-        <div id="menu">메뉴영역</div>
-    </menu>
-</header>
-
 
 <%@ include file="../common/header.jsp" %>
 
-<main style="padding:10px;">
-    <div id="bbsArea" style=""></div>
-</main>
+<section class="about-section show" id="about">
+        <h2 class="section-title"></h2>
+
+<div id="bbsArea" style=""></div>
+    </section>
+
 
  <%@ include file="../common/footer.jsp" %>

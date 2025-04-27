@@ -8,10 +8,12 @@
       <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
        <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e756b74a4c2b9dc078781e79e685e4ed"></script>
     <style>
-        .address-text{text-align: center;
-                          font-size: 20px;
-                          font-weight: bold;
-                          color: #1a3c6e;}
+        .address-text    {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: #1a3c6e;
+                          }
     </style>
 
 </head>

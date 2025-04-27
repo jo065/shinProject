@@ -47,7 +47,7 @@ function tabulatorInit(){
     adminTable = new Tabulator("#contentTable", {
       layout: "fitColumns",
       height: 500,
-      placeholder: "등록된 컨텐츠가 없습니다.",
+      placeholder: "등록된 콘텐츠가 없습니다.",
       selectable: true,
       ajaxURL: `/cms/bbs/getContentsList/${bbs_id}`,
       ajaxConfig: "GET",
@@ -179,7 +179,7 @@ function bbsContentInsert(){
 
 function imageContentInsert(){
     Swal.fire({
-        title: '컨텐츠 등록',
+        title: '콘텐츠 등록',
         html: `
           <table style="width:100%; text-align:left; font-size:14px;">
             <tr>
@@ -281,7 +281,7 @@ function editBBSContent(rowData) {
         Swal.fire({
             icon: 'error',
             title: '오류 발생',
-            text: '컨텐츠 ID를 확인할 수 없습니다.',
+            text: '콘텐츠 ID를 확인할 수 없습니다.',
             confirmButtonText: '확인'
         });
         return;
@@ -294,7 +294,7 @@ function editBBSContent(rowData) {
 
 function editImageContent(rowData) {
   Swal.fire({
-    title: '컨텐츠 수정',
+    title: '콘텐츠 수정',
     html: `
       <table style="width:100%; text-align:left; font-size:14px;">
         <tr>

@@ -4,29 +4,26 @@ function common(){
 
 
 function getContentsList(bbs_id) {
-  $.ajax({
-    url: `/cms/bbs/getContentsList/${bbs_id}`,
-    method: "GET",
-    dataType: "json",
-    success: function (res) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `/cms/bbs/getContentsList/${bbs_id}`,
+      method: "GET",
+      dataType: "json",
+      success: function (res) {
+        let list = res.data || [];
 
-      let list = res.data || [];
+        list = list.map(item => ({
+          ...item,
+          imageUrl: `/cms/cdn/img/${item.file_id}`
+        }));
 
-      list = list.map(item => {
-              return {
-                ...item,
-                imageUrl: `/cms/cdn/img/${item.file_id}`
-              };
-      });
-
-      console.log(list);
-
-
-      return list;
-    },
-    error: function (xhr, status, error) {
-      console.error("콘텐츠 목록 조회 실패:", error);
-      return [];
-    }
+        console.log(list);
+        resolve(list); // ✅ 성공시 resolve
+      },
+      error: function (xhr, status, error) {
+        console.error("콘텐츠 목록 조회 실패:", error);
+        reject(error); // ✅ 실패시 reject
+      }
+    });
   });
 }

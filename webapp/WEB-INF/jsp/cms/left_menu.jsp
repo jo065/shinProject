@@ -33,7 +33,7 @@
 <!-- ✅ id 추가!! -->
 <a href="/cms/admin?menu=menuMng" id="menuMng" class="menu-link"><i class="fa-solid fa-bars"></i> 메뉴 관리</a>
 <a href="/cms/admin?menu=bbsMng" id="bbsMng" class="menu-link"><i class="fa-solid fa-clipboard"></i> 게시판 관리</a>
-<a href="/cms/admin?menu=config" id="config" class="menu-link"><i class="fa-solid fa-gear"></i> 설정</a>
+<a href="/cms/admin?menu=config" id="config" class="menu-link" style="display:none;"><i class="fa-solid fa-gear"></i> 설정</a>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

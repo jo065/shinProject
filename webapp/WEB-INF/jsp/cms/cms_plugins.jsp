@@ -14,7 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 <!-- CMS BBS 전용 스타일/스크립트 -->
-<link href="${pageContext.request.contextPath}/static/css/cms/CmsMenu.style.css" rel="stylesheet">
+
 <script src="${pageContext.request.contextPath}/static/js/cms/CmsMenuMng.js"></script>
 
 <link href="${pageContext.request.contextPath}/static/css/cms/Bbs.style.css" rel="stylesheet">

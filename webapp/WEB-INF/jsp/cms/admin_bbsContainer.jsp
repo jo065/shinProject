@@ -10,16 +10,19 @@
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css" rel="stylesheet">
 
-
-
 <script src="${pageContext.request.contextPath}/static/js/cms/admin.js"></script>
 
 
 <input type="hidden" id="bbs_id" value="${bbs_id}" />
 <input type="hidden" id="bbs_type" value="${bbs_type}" />
 
+<style>
+.tabulator {border:none; background-color: #f5f5f5;}
+button{border: none; background: none; cursor: pointer;}
+</style>
+
 <div id="container" style="padding: 20px;">
-  <h4>📁 컨텐츠 관리</h4>
+  <h4>📁 콘텐츠 관리</h4>
 
   <!-- Top: 버튼 영역 -->
   <div style="margin-bottom: 16px;">

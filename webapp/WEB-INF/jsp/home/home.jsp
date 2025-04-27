@@ -300,48 +300,17 @@
     <!-- 제품 섹션 -->
     <section class="products-section" id="products">
         <h2 class="section-title">명판 소개</h2>
-        <div class="tabs">
-          <button class="tab-btn active" onclick="openTab('engraved')">조각 명판</button>
-          <button class="tab-btn" onclick="openTab('silk')">실크 명판</button>
-          <button class="tab-btn" onclick="openTab('etched')">부식 명판</button>
-        </div>
+        <div class="tabs" id="tabButtons"></div>
 
-        <div id="engraved" class="tab-content active">
-          <div class="category-info">
-            <h3>조각 명판</h3>
-            <p>정밀한 레이저 가공 기술로 제작된 고품질 조각 명판입니다. <br>내구성이 뛰어나고 선명한 텍스트와 그래픽을 구현할 수 있어 산업용 장비 및 다양한 분야에서 활용됩니다.</p>
-          </div>
-        </div>
-
-            <!-- 실크 명판 탭 -->
-            <div id="silk" class="tab-content">
-              <div class="category-info">
-                <h3>실크 명판</h3>
-                <p>실크스크린 인쇄 기술을 활용한 다채로운 색상과 디자인이 가능한 명판입니다. <br>컬러풀한 디자인과 고급스러운 마감으로 다양한 용도에 활용됩니다.</p>
-              </div>
-            </div>
-
-            <!-- 부식 명판 탭 -->
-            <div id="etched" class="tab-content">
-              <div class="category-info">
-                <h3>부식 명판</h3>
-                <p>화학적 부식 공정을 통해 금속 표면에 정교한 디자인을 새기는 기술로 제작된 명판입니다. <br>고급스러운 질감과 탁월한 내구성으로 장기간 사용이 가능합니다.</p>
-              </div>
-          </div>
-
+        <div id="tabContents"></div>
 
         <div class="product-card">
           <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img id="animated-image" src="/static/img/ex1.jpeg" alt="Image"></div>
-               <div class="swiper-slide"><img id="animated-image" src="/static/img/ex1.jpeg" alt="Image"></div>
-               <div class="swiper-slide"><img id="animated-image" src="/static/img/ex1.jpeg" alt="Image"></div>
-               <div class="swiper-slide"><img id="animated-image" src="/static/img/ex1.jpeg" alt="Image"></div>
-               <div class="swiper-slide"><img id="animated-image" src="/static/img/ex1.jpeg" alt="Image"></div>
-               <div class="swiper-slide"><img id="animated-image" src="/static/img/ex1.jpeg" alt="Image"></div>
-                </div>
-           </div>
-      </div>
+              <!-- 슬라이드 들어감 -->
+            </div>
+          </div>
+        </div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
     </section>
@@ -366,71 +335,140 @@
 
 
 <script>
-     function openTab(tabName) {
-          // Hide all tab content
-          var tabContents = document.getElementsByClassName("tab-content");
-          for (var i = 0; i < tabContents.length; i++) {
-            tabContents[i].classList.remove("active");
-          }
 
-          // Remove active class from all tab buttons
-          var tabButtons = document.getElementsByClassName("tab-btn");
-          for (var i = 0; i < tabButtons.length; i++) {
-            tabButtons[i].classList.remove("active");
-          }
 
-          // Show the current tab and add active class to the button that opened it
-          document.getElementById(tabName).classList.add("active");
+// swiper 인스턴스
+let swiper;
+let tabsData = [];
 
-          // Find the button that corresponds to this tab and add active class
-          for (var i = 0; i < tabButtons.length; i++) {
-            if (tabButtons[i].addEventListener) {
-              var buttonText = tabButtons[i].textContent.trim();
-              if ((tabName === "engraved" && buttonText === "조각 명판") ||
-                  (tabName === "silk" && buttonText === "실크 명판") ||
-                  (tabName === "etched" && buttonText === "부식 명판")) {
-                tabButtons[i].classList.add("active");
-              }
-            }
-          }
-        }
+function initTabs(flatList) {
+  tabsData = flatList.filter(item => item.bbs_id != null);
 
-    window.addEventListener('load', function () {
-            const img = document.getElementById('animated-image');
-            setTimeout(() => {
-                img.classList.add('zoom-in');
-            }, 100); // 약간의 딜레이 후 확대
-        });
+  const tabButtons = document.getElementById('tabButtons');
+  const tabContents = document.getElementById('tabContents');
 
-   var swiper = new Swiper('.swiper-container', {
-     loop: true,                 // 무한 루프
-     slidesPerView: 3,           // 한 번에 3개 보여주기
-     spaceBetween: 30,           // 슬라이드 간 간격(px)
-     autoplay: {
-       delay: 3000,              // 3초마다 자동 이동
-       disableOnInteraction: false, // 사용자 조작 후에도 계속 자동
-     },
-     navigation: {
-       nextEl: '.swiper-button-next',
-       prevEl: '.swiper-button-prev',
-     },
-   });
+  if (!tabButtons || !tabContents) return;
 
-   window.onload = function () {
-         var container = document.getElementById('map');
-         var options = {
-           center: new kakao.maps.LatLng(37.32531500274263, 126.78658727671835),
-           level: 3
-         };
+  tabButtons.innerHTML = '';
+  tabContents.innerHTML = '';
 
-         var map = new kakao.maps.Map(container, options);
+  tabsData.forEach((item, idx) => {
+    const tabId = `tab${item.bbs_id}`;
 
-         var markerPosition = new kakao.maps.LatLng(37.32531500274263, 126.78658727671835);
-         var marker = new kakao.maps.Marker({
-           position: markerPosition
-         });
-         marker.setMap(map);
-       };
+    const button = document.createElement('button');
+    button.className = 'tab-btn';
+    button.textContent = item.menu_name;
+    button.setAttribute('data-tab', tabId);
+
+    // 여기서 바로 클릭 이벤트 연결
+    button.addEventListener('click', function (e) {
+      document.querySelectorAll('#tabButtons .tab-btn').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      openTab(tabId, item.bbs_id);
+    });
+
+    tabButtons.appendChild(button);
+  });
+
+
+   if (tabsData.length > 0) {
+     setTimeout(() => {
+       // 추가: 버튼에도 active 클래스 주기
+       const firstButton = document.querySelector('#tabButtons .tab-btn');
+       if (firstButton) {
+         firstButton.classList.add('active');
+       }
+       openTab(`tab${tabsData[0].bbs_id}`, tabsData[0].bbs_id);
+     }, 0);
+   }
+
+}
+
+
+async function openTab(tabId, bbs_id) {
+  document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+  const targetContent = document.getElementById(tabId);
+
+  if (targetContent) targetContent.classList.add('active');
+
+  if (swiper) {
+    swiper.destroy(true, true);
+    swiper = null;
+  }
+
+  await loadSwiperImages(bbs_id);
+
+  swiper = new Swiper('.swiper-container', {
+    loop: true,
+    slidesPerView: 3,
+    spaceBetween: 30,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    }
+  });
+}
+
+
+
+async function loadSwiperImages(bbs_id) {
+  try {
+    const list = await getContentsList(bbs_id);
+    if (!list || !Array.isArray(list)) return;
+
+    const wrapper = document.querySelector('.swiper-wrapper');
+    if (!wrapper) return;
+
+    wrapper.innerHTML = '';
+
+    list.forEach(item => {
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+
+      const img = document.createElement('img');
+      img.src = item.imageUrl || item.file_path || '';
+      img.alt = item.title || '이미지';
+      img.style.width = '100%';
+      img.style.height = '300px';
+      img.style.objectFit = 'cover';
+
+      slide.appendChild(img);
+      wrapper.appendChild(slide);
+    });
+
+    if (swiper) {
+      swiper.update();
+      swiper.slideTo(0, 0);
+      swiper.autoplay.start();
+    }
+  } catch (error) {
+    console.error('Swiper 이미지 로드 실패', error);
+  }
+}
+
+window.addEventListener('load', async function () {
+
+
+      // ✅ 4. 지도 로딩
+      var container = document.getElementById('map');
+      var options = {
+          center: new kakao.maps.LatLng(37.32531500274263, 126.78658727671835),
+          level: 3
+      };
+
+      var map = new kakao.maps.Map(container, options);
+
+      var markerPosition = new kakao.maps.LatLng(37.32531500274263, 126.78658727671835);
+      var marker = new kakao.maps.Marker({
+          position: markerPosition
+      });
+      marker.setMap(map);
+  });
+
 </script>
  <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>
   <script src="${pageContext.request.contextPath}/static/js/home/home.js"></script>

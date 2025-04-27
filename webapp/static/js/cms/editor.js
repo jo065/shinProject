@@ -254,12 +254,12 @@ function saveContent() {
     const contentHtml = $('#summernote').summernote('code'); // 에디터 HTML
 
     if (!title) {
-            Swal.fire('⚠️ 제목을 입력해주세요.', '', 'warning');
+            Swal.fire('제목을 입력해주세요.', '', 'warning');
             return;
         }
 
     if (!contentHtml || contentHtml === '<p><br></p>') {
-            Swal.fire('⚠️ 본문 내용을 입력해주세요.', '', 'warning');
+            Swal.fire('본문 내용을 입력해주세요.', '', 'warning');
             return;
     }
 
@@ -307,7 +307,7 @@ function updateContent(data) {
                         console.log('🗑 모든 임시 이미지 삭제 완료:', results);
 
                         // 👉 파일 삭제가 끝난 후에 Swal 보여줌
-                        Swal.fire('✅ 수정 완료', '', 'success')
+                        Swal.fire('수정 완료', '', 'success')
                             .then((result) => {
                                 if (result.isConfirmed) {
                                     moveToManagePage();
@@ -324,7 +324,7 @@ function updateContent(data) {
                         console.error('⚠️ 일부 파일 삭제 실패', error);
 
                         // 실패했어도 수정 완료는 띄우고 이동은 가능하게 할건지 결정
-                        Swal.fire('✅ 수정 완료 (일부 이미지 삭제 실패)', '', 'warning')
+                        Swal.fire('수정 완료 (일부 이미지 삭제 실패)', '', 'warning')
                             .then((result) => {
                                 if (result.isConfirmed) {
                                     moveToManagePage();
@@ -332,11 +332,11 @@ function updateContent(data) {
                             });
                     });
             } else {
-                Swal.fire('⚠️ 등록 실패', '잠시 후 다시 시도해주세요.', 'error');
+                Swal.fire('⚠등록 실패', '잠시 후 다시 시도해주세요.', 'error');
             }
         },
         error: function () {
-            Swal.fire('❌ 서버 오류', '잠시 후 다시 시도해주세요.', 'error');
+            Swal.fire('서버 오류', '잠시 후 다시 시도해주세요.', 'error');
         }
     });
 }
@@ -355,7 +355,7 @@ data.appened_img= concatenated;
         data: JSON.stringify(data),
         success: function (res) {
             if (res.success) {
-                Swal.fire('✅ 등록 완료', '', 'success')
+                Swal.fire('등록 완료', '', 'success')
                     .then((result) => {
                         if (result.isConfirmed) {
                             moveToManagePage();
@@ -366,11 +366,11 @@ data.appened_img= concatenated;
                     moveToManagePage();
                 }, 1500);
             } else {
-                Swal.fire('⚠️ 등록 실패', '잠시 후 다시 시도해주세요.', 'error');
+                Swal.fire('등록 실패', '잠시 후 다시 시도해주세요.', 'error');
             }
         },
         error: function () {
-            Swal.fire('❌ 서버 오류', '잠시 후 다시 시도해주세요.', 'error');
+            Swal.fire('서버 오류', '잠시 후 다시 시도해주세요.', 'error');
         }
     });
 }
