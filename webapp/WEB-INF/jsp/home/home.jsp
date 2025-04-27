@@ -271,7 +271,7 @@
                   </div>
                   <div class="contact-info">
                     <h3>전화 문의</h3>
-                    <a href="tel:031-494-2315">031-895-6144</a>
+                    <a href="tel:031-895-6144">031-895-6144</a>
                   </div>
                 </div>
 
@@ -281,7 +281,7 @@
                   </div>
                   <div class="contact-info">
                     <h3>이메일 문의</h3>
-                    <a href="mailto:is2315@hanmail.net">dyt1532@naver.com</a>
+                    <a href="mailto:dyt1532@naver.com">dyt1532@naver.com</a>
                   </div>
                 </div>
                 <div class="contact-card">
@@ -290,7 +290,7 @@
                   </div>
                   <div class="contact-info">
                     <h3>FAX</h3>
-                    <a href="mailto:is2315@hanmail.net">031-895-6147</a>
+                    <a href="">031-895-6147</a>
                   </div>
                 </div>
 
@@ -319,7 +319,7 @@
     <!--위치 안내 -->
     <section class="cases-section" id="address">
     <h2 class="section-title">LOCATION</h2>
-     <p class="address-text">경기 안산시 단원구 산단로 432 편익A동 201호</p>
+     <p class="address-text">경기도 화성시 봉담읍 쇠틀길 86</p>
       <div class="case-studies">
         <div id="map" style="width:100%; height:350px;"></div>
       </div>
@@ -471,19 +471,19 @@ window.addEventListener('load', async function () {
 
 
       // ✅ 4. 지도 로딩
-      var container = document.getElementById('map');
-      var options = {
-          center: new kakao.maps.LatLng(37.32531500274263, 126.78658727671835),
-          level: 3
-      };
+     var container = document.getElementById('map');
+     var options = {
+         center: new kakao.maps.LatLng(37.2009732, 126.9790237), // 경기도 화성시 봉담읍 쇠틀길 86의 위도, 경도
+         level: 3
+     };
 
-      var map = new kakao.maps.Map(container, options);
+     var map = new kakao.maps.Map(container, options);
 
-      var markerPosition = new kakao.maps.LatLng(37.32531500274263, 126.78658727671835);
-      var marker = new kakao.maps.Marker({
-          position: markerPosition
-      });
-      marker.setMap(map);
+     var markerPosition = new kakao.maps.LatLng(37.2009732, 126.9790237); // 마커 위치
+     var marker = new kakao.maps.Marker({
+         position: markerPosition
+     });
+     marker.setMap(map);
   });
 
 </script>

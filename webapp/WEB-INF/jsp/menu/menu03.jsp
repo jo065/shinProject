@@ -13,9 +13,9 @@
 </head>
 <body>
     <section class="about-section" id="about">
-        <h2 class="section-title">사업내용</h2>
+        <h2 class="section-title">생산공정</h2>
             <div style="text-align: center;">
-           <img src="/static/img/cm_content.jpeg" alt="content" style=" width: 90%; text-align: center;">
+           <img src="/static/img/cm_content2.jpeg" alt="content" style=" width: 90%; text-align: center;">
             </div>
     </section>
 </body>

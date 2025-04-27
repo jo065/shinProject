@@ -62,31 +62,22 @@
 <footer>
     <div class="footer-container">
         <div class="footer-column">
-            <h3>신원명판산업</h3>
-            <p>최고의 품질과 디자인으로<br>명판 산업을 선도합니다.</p>
+            <h3>씨엠테크</h3>
+            <p>끊임없는 노력으로, 직원 등 모든 이해관계자 여러분의 기대에 부흥하는 성실기업으로 <br>함께 성장, 발전해 나갈 것을 약속 드립니다.</p>
         </div>
-        <div class="footer-column">
-            <h3>바로가기</h3>
-            <ul>
-                <li><a href="/home/home.do">홈</a></li>
-                <li><a href="/menu/menu01.do">인사말</a></li>
-                <li><a href="/menu/menu02.do">조각명판</a></li>
-                <li><a href="#products">실크인쇄 명판</a></li>
-                <li><a href="#process">부식명판</a></li>
-                <li><a href="#cases">표지판</a></li>
-            </ul>
-        </div>
+
         <div class="footer-column">
             <h3>연락처</h3>
             <ul>
-                <li>경기 안산시 단원구 산단로 432 편익A동 201호</li>
-                <li>전화: 031-494-2315</li>
-                <li>이메일: is2315@hanmail.net</li>
+                <li>경기도 화성시 봉담읍 쇠틀길 86</li>
+                <li>전화: 031-895-6144</li>
+                <li>이메일: dyt1532@naver.com</li>
+                <li>FAX: 031-895-6147</li>
             </ul>
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2025 신원명판산업. All Rights Reserved.</p>
+        <p>&copy; 2025 씨엠테크. All Rights Reserved.</p>
     </div>
 </footer>
 <%@ include file="/WEB-INF/jsp/common/plugin.jsp" %>

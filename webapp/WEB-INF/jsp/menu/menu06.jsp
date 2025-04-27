@@ -20,7 +20,7 @@
 <body>
     <section class="about-section" id="about">
         <h2 class="section-title">오시는 길</h2>
-        <p class="address-text">경기 안산시 단원구 산단로 432 편익A동 201호</p>
+        <p class="address-text">경기도 화성시 봉담읍 쇠틀길 86</p>
           <div class="case-studies">
             <div id="map" style="width:100%; height:350px;"></div>
           </div>
@@ -33,20 +33,20 @@
 
 <script>
     window.onload = function () {
-             var container = document.getElementById('map');
-             var options = {
-               center: new kakao.maps.LatLng(37.32531500274263, 126.78658727671835),
-               level: 3
-             };
+            var container = document.getElementById('map');
+                 var options = {
+                     center: new kakao.maps.LatLng(37.2009732, 126.9790237), // 경기도 화성시 봉담읍 쇠틀길 86의 위도, 경도
+                     level: 3
+                 };
 
-             var map = new kakao.maps.Map(container, options);
+                 var map = new kakao.maps.Map(container, options);
 
-             var markerPosition = new kakao.maps.LatLng(37.32531500274263, 126.78658727671835);
-             var marker = new kakao.maps.Marker({
-               position: markerPosition
-             });
-             marker.setMap(map);
-           };
+                 var markerPosition = new kakao.maps.LatLng(37.2009732, 126.9790237); // 마커 위치
+                 var marker = new kakao.maps.Marker({
+                     position: markerPosition
+                 });
+                 marker.setMap(map);
+              };
 </script>
  <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>
   <script src="${pageContext.request.contextPath}/static/js/menu/menu06.js"></script>

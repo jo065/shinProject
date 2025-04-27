@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>신원명판산업</title>
+    <title>씨엠테크</title>
       <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
     <style>
         * {
@@ -252,17 +252,22 @@
              <div class="greeting-container">
                <div class="greeting-content">
                  <p class="company-subheading">인사말</p>
-                 <h1 class="greeting-title">안녕하십니까? <br> <span>신원명판산업</span> 입니다.</h1>
+                 <h1 class="greeting-title">안녕하십니까? <br> <span>씨엠테크</span> 입니다.</h1>
 
                  <p class="greeting-description">
                    안녕하십니까?
                    저희 홈페이지를 방문해주셔서 감사드립니다.
-                   저희 신원명판산업은 조각명판, 실크인쇄명판,
-                   부식명판 제작전문 업체로서
-                   오랜 경험과 풍부한 노하우를 바탕으로
-                   신속하고 철저한 납기준수, 최상의 품질관리,
-                   고객만족의 가격 그리고 항상 최선을 다하는 업체로서
-                   함께 성장해가는 동반자가될 것을 약속드립니다.
+
+                   저희 씨엠테크는 성실과 풍부한 경험을 바탕으로 자동화 기계 . LCD장비 제작.
+                   반도체부품 . 정밀부품가공을 전문으로 하는 업체 입니다.
+
+                   저희 씨엠테크는 국가적 차원에서 미래 동력사업으로 집중 육성하는
+                   부품 . 소재 전문기업으로서의 위상을 갖추며, 차별화된 높은 기술력을
+                   바탕으로 성장의 가속도를 높여나갈 것입니다
+
+                   앞으로 저희 씨엠테크는 끊임없는 노력으로, 직원 등 모든 이해관계자
+                   여러분의 기대에 부흥하는 성실기업으로 함께 성장, 발전해 나갈 것을
+                   약속 드립니다.
                  </p>
                  <div class="values-container">
                    <div class="value-tag">
@@ -282,7 +287,7 @@
                          <polyline points="12 6 12 12 16 14"></polyline>
                        </svg>
                      </div>
-                     신속한 납기
+                     정밀 가공
                    </div>
                    <div class="value-tag">
                      <div class="value-tag-icon">
@@ -302,14 +307,14 @@
                          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                        </svg>
                      </div>
-                     고객 중심 서비스
+                     차별화된 기술력
                    </div>
                  </div>
 
                  <div class="ceo-sign">
                    <div class="ceo-info">
                      <p class="ceo-position">대표</p>
-                     <p class="ceo-name">김형희</p>
+                     <p class="ceo-name">김병두</p>
                    </div>
                  </div>
                </div>
@@ -318,7 +323,7 @@
                  <div class="blue-accent accent-1"></div>
                  <div class="blue-accent accent-2"></div>
                  <div class="image-frame">
-                   <img id="animated-image" src="/static/img/hello.jpg" alt="Image">
+                   <img id="animated-image" src="/static/img/earth.jpg" alt="Image">
                  </div>
                </div>
              </div>

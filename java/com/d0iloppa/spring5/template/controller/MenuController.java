@@ -60,6 +60,20 @@ public class MenuController {
         return mv;
     }
 
+    @RequestMapping(value = "menu03.do", method = RequestMethod.GET)
+    public ModelAndView menu03(HttpServletRequest request, HttpServletResponse response, HomeVO homeVO) {
+        // viewName
+        ModelAndView mv = new ModelAndView("menu/menu03");
+
+        String _ct = appConfig.get("config.test", "NONE DATA");
+
+        String testMsg = String.format("config 비교 : (전역변수)%s : (스코프변수)%s", configTest, _ct);
+
+        mv.addObject("msg", testMsg);
+
+        return mv;
+    }
+
     @RequestMapping(value = "menu06.do", method = RequestMethod.GET)
     public ModelAndView menu06(HttpServletRequest request, HttpServletResponse response, HomeVO homeVO) {
         // viewName
