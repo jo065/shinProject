@@ -285,7 +285,7 @@
                   </div>
                 </div>
               </div>
-            <div class="about-image">
+            <div class="about-image" style="display:none;">
                 <div class="button-box">
                     <a href="/menu/menu02.do" class="plate-button">
                         <i class="fa-regular fa-share-from-square"></i> 조각명판
@@ -299,7 +299,7 @@
 
     <!-- 제품 섹션 -->
     <section class="products-section" id="products">
-        <h2 class="section-title">명판 소개</h2>
+        <h2 class="section-title">명판 소개 </h2>
         <div class="tabs" id="tabButtons"></div>
 
         <div id="tabContents"></div>
@@ -371,6 +371,7 @@ function initTabs(flatList) {
     });
 
     tabButtons.appendChild(button);
+
   });
 
   // 첫 번째 탭을 기본으로 활성화
