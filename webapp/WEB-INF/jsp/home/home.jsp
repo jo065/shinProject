@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>신원명판산업</title>
+    <title>씨엠테크</title>
       <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
      <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e756b74a4c2b9dc078781e79e685e4ed"></script>
     <style>
@@ -271,7 +271,7 @@
                   </div>
                   <div class="contact-info">
                     <h3>전화 문의</h3>
-                    <a href="tel:031-494-2315">031-494-2315</a>
+                    <a href="tel:031-494-2315">031-895-6144</a>
                   </div>
                 </div>
 
@@ -281,25 +281,26 @@
                   </div>
                   <div class="contact-info">
                     <h3>이메일 문의</h3>
-                    <a href="mailto:is2315@hanmail.net">is2315@hanmail.net</a>
+                    <a href="mailto:is2315@hanmail.net">dyt1532@naver.com</a>
                   </div>
                 </div>
-              </div>
-            <div class="about-image">
-                <div class="button-box">
-                    <a href="/menu/menu02.do" class="plate-button">
-                        <i class="fa-regular fa-share-from-square"></i> 조각명판
-                    </a>
-                    <button class="plate-button"><i class="fa-regular fa-share-from-square"></i> 실크인쇄</button>
-                    <button class="plate-button"><i class="fa-regular fa-share-from-square"></i> 부식명판</button>
+                <div class="contact-card">
+                  <div class="icon-wrapper">
+                    <i class="fa-solid fa-print" style="color: #2b7ae1; font-size: 20px;"></i>
+                  </div>
+                  <div class="contact-info">
+                    <h3>FAX</h3>
+                    <a href="mailto:is2315@hanmail.net">031-895-6147</a>
+                  </div>
                 </div>
-            </div>
+
+              </div>
         </div>
     </section>
 
     <!-- 제품 섹션 -->
     <section class="products-section" id="products">
-        <h2 class="section-title">명판 소개</h2>
+        <h2 class="section-title">제품 소개</h2>
         <div class="tabs" id="tabButtons"></div>
 
         <div id="tabContents"></div>

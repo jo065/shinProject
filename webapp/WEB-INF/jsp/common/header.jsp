@@ -38,7 +38,7 @@
 
        .company-logo { font-size: 28px; font-weight: 700; letter-spacing: 1px; position: relative; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
        .company-name { margin-left: 73px; font-size: 46px; font-weight: 800; letter-spacing: -1px; margin-bottom: 27px; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
-       .company-desc { font-size: 25px; font-weight: 300; line-height: 1.6; opacity: 0.9; }
+       .company-desc { font-size: 25px; font-weight: 300; line-height: 1.6; opacity: 0.9; margin-top: 10px;}
 
        @media (max-width: 768px) { .banner-content { flex-direction: column; padding: 30px; } .banner-graphic, .banner-text { width: 100%; padding: 20px 0; } .company-name { font-size: 36px; } .banner-circle { width: 200px; height: 200px; } }
 
@@ -103,7 +103,7 @@
     <div class="header-container">
         <div class="logo">
             <a href="/home/home.do">
-                <img src="/static/img/logo.png" alt="Logo" style="width: 230px;">
+                <img src="/static/img/cm_logo.jpeg" alt="Logo" style="width: 180px;">
             </a>
         </div>
        <div id="targetElement" style="margin-top: 10px;"></div>
@@ -124,13 +124,13 @@
 
     <div class="banner-content">
         <div class="image">
-            <img id="animated-image" src="/static/img/img1.png" alt="Image" style="width: 100%; height: auto; position: relative; right: 60px;">
+            <img id="animated-image" src="/static/img/cm1.png" alt="Image" style="width: 210%;height: 564px;position: relative;right: 54px;top: -22px;">
         </div>
 
         <div class="banner-text">
-            <div class="company-logo"> <img src="/static/img/whiteLogo.png" alt="Image" style="width: 203px; margin-left: 97px;"></div>
-            <h1 class="company-name">신원명판산업</h1>
-            <p class="company-desc">조각 명판 / 실크 인쇄 명판 / 부식 명판<br>최고의 품질과 정밀함으로 고객 맞춤 솔루션을 제공합니다.</p>
+            <div class="company-logo"> <img src="/static/img/cm_whiteLogo.png" alt="Image" style="width: 300px; margin-left: 97px;"></div>
+            <p class="company-desc">저희 씨엠테크는 성실과 풍부한 경험을 바탕으로 자동화 기계, <br>
+            LCD장비 제작, 반도체부품, 정밀부품가공을 전문으로 하는 업체입니다.</p>
         </div>
     </div>
 </div>
