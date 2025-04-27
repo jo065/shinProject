@@ -130,7 +130,7 @@
 
   <!-- 왼쪽 -->
   <div class="header-left">
-    <img src="/static/img/whiteLogo.png" alt="Logo" style="width: 100px;">
+    <img src="/static/img/cm_whiteLogo.png" alt="Logo" style="width: 140px;">
     <span style="font-weight: bold; color:white;">관리자 시스템</span>
   </div>
 

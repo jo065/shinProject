@@ -71,7 +71,7 @@
 </head>
 <body>
   <form class="login-box" method="post" action="/cms/loginPost">
-    <img src="/static/img/logo.png" alt="Logo" style="width: 230px; padding-bottom: 20px;">
+    <img src="/static/img/cm_logo.jpeg" alt="Logo" style="width: 230px; padding-bottom: 20px;">
     <h2>관리자 로그인</h2>
     <input type="text" name="lgn_id" placeholder="아이디" required />
     <input type="password" name="lgn_passwd" placeholder="비밀번호" required />

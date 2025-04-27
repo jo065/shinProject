@@ -61,7 +61,7 @@
                      <button onclick="authenticateAdmin();" type="button" class="btn-login">확인</button>
                  </form>
                  <div class="company-slogan mt-4 text-center">
-                    <img src="/static/img/logo.png" alt="Image" style="width: 50%;">
+                    <img src="/static/img/cm_logo.jpeg" alt="Image" style="width: 50%;">
                  </div>
              </div>
          </div>
