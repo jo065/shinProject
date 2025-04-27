@@ -300,7 +300,7 @@
 
     <!-- 제품 섹션 -->
     <section class="products-section" id="products">
-        <h2 class="section-title">제품 소개</h2>
+        <h2 class="section-title">씨엠테크 소개</h2>
         <div class="tabs" id="tabButtons"></div>
 
         <div id="tabContents"></div>
