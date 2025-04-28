@@ -55,6 +55,7 @@
             <mvc:exclude-mapping path="/cms/view/**" />
             <mvc:exclude-mapping path="/cms/api/menuFlatList" />
             <mvc:exclude-mapping path="/cms/api/getCateInfo/**" />
+            <mvc:exclude-mapping path="/cms/api/getCateList/**" />
             <mvc:exclude-mapping path="/cms/menuAccess/**" />
             <bean class="com.d0iloppa.spring5.template.interceptor.CmsInterceptor"/>
         </mvc:interceptor>
