@@ -8,6 +8,9 @@ class CmsBbsMng {
     this.bbs_id = bbs_id;
     this.bbsInfo = null;
     this.contentList = [];
+    this.cateMap = {
+        '-1' : '카테고리 없음'
+    };
 
     this.galleryInstance = null;
     this.swiper = null;
@@ -21,7 +24,35 @@ class CmsBbsMng {
 
   init() {
     this.render(); // 초기 상태 render (비어있을 수도 있음)
-    this.fetchData(); // fetch는 비동기적으로
+
+    this.cateMap = {};
+
+      $.ajax({
+        url: '/cms/api/getCateList/' + this.bbs_id,
+        method: 'GET',
+        contentType: 'application/json',
+        success: (res) => {
+          const { data = [] } = res;
+
+          for(let item of data){
+            this.cateMap[item.cat_id] = item.cat_label;
+          }
+
+
+          console.log(data);
+
+
+
+            this.fetchData(); // fetch는 비동기적으로
+
+        },
+        error: (xhr, status, error) => {
+          console.error('❌ 카테고리 리스트 가져오기 실패:', error);
+          this.fetchData(); // fetch는 비동기적으로
+        }
+      });
+
+
   }
 
   async fetchData() {
@@ -194,6 +225,14 @@ class CmsBbsMng {
            formatter: "rownum", // Tabulator 내장 인덱스 formatter
            hozAlign: "center",
            width: 60
+         },
+         {
+            title: "카테고리", field: "cat_id", hozAlign: "left",width:150,
+            formatter: (cell)=>{
+                const value = cell.getValue();
+                const label = this.cateMap[value] || '카테고리 없음';
+                return label;
+            }
          },
          { title: "제목", field: "title" },
          { title: "작성자", field: "reg_id", width: 100 },

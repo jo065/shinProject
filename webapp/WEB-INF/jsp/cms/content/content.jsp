@@ -44,6 +44,12 @@
 <div id="cms-content" class="cms-content-area">
     <table class="content-table">
         <tr>
+           <td class="content-label">카테고리 :</td>
+           <td class="">
+                <span id="content-cate"></span>
+           </td>
+        </tr>
+        <tr>
             <td class="content-label">제목 :</td>
             <td class="content-value">
                 <span id="content-title"></span>

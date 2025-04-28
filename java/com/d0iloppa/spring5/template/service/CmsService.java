@@ -625,4 +625,8 @@ public class CmsService {
 
 		return 1;
 	}
+
+	public Map<String, Object> getCateInfo(Integer catId) {
+		return cmsDAO.selectOne("CmsMapper.getCateInfo", catId);
+	}
 }

@@ -284,6 +284,12 @@
 
     </select>
 
+    <select id="getCateInfo" parameterType="Integer" resultType="hmap">
+        SELECT *
+        FROM cms_content_cat
+        where cat_id = #{cat_id}
+        limit 1;
+    </select>
 
     <select id="getCateList" parameterType="Long" resultType="hmap">
         SELECT *

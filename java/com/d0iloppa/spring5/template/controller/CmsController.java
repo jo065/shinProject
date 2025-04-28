@@ -602,6 +602,19 @@ public class CmsController {
         return result;
     }
 
+    @GetMapping("api/getCateInfo/{cat_id}")
+    @ResponseBody
+    public Map<String, Object> getCateInfo(@PathVariable("cat_id") Integer cat_id) {
+        Map<String, Object> result = new HashMap<>();
+
+
+        Map<String, Object> cateInfo = cmsService.getCateInfo(cat_id);
+
+        result.put("data", cateInfo);
+
+        return result;
+    }
+
 
     @GetMapping("api/getCateList/{bbs_id}")
     @ResponseBody

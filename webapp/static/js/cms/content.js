@@ -30,6 +30,21 @@ function renderContent(data){
 
     console.log('render', data);
 
+     $.ajax({
+            url: `/cms/api/getCateInfo/${data.cat_id}`,   // 💬 서버에서 게시판 정보 가져오기
+            method: 'GET',
+            success: function (response) {
+                const {data} = response;
+                console.log('catedata', data);
+                $("#content-cate").text(data.cat_label || 미분류);
+            },
+            error: function () {
+                Swal.fire('서버 오류로 게시판 정보 조회에 실패했습니다.', '', 'error');
+            }
+    });
+
+
+
     $("#content-title").html(data.title);
     $("#content-regdt").html(formatRegDt(data.reg_dt));
     $("#content").html(data.contents);
