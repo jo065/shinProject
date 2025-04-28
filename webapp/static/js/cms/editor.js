@@ -4,8 +4,41 @@ let bbs_info = {};
 
 
 $(document).ready(function () {
+
     editorInit();
 });
+
+function initCate(selector = "#swalCate", bbs_id) {
+  $.ajax({
+    url: '/cms/api/getCateList/' + bbs_id,
+    method: 'GET',
+    contentType: 'application/json',
+    success: function(res) {
+      const { data = [] } = res;
+      console.log(data);
+
+      const $select = $(selector);
+
+      if ($select.length === 0) {
+        console.error('❌ 셀렉터를 찾을 수 없습니다:', selector);
+        return;
+      }
+
+      $select.empty(); // 기존 옵션 모두 제거
+
+      // 기본 옵션 추가
+      $select.append(`<option value="-1">카테고리 없음</option>`);
+
+      // 데이터로 옵션 추가
+      data.forEach(item => {
+        $select.append(`<option value="${item.cat_id}">${item.cat_label}</option>`);
+      });
+    },
+    error: function(xhr, status, error) {
+      console.error('❌ 카테고리 리스트 가져오기 실패:', error);
+    }
+  });
+}
 
 function loadBBSInfo(bbs_id) {
     let result = null;
@@ -37,6 +70,7 @@ function editorInit(){
     console.log(bbs_info);
 
 
+    initCate('#swalCate', bbs_id);
 
     // 에디터 로딩
     instanceInit();
@@ -252,6 +286,8 @@ function saveContent() {
     const bbs_id = bbs_info.bbs_id;          // 숨겨진 input에서 bbs_id 가져오기
     const title = $('#title').val();             // 제목 input
     const contentHtml = $('#summernote').summernote('code'); // 에디터 HTML
+    const cat_id = $("#swalCate").val();
+
 
     if (!title) {
             Swal.fire('제목을 입력해주세요.', '', 'warning');
@@ -269,7 +305,8 @@ function saveContent() {
     const data = {
         bbs_id: bbs_id,
         title: title,
-        contents: contentHtml
+        contents: contentHtml,
+        cat_id : cat_id
     };
 
     if(content_id){
@@ -379,4 +416,147 @@ data.appened_img= concatenated;
 function moveToManagePage() {
     const bbsId = bbs_info.bbs_id; // 들고 있는 bbs_id 사용
     location.href = `/cms/admin?menu=manage&bbs_id=${bbsId}`;
+}
+
+
+
+
+function manageCate(bbs_id){
+
+    Swal.fire({
+      title: '📁 카테고리 관리',
+      width: 700,
+      html: `
+        <div style="margin-bottom: 10px; display: flex; align-items: center;">
+          <input id="newCategoryName" class="" placeholder="새 카테고리 이름" style="width: calc(100% - 120px);display: inline-block;height: 50px;">
+          <button id="addCategoryBtn" class="swal2-confirm swal2-styled" style="width: 120px; height: 50px; margin-left: 10px;">➕ 추가</button>
+        </div>
+        <div id="categoryTable" style="height: 300px;"></div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: '저장',
+      cancelButtonText: '취소',
+      didOpen: () => {
+         $('#categoryTable').attr("bbsId", bbs_id);
+
+        // Tabulator 초기화
+        const table = new Tabulator("#categoryTable", {
+          layout: "fitColumns",
+          placeholder: "등록된 카테고리가 없습니다.",
+          columns: [
+            { title: "cat_id", field: "cat_id", visible: false },
+            { title: "bbs_id", field: "bbs_id", visible: false },
+            { title: "카테고리명", field: "cat_label", editor: "input" },
+            {
+              title: "삭제",
+              width: 80,
+              hozAlign: "center",
+              formatter: function() {
+                return `
+                  <button style="border:none;">
+                    ❌
+                  </button>
+                `;
+              },
+              cellClick: function (e, cell) {
+                cell.getRow().delete();
+              }
+            }
+
+          ],
+          data: [] // 초기 데이터는 비어있음
+        });
+
+        table.on('tableBuilt', () => {
+            console.log('tb', bbs_id);
+
+
+             $.ajax({
+                url: '/cms/api/getCateList/'+bbs_id,
+                method: 'GET',
+                contentType: 'application/json',
+                success: function(res) {
+
+                    const {data=[]} = res;
+                    table.setData(data);
+                    setTimeout(() => {
+                        table.redraw();
+                    },200);
+
+                },
+                error: function(xhr, status, error) {
+                  console.error('❌ 카테고리 리스트 가져오기 실패:', error);
+                  Swal.fire({
+                    icon: 'error',
+                    title: '불러오기 실패',
+                    text: '카테고리 목록을 불러오는데 실패했습니다.'
+                  });
+                }
+              });
+
+
+        });
+
+        // 추가 버튼 이벤트
+        document.getElementById('addCategoryBtn').addEventListener('click', () => {
+          const input = document.getElementById('newCategoryName');
+          const name = input.value.trim();
+          if (name === '') {
+            Swal.showValidationMessage('카테고리명을 입력해주세요!');
+            return;
+          }
+
+          // Tabulator에 추가
+          table.addRow({ cat_label: name, bbs_id:bbs_id, cat_id:-1 });
+          input.value = ''; // 입력창 비우기
+        });
+
+        // 저장용 글로벌 연결
+        Swal.tabulatorInstance = table;
+      },
+      preConfirm: () => {
+        // 저장 버튼 누르면 현재 테이블 데이터 가져오기
+        return Swal.tabulatorInstance.getData();
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('✅ 최종 저장할 카테고리 리스트:', result.value);
+        saveCategories(bbs_id, result.value); // 저장 로직 호출
+      }
+    });
+}
+
+function saveCategories(bbs_id, data) {
+  console.log("✅ saveCategories 호출됨:", bbs_id, data);
+
+  const payload = {
+    cateList: JSON.stringify(data) // ⭐ data를 통째로 문자열화
+  };
+
+  $.ajax({
+    url: '/cms/api/saveCateList/' + bbs_id,
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(payload),
+    success: function(res) {
+      console.log('✅ 저장 성공:', res);
+
+      Swal.fire({
+        icon: 'success',
+        title: '저장 완료',
+        text: '카테고리 목록이 저장되었습니다!',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    },
+    error: function(xhr, status, error) {
+      console.error('❌ 저장 실패:', error);
+
+      Swal.fire({
+        icon: 'error',
+        title: '저장 실패',
+        text: '잠시 후 다시 시도해주세요.'
+      });
+    }
+  });
 }

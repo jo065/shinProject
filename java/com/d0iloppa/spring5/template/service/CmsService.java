@@ -8,12 +8,15 @@ import com.d0iloppa.spring5.template.config.AppConfig;
 import com.d0iloppa.spring5.template.dao.CmsDAO;
 import com.d0iloppa.spring5.template.model.AdminVO;
 import com.d0iloppa.spring5.template.model.MenuVO;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -353,6 +356,13 @@ public class CmsService {
 			data.put("file_id", ((Number) fileIdObj).longValue());
 		}
 
+		Object catIdObj = data.get("cat_id");
+		if (catIdObj instanceof String) {
+			data.put("cat_id", Long.parseLong((String) catIdObj));
+		} else if (catIdObj instanceof Number) {
+			data.put("cat_id", ((Number) catIdObj).longValue());
+		}
+
 
 		data.put("content_type", 3);
 
@@ -420,6 +430,14 @@ public class CmsService {
 			data.put("file_id", ((Number) fileIdObj).longValue());
 			file_id = ((Number) fileIdObj).longValue();
 		}
+
+		Object catIdObj = data.get("cat_id");
+		if (catIdObj instanceof String) {
+			data.put("cat_id", Long.parseLong((String) catIdObj));
+		} else if (catIdObj instanceof Number) {
+			data.put("cat_id", ((Number) catIdObj).longValue());
+		}
+
 
 
 		Object new_fileIdObj = data.get("new_file_id");
@@ -529,5 +547,82 @@ public class CmsService {
 
 	public Map<String, Object> getContent(Long contentId) {
 		return cmsDAO.getContent(contentId);
+	}
+
+	public List<Map<String, Object>> getCateList(Long bbsId) {
+		return cmsDAO.selectList("CmsMapper.getCateList", bbsId);
+	}
+
+	public int saveCateList(Long bbsId, Map<String, Object> data) {
+		
+		// 1. 기존 리스트 (삭제 대상 산출)
+		List<Map<String, Object>> preList = cmsDAO.selectList("CmsMapper.getCateList", bbsId);
+
+		// 2. 받은 data 파싱
+		Gson gson = new Gson();
+		String cateListJson = (String) data.get("cateList");
+
+		Type listType = new TypeToken<List<Map<String, Object>>>() {}.getType();
+		List<Map<String, Object>> newList = gson.fromJson(cateListJson, listType);
+
+		// 3. preList를 cat_id 기준으로 Map으로 변환 (빠른 비교를 위해)
+		Map<Long, Map<String, Object>> preMap = preList.stream()
+				.collect(Collectors.toMap(
+						item -> ((Number)item.get("cat_id")).longValue(),
+						item -> item
+				));
+
+		// 4. newList를 cat_id 기준으로 Map으로 변환
+		Map<Long, Map<String, Object>> newMap = newList.stream()
+				.filter(item -> item.get("cat_id") != null && ((Number)item.get("cat_id")).longValue() != -1)
+				.collect(Collectors.toMap(
+						item -> ((Number)item.get("cat_id")).longValue(),
+						item -> item
+				));
+
+		// 5. insert 대상: cat_id == -1 인 경우
+		List<Map<String, Object>> insertList = newList.stream()
+				.filter(item -> ((Number)item.get("cat_id")).longValue() == -1)
+				.collect(Collectors.toList());
+
+		// 6. update 대상: cat_id가 존재하고, preList에도 존재하는 경우
+		List<Map<String, Object>> updateList = newList.stream()
+				.filter(item -> {
+					Long catId = ((Number)item.get("cat_id")).longValue();
+					return catId != -1 && preMap.containsKey(catId);
+				})
+				.collect(Collectors.toList());
+
+		// 7. delete 대상: preList에는 있는데, newList에는 없는 경우
+		Set<Long> newIds = newMap.keySet(); // 현재 남아있는 id들
+		List<Map<String, Object>> deleteList = preList.stream()
+				.filter(item -> {
+					Long catId = ((Number)item.get("cat_id")).longValue();
+					return !newIds.contains(catId);
+				})
+				.collect(Collectors.toList());
+
+		// 8. 디버깅 출력
+		System.out.println("📥 insert 대상: " + insertList);
+		System.out.println("✏️ update 대상: " + updateList);
+		System.out.println("🗑️ delete 대상: " + deleteList);
+
+
+		for (Map<String, Object> item : insertList) {
+			item.put("bbs_id", bbsId); // insert는 bbs_id도 같이 넣어줘야 함
+			cmsDAO.insert("CmsMapper.insertCate", item);
+		}
+
+		for (Map<String, Object> item : updateList) {
+			cmsDAO.update("CmsMapper.updateCate", item);
+		}
+
+		for (Map<String, Object> item : deleteList) {
+			cmsDAO.delete("CmsMapper.deleteCate", item);
+		}
+
+
+
+		return 1;
 	}
 }

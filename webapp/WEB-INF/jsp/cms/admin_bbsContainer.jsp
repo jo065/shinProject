@@ -26,6 +26,7 @@ button{border: none; background: none; cursor: pointer;}
 
   <!-- Top: 버튼 영역 -->
   <div style="margin-bottom: 16px;">
+    <button id="btnMngCate" onclick="manageCate(${bbs_id})">🏷️ 카테고리 관리</button>
     <button id="btnAddContent" onclick="insertContent()">➕ 등록</button>
     <button id="btnDeleteContent" onclick="deleteContents()">🗑️ 삭제</button>
   </div>

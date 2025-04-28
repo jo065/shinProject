@@ -215,7 +215,8 @@
             view_cnt,
             use_yn,
             reg_id,
-            reg_dt
+            reg_dt,
+            cat_id,
         ) VALUES (
             #{bbs_id},
             #{title},
@@ -224,7 +225,8 @@
             0,                      -- 💡 조회수 기본값
             true,                   -- 💡 사용 여부 기본값
             #{reg_id},
-            now()
+            now(),
+            #{cat_id}
         )
     </insert>
 
@@ -234,7 +236,8 @@
             title = #{title},
             contents = #{contents},
             mod_id = #{reg_id},
-            mod_dt = NOW()
+            mod_dt = NOW(),
+            cat_id = #{cat_id}
         WHERE content_id = #{content_id}
     </update>
 
@@ -280,6 +283,34 @@
         LIMIT 1;
 
     </select>
+
+
+    <select id="getCateList" parameterType="Long" resultType="hmap">
+        SELECT *
+        FROM cms_content_cat
+        where bbs_id = #{bbs_id}
+        order by cat_id;
+    </select>
+
+    <insert id="insertCate" parameterType="hmap">
+        INSERT INTO cms_content_cat
+        (bbs_id, cat_label)
+        VALUES
+        (#{bbs_id}, #{cat_label})
+    </insert>
+
+    <update id="updateCate" parameterType="hmap">
+        UPDATE cms_content_cat
+        SET
+        cat_label = #{cat_label}
+        WHERE
+        cat_id = #{cat_id}
+    </update>
+
+    <delete id="deleteCate" parameterType="hmap">
+        DELETE FROM cms_content_cat
+        WHERE  cat_id = #{cat_id}
+    </delete>
 
 
 </mapper>

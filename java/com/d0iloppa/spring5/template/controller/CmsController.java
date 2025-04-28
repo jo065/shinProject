@@ -351,7 +351,6 @@ public class CmsController {
             case "manage":
                 contentPage = "admin_bbsContainer.jsp";
                 break;
-
             case "editor":
                 contentPage = "editor/content.jsp";
                 break;
@@ -599,6 +598,36 @@ public class CmsController {
             e.printStackTrace();
             result.put("success",false);
         }
+
+        return result;
+    }
+
+
+    @GetMapping("api/getCateList/{bbs_id}")
+    @ResponseBody
+    public Map<String, Object> getCateList(@PathVariable("bbs_id") Long bbs_id) {
+        Map<String, Object> result = new HashMap<>();
+
+
+        List<Map<String, Object>> cateList = cmsService.getCateList(bbs_id);
+
+        result.put("data", cateList);
+
+
+        return result;
+    }
+
+    @PostMapping("api/saveCateList/{bbs_id}")
+    @ResponseBody
+    public Map<String, Object> saveCateList(@PathVariable("bbs_id") Long bbs_id, @RequestBody Map<String, Object> data) {
+        Map<String, Object> result = new HashMap<>();
+
+
+
+        int chk = cmsService.saveCateList(bbs_id, data);
+
+        result.put("data", chk);
+
 
         return result;
     }

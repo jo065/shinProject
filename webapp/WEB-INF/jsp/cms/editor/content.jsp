@@ -105,6 +105,12 @@
 <!-- ✨ 기본 editor 페이지 구조 -->
 <div class="editor-container" style="margin: 20px auto;">
 
+    <div class="form-title form-group d-flex align-items-center" style="gap: 10px;">
+        <label for="title" style="font-weight: bold;">카테고리 :</label>
+        <select id="swalCate" class="swal2-input"> </select>
+        <button id="btnMngCate" onclick="manageCate(${bbs_id})">🏷️ 카테고리 관리</button>
+    </div>
+
     <!-- 제목 입력 -->
     <div class="form-title form-group d-flex align-items-center" style="gap: 10px;">
         <label for="title" style="font-weight: bold;">제목 :</label>
