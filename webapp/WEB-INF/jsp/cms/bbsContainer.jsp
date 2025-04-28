@@ -9,6 +9,8 @@
 <input type="hidden" id="bbs_type" value="${bbs_type}" />
 <style>
 .ginner-container {height: 720px;}
+.small-title {color: #224b96;}
+.gallery-wrap {margin-bottom: 35px;}
 </style>
 
 <script>
@@ -32,6 +34,8 @@
          });
     });
 
+
+
 </script>
 
 
@@ -39,9 +43,9 @@
 
 <section class="about-section show" id="about">
         <h2 class="section-title"></h2>
-
-<div id="bbsArea" style=""></div>
-    </section>
+        <div id="bbsArea" style=""></div>
+        <h3 class="small-title"></h3>
+</section>
 
 
  <%@ include file="../common/footer.jsp" %>

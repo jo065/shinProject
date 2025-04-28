@@ -65,7 +65,7 @@
             <h3>신원명판산업</h3>
             <p>최고의 품질과 디자인으로<br>명판 산업을 선도합니다.</p>
         </div>
-        <div class="footer-column">
+        <div class="footer-column" style="display:none;">
             <h3>바로가기</h3>
             <ul>
                 <li><a href="/home/home.do">홈</a></li>

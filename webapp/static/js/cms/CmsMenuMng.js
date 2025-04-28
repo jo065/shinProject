@@ -27,8 +27,6 @@ class CmsMenuMng {
                           console.log("initTabs 함수가 정의되지 않았습니다.");
                         }
 
-
-
                // 1. bbs_id가 있는 항목만 찾기
                const bbsId = document.getElementById('bbs_id')?.value;
 
@@ -67,7 +65,7 @@ class CmsMenuMng {
 
 
    _renderTabs(flatList) {
-     const tabsOnly = flatList.filter(item => item.bbs_id != null);
+     const tabsOnly = flatList.filter(item => item.bbs_id != null && item.menu_name !== '표지판');
 
      const tabContainer = document.getElementById('tabButtons');
      if (!tabContainer) return [];

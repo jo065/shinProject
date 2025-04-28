@@ -255,12 +255,29 @@
             grid-template-columns: 1fr;
           }
         }
+        .shortcut-button {
+          display: inline-block;
+          margin: 10px;
+          padding: 10px 20px;
+          background-color: #007BFF;
+          color: white;
+          text-decoration: none;
+          border-radius: 5px;
+        }
+
+        .shortcut-button:hover {
+          background-color: #0056b3;
+        }
+        #buttonContainer {margin-top: 32px; text-align: end;}
     </style>
 
 </head>
 <body>
-    <!-- 회사 소개 섹션 -->
-    <section class="about-section" id="about">
+<section class="about-section" id="about">
+    <img src="/static/img/shinMain.jpeg" alt="shinMain">
+</section>
+    <!-- 회사 문의 섹션 -->
+    <section class="about-section" id="about" style="display:none;">
         <h2 class="section-title">문의 안내</h2>
         <div class="contact-cards">
                 <div class="contact-card">
@@ -298,7 +315,7 @@
     </section>
 
     <!-- 제품 섹션 -->
-    <section class="products-section" id="products">
+    <section class="products-section" id="products" style="margin-bottom:50px;">
         <h2 class="section-title">명판 소개 </h2>
         <div class="tabs" id="tabButtons"></div>
 
@@ -313,10 +330,11 @@
         </div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
+       <div id="buttonContainer"></div>
     </section>
 
     <!--위치 안내 -->
-    <section class="cases-section" id="address">
+    <section class="cases-section" id="address" style="display:none;">
     <h2 class="section-title">LOCATION</h2>
      <p class="address-text">경기 안산시 단원구 산단로 432 편익A동 201호</p>
       <div class="case-studies">
@@ -335,18 +353,17 @@
 
 
 <script>
-
-
-// swiper 인스턴스
 let swiper;
 let tabsData = [];
+let activeBbsId = null;
 
 function initTabs(flatList) {
-  tabsData = flatList.filter(item => item.bbs_id != null);
+  tabsData = flatList.filter(item => item.bbs_id != null && item.menu_name !== '표지판');
   console.log("tabsData", tabsData);
 
   const tabButtons = document.getElementById('tabButtons');
   const tabContents = document.getElementById('tabContents');
+  const buttonContainer = document.getElementById('buttonContainer');
 
   if (!tabButtons || !tabContents) return;
 
@@ -358,7 +375,7 @@ function initTabs(flatList) {
 
     const button = document.createElement('button');
     button.className = 'tab-btn';
-    button.textContent = item.menu_name;
+    button.textContent = item.menu_name + ' 바로가기';
     button.setAttribute('data-tab', tabId);
 
     // 클릭 이벤트 연결
@@ -367,11 +384,10 @@ function initTabs(flatList) {
       document.querySelectorAll('#tabButtons .tab-btn').forEach(btn => btn.classList.remove('active'));
       // 현재 클릭된 버튼에 active 클래스 추가
       button.classList.add('active');
-      openTab(tabId, item.bbs_id);
+      openTab(tabId, item.bbs_id); // openTab 호출 시 activeBbsId 값을 설정
     });
 
     tabButtons.appendChild(button);
-
   });
 
   // 첫 번째 탭을 기본으로 활성화
@@ -380,14 +396,55 @@ function initTabs(flatList) {
       const firstButton = document.querySelector('#tabButtons .tab-btn');
       if (firstButton) {
         firstButton.classList.add('active');
-        openTab(`tab${tabsData[0].bbs_id}`, tabsData[0].bbs_id);
+        activeBbsId = tabsData[0].bbs_id;  // 첫 번째 탭의 bbs_id를 activeBbsId에 저장
+        openTab(`tab${tabsData[0].bbs_id}`, tabsData[0].bbs_id); // 첫 번째 탭을 열 때 activeBbsId 설정
       }
     }, 0);
   }
+
+  // 첫 번째 탭을 위한 버튼들만 생성 (한 번만 생성)
+  createShortcutButtons();
+}
+
+// 탭 버튼을 눌러서 활성화된 탭만 보이도록 하는 함수
+function createShortcutButtons() {
+  const buttonContainer = document.getElementById('buttonContainer');
+  buttonContainer.innerHTML = '';  // 버튼을 다시 생성하기 전에 기존 버튼을 비워줍니다.
+
+  tabsData.forEach(tab => {
+    const button = document.createElement('a');
+
+    // 경로 중복을 방지하여 최종 URL 생성
+    let finalPath = tab.page_path;
+    if (!finalPath.endsWith('/')) {
+      finalPath += '/';  // 만약 '/'가 없으면 추가
+    }
+    finalPath += tab.bbs_id; // bbs_id 추가
+
+    button.href = finalPath;  // 페이지 경로 설정
+
+    // 아이콘과 텍스트를 함께 추가
+    button.innerHTML = `<i class="fa-solid fa-share-from-square"></i> ${tab.menu_name} 바로가기`;  // 아이콘과 텍스트 추가
+
+    button.classList.add('shortcut-button');  // 버튼 스타일링 클래스 (선택적)
+
+    // 활성화된 버튼만 표시
+    if (tab.bbs_id === activeBbsId) {
+      button.style.display = 'inline-block';  // 활성화된 버튼만 보이도록 설정
+    } else {
+      button.style.display = 'none';  // 나머지 버튼은 숨김
+    }
+
+    // 버튼을 버튼 컨테이너에 추가
+    buttonContainer.appendChild(button);
+  });
 }
 
 
 async function openTab(tabId, bbs_id) {
+  // 활성화된 bbs_id 저장
+  activeBbsId = bbs_id;  // 현재 활성화된 탭의 bbs_id를 저장
+
   // 모든 탭 콘텐츠에서 active 클래스 제거
   document.querySelectorAll('.tab-content').forEach(content => {
     content.classList.remove('active');
@@ -408,6 +465,7 @@ async function openTab(tabId, bbs_id) {
     }
   });
 
+  // Swiper 초기화
   if (swiper) {
     swiper.destroy(true, true);
     swiper = null;
@@ -428,7 +486,12 @@ async function openTab(tabId, bbs_id) {
       prevEl: '.swiper-button-prev',
     }
   });
+
+  // createShortcutButtons를 openTab 이후에 호출 (단 한 번만 호출)
+  createShortcutButtons();
 }
+
+
 
 
 
@@ -466,6 +529,8 @@ async function loadSwiperImages(bbs_id) {
     console.error('Swiper 이미지 로드 실패', error);
   }
 }
+
+
 
 window.addEventListener('load', async function () {
 

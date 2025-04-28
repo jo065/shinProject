@@ -106,23 +106,94 @@ class CmsBbsMng {
   }
 
 // 갤러리형 게시판 렌더링
-  _renderGallery(callback) {
-    const images = this.contentList.map(item => {
-      const fileId = item.file_id;
-      const imageUrl = `/cms/cdn/img/${fileId}`;
-      return `
-        <a href="${imageUrl}" class="glightbox" data-gallery="bbsGallery">
-          <img src="${imageUrl}" alt="${item.title || ''}" style="width:200px;">
-        </a>
-      `;
-    }).join('');
+ _renderGallery(callback) {
+    // 카테고리 필터링 적용
+    const catId = this.opts.catId; // 전달된 카테고리 ID
 
-    this.container.innerHTML = `<div class="gallery-wrap" id="bbsGallery">${images}</div>`;
+    if (!this.contentList || !Array.isArray(this.contentList)) {
+      console.error("컨텐츠 리스트가 없거나 유효하지 않습니다.");
+      this.container.innerHTML = `<div>이미지 데이터를 불러올 수 없습니다.</div>`;
+      return;
+    }
+
+    // 카테고리 ID가 있으면 해당 카테고리만 필터링, 없으면 모든 이미지 표시
+    const filteredList = catId !== undefined ?
+      this.contentList.filter(item => item.cat_id == catId) :
+      this.contentList;
+
+    console.log(`필터링 결과: 총 ${this.contentList.length}개 중 ${filteredList.length}개 표시`);
+    console.log("필터링된 이미지:", filteredList);
+
+    // 필터링된 결과가 없는 경우
+    if (filteredList.length === 0) {
+      this.container.innerHTML = `<div>해당 카테고리에 이미지가 없습니다.</div>`;
+      return;
+    }
+
+    // 카테고리별로 갤러리 생성
+    this.container.innerHTML = ''; // 기존 내용을 비움
+
+    // 객체로 되어 있을 경우 Object.entries()로 반복
+    if (typeof this.cateMap === 'object') {
+      Object.entries(this.cateMap).forEach(([catId, category]) => {
+        const filteredItems = filteredList.filter(item => item.cat_id == catId);
+
+        if (filteredItems.length > 0) {
+          // 각 카테고리 영역 생성
+          const categorySection = document.createElement('div');
+          categorySection.classList.add('category-section');
+          categorySection.id = `category-${catId}`;
+
+          // 카테고리 제목 추가
+         const categoryTitle = document.createElement('h3');
+         categoryTitle.classList.add('small-title');
+         categoryTitle.style.fontSize = '18px';
+
+         // 아이콘 요소 생성
+         const icon = document.createElement('i');
+         icon.classList.add('fa-solid', 'fa-play');
+
+
+         // 제목에 아이콘과 텍스트 추가
+         categoryTitle.appendChild(icon);
+         categoryTitle.appendChild(document.createTextNode(` ${category}`)); // 아이콘과 텍스트 사이에 공백을 추가
+
+         categorySection.appendChild(categoryTitle);
+
+          // 해당 카테고리의 이미지들 추가
+          const galleryWrap = document.createElement('div');
+          galleryWrap.classList.add('gallery-wrap');
+          galleryWrap.id = `gallery-${catId}`;
+
+          filteredItems.forEach(item => {
+            const imageUrl = `/cms/cdn/img/${item.file_id}`;
+            const imageLink = document.createElement('a');
+            imageLink.href = imageUrl;
+            imageLink.classList.add('glightbox');
+            imageLink.setAttribute('data-gallery', 'bbsGallery');
+
+            const image = document.createElement('img');
+            image.src = imageUrl;
+            image.alt = item.title || '';
+            image.style.width = '200px';
+
+            imageLink.appendChild(image);
+            galleryWrap.appendChild(imageLink);
+          });
+
+          categorySection.appendChild(galleryWrap);
+          this.container.appendChild(categorySection);
+        }
+      });
+    } else {
+      console.error("cateMap이 객체가 아닙니다. 확인해 주세요.");
+    }
 
     this.galleryInstance = GLightbox({
       selector: '#bbsGallery .glightbox'
     });
-  }
+ }
+
 
 // 포토 슬라이드형 게시판 렌더링
   _renderSlider(callback) {

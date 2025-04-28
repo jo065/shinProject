@@ -216,7 +216,7 @@
             use_yn,
             reg_id,
             reg_dt,
-            cat_id,
+            cat_id
         ) VALUES (
             #{bbs_id},
             #{title},
