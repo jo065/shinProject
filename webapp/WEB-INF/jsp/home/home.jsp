@@ -276,8 +276,27 @@
 <section class="about-section" id="about">
     <img src="/static/img/shinMain.jpeg" alt="shinMain">
 </section>
-    <!-- 회사 문의 섹션 -->
-    <section class="about-section" id="about" style="display:none;">
+    <!-- 제품 섹션 -->
+    <section class="products-section" id="products" style="margin-bottom:50px;">
+        <h2 class="section-title">명판 소개 </h2>
+        <div class="tabs" id="tabButtons"></div>
+
+        <div id="tabContents"></div>
+
+        <div class="product-card">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <!-- 슬라이드 들어감 -->
+            </div>
+          </div>
+        </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+       <div id="buttonContainer"></div>
+    </section>
+
+<!-- 회사 문의 섹션 -->
+    <section class="about-section" id="about">
         <h2 class="section-title">문의 안내</h2>
         <div class="contact-cards">
                 <div class="contact-card">
@@ -312,25 +331,6 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- 제품 섹션 -->
-    <section class="products-section" id="products" style="margin-bottom:50px;">
-        <h2 class="section-title">명판 소개 </h2>
-        <div class="tabs" id="tabButtons"></div>
-
-        <div id="tabContents"></div>
-
-        <div class="product-card">
-          <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <!-- 슬라이드 들어감 -->
-            </div>
-          </div>
-        </div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-       <div id="buttonContainer"></div>
     </section>
 
     <!--위치 안내 -->

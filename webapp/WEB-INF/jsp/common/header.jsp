@@ -13,7 +13,7 @@
        .nav-menu a { text-decoration: none; color: #333; font-weight: 500; font-size: 16px; transition: color 0.3s ease; }
        .nav-menu a:hover { color: #1a3c6e; }
 
-       .premium-banner { position: relative; height: 500px; width: 100%; overflow: hidden; background: linear-gradient(135deg, #1a2a6c, #2a3f7c 25%, #1e50a2 50%, #344e86 75%, #19387a); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
+       .premium-banner { position: relative; height: 443px; width: 100%; overflow: hidden; background: linear-gradient(135deg, #1a2a6c, #2a3f7c 25%, #1e50a2 50%, #344e86 75%, #19387a); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
 
        .wave { position: absolute; width: 200%; height: 200px; bottom: -30px; left: -50%; border-radius: 50%; opacity: 0.2; background: rgba(255, 255, 255, 0.8); animation: wave 15s infinite linear; z-index: 20; }
        .wave:nth-child(2) { bottom: -50px; opacity: 0.15; animation: wave 17s infinite linear; z-index: 20; }
@@ -46,7 +46,7 @@
 
        @keyframes scan { 0% { transform: translateY(-50px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(50px); opacity: 0; } }
 
-       section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; opacity: 0; transform: translateY(50px); transition: opacity 1s, transform 1s; }
+       section { padding: 54px 5%; max-width: 1200px; margin: 0 auto; opacity: 0; transform: translateY(50px); transition: opacity 1s, transform 1s; }
        section.show { opacity: 1; transform: translateY(0); }
 
        .about-image { display: flex; justify-content: center; align-items: center; height: 10vh; opacity: 0; transform: translateY(30px); transition: opacity 1s, transform 1s; }
@@ -124,7 +124,7 @@
 
     <div class="banner-content">
         <div class="image">
-            <img id="animated-image" src="/static/img/img1.png" alt="Image" style="width: 100%; height: auto; position: relative; right: 60px;">
+            <img id="animated-image" src="/static/img/img1.png" alt="Image" style="width: 100%;height: auto;position: relative;right: 58px;top: 113px;">
         </div>
 
         <div class="banner-text">
