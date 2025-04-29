@@ -259,8 +259,28 @@
 
 </head>
 <body>
-    <!-- 회사 소개 섹션 -->
-    <section class="about-section" id="about">
+<section class="about-section">
+    <img src="/static/img/cm_main.jpeg" alt="Image" style="width: 1084px;">
+</section>
+    <!-- 제품 섹션 -->
+    <section class="products-section" id="products">
+        <h2 class="section-title">씨엠테크 소개</h2>
+        <div class="tabs" id="tabButtons"></div>
+
+        <div id="tabContents"></div>
+
+        <div class="product-card">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <!-- 슬라이드 들어감 -->
+            </div>
+          </div>
+        </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </section>
+
+<section class="about-section" id="about">
         <h2 class="section-title">문의 안내</h2>
         <div class="contact-cards">
                 <div class="contact-card">
@@ -284,7 +304,7 @@
                     <a href="mailto:dyt1532@naver.com">dyt1532@naver.com</a>
                   </div>
                 </div>
-                <div class="contact-card">
+                <div class="contact-card" style="display:none;">
                   <div class="icon-wrapper">
                     <i class="fa-solid fa-print" style="color: #2b7ae1; font-size: 20px;"></i>
                   </div>
@@ -298,26 +318,8 @@
         </div>
     </section>
 
-    <!-- 제품 섹션 -->
-    <section class="products-section" id="products">
-        <h2 class="section-title">씨엠테크 소개</h2>
-        <div class="tabs" id="tabButtons"></div>
-
-        <div id="tabContents"></div>
-
-        <div class="product-card">
-          <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <!-- 슬라이드 들어감 -->
-            </div>
-          </div>
-        </div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-    </section>
-
     <!--위치 안내 -->
-    <section class="cases-section" id="address">
+    <section class="cases-section" id="address" style="display:none;">
     <h2 class="section-title">LOCATION</h2>
      <p class="address-text">경기도 화성시 봉담읍 쇠틀길 86</p>
       <div class="case-studies">
