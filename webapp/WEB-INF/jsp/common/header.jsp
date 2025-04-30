@@ -128,7 +128,8 @@
         </div>
 
         <div class="banner-text">
-            <div class="company-logo"> <img src="/static/img/cm_whiteLogo.png" alt="Image" style="width: 300px; margin-left: 97px;"></div>
+            <div class="company-logo">
+            <img src="/static/img/cm_whiteLogo.png" alt="Image" style="width: 300px; margin-left: 97px; filter: opacity(0.9) drop-shadow(0 0 5px #66ccff);"></div>
             <p class="company-desc">저희 씨엠테크는 성실과 풍부한 경험을 바탕으로 자동화 기계, <br>
             LCD장비 제작, 반도체부품, 정밀부품가공을 전문으로 하는 업체입니다.</p>
         </div>
