@@ -135,7 +135,7 @@ class CmsBbsMng {
 
     // 객체로 되어 있을 경우 Object.entries()로 반복
     if (typeof this.cateMap === 'object') {
-      Object.entries(this.cateMap).forEach(([catId, category]) => {
+      Object.entries(this.cateMap).forEach(([catId, category], categoryIndex) => {
         const filteredItems = filteredList.filter(item => item.cat_id == catId);
 
         if (filteredItems.length > 0) {
@@ -145,41 +145,57 @@ class CmsBbsMng {
           categorySection.id = `category-${catId}`;
 
           // 카테고리 제목 추가
-         const categoryTitle = document.createElement('h3');
-         categoryTitle.classList.add('small-title');
-         categoryTitle.style.fontSize = '18px';
+          const categoryTitle = document.createElement('h3');
+          categoryTitle.classList.add('small-title');
+          categoryTitle.style.fontSize = '18px';
 
-         // 아이콘 요소 생성
-         const icon = document.createElement('i');
-         icon.classList.add('fa-solid', 'fa-play');
+          // 아이콘 요소 생성
+          const icon = document.createElement('i');
+          icon.classList.add('fa-solid', 'fa-play');
 
+          // 제목에 아이콘과 텍스트 추가
+          categoryTitle.appendChild(icon);
+          categoryTitle.appendChild(document.createTextNode(` ${category}`));
 
-         // 제목에 아이콘과 텍스트 추가
-         categoryTitle.appendChild(icon);
-         categoryTitle.appendChild(document.createTextNode(` ${category}`)); // 아이콘과 텍스트 사이에 공백을 추가
-
-         categorySection.appendChild(categoryTitle);
+          categorySection.appendChild(categoryTitle);
 
           // 해당 카테고리의 이미지들 추가
-          const galleryWrap = document.createElement('div');
-          galleryWrap.classList.add('gallery-wrap');
-          galleryWrap.id = `gallery-${catId}`;
+          // 해당 카테고리의 이미지들 추가
+               const galleryWrap = document.createElement('div');
+               galleryWrap.classList.add('gallery-wrap');
+               galleryWrap.id = `gallery-${catId}`;
 
-          filteredItems.forEach(item => {
-            const imageUrl = `/cms/cdn/img/${item.file_id}`;
-            const imageLink = document.createElement('a');
-            imageLink.href = imageUrl;
-            imageLink.classList.add('glightbox');
-            imageLink.setAttribute('data-gallery', 'bbsGallery');
+               filteredItems.forEach((item, itemIndex) => {
+                       const imageUrl = `/cms/cdn/img/${item.file_id}`;
+                       const imageLink = document.createElement('a');
+                       imageLink.href = imageUrl;
+                       imageLink.classList.add('glightbox');
+                       imageLink.setAttribute('data-gallery', 'bbsGallery');
+                       imageLink.style.position = 'relative'; // 부모에 relative 설정
 
-            const image = document.createElement('img');
-            image.src = imageUrl;
-            image.alt = item.title || '';
-            image.style.width = '200px';
+                       const image = document.createElement('img');
+                       image.src = imageUrl;
+                       image.alt = item.title || '';
+                       image.style.width = '300px';
 
-            imageLink.appendChild(image);
-            galleryWrap.appendChild(imageLink);
-          });
+                       // 이미지 위에 인덱스를 표시 (예: "a-0")
+                       const imageTitle = document.createElement('div');
+                       imageTitle.textContent = `a-${itemIndex}`;
+
+                       // 인덱스를 이미지 위 왼쪽에 표시
+                       imageTitle.style.position = 'absolute';
+                       imageTitle.style.top = '-125px';
+                       imageTitle.style.left = '10px';
+                       imageTitle.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                       imageTitle.style.color = 'white';
+                       imageTitle.style.padding = '5px';
+                       imageTitle.style.fontSize = '14px';
+
+                       imageLink.appendChild(image);
+                       imageLink.appendChild(imageTitle);  // 이미지를 링크 안에 포함시킴
+                       galleryWrap.appendChild(imageLink);
+                     });
+
 
           categorySection.appendChild(galleryWrap);
           this.container.appendChild(categorySection);
@@ -189,10 +205,40 @@ class CmsBbsMng {
       console.error("cateMap이 객체가 아닙니다. 확인해 주세요.");
     }
 
-    this.galleryInstance = GLightbox({
-      selector: '#bbsGallery .glightbox'
-    });
- }
+
+     // 갤러리 확장 (이미지 클릭 시 팝업 열기)
+     this.galleryInstance = GLightbox({
+       selector: '.glightbox',  // glightbox에 대한 selector 설정
+       closeButton: true,       // 닫기 버튼 활성화
+       touchNavigation: true,   // 터치 네비게이션 활성화
+     });
+
+     // 닫기 버튼을 동적으로 추가 (이미지가 확대될 때마다 나타나도록)
+     const slides = document.querySelectorAll('.gslide');
+     slides.forEach(slide => {
+       const closeButton = document.createElement('button');
+       closeButton.textContent = 'X';
+       closeButton.style.position = 'absolute';
+       closeButton.style.top = '10px';
+       closeButton.style.right = '10px';
+       closeButton.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+       closeButton.style.color = 'white';
+       closeButton.style.border = 'none';
+       closeButton.style.padding = '10px';
+       closeButton.style.fontSize = '16px';
+       closeButton.style.cursor = 'pointer';
+
+       closeButton.addEventListener('click', () => {
+         const lightbox = document.querySelector('.gslide');
+         if (lightbox) {
+           lightbox.style.display = 'none';  // 슬라이드를 숨겨서 닫기 효과
+         }
+       });
+
+       slide.appendChild(closeButton);  // 닫기 버튼을 슬라이드 안에 추가
+     });
+   }
+
 
 
 // 포토 슬라이드형 게시판 렌더링

@@ -8,9 +8,35 @@
 <input type="hidden" id="bbs_id" value="${bbs_id}" />
 <input type="hidden" id="bbs_type" value="${bbs_type}" />
 <style>
-.ginner-container {height: 720px;}
+
 .small-title {color: #224b96;}
 .gallery-wrap {margin-bottom: 35px;}
+/* ginner-container 크기 설정 */
+.ginner-container {
+  max-width: 900px;
+  height: 506px;
+  position: relative; /* 인덱스를 이미지 위에 올리기 위한 상대 위치 설정 */
+  overflow: hidden; /* 이미지가 넘치지 않도록 처리 */
+}
+
+/* 이미지 크기 맞추기 */
+.ginner-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 비율 유지하면서 부모 영역을 완전히 채우도록 설정 */
+}
+
+/* 이미지 위에 인덱스 표시 */
+.ginner-container .image-title {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
 </style>
 
 <script>
