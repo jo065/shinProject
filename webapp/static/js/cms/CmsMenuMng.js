@@ -67,10 +67,11 @@ class CmsMenuMng {
 
 
    _renderTabs(flatList) {
-     const tabsOnly = flatList.filter(item => item.bbs_id != null);
+      // "menu_name"이 "가공제품"인 항목만 필터링
+       const tabsOnly = flatList.filter(item => item.bbs_id != null && item.menu_name === '가공제품');
 
-     const tabContainer = document.getElementById('tabButtons');
-     if (!tabContainer) return [];
+       const tabContainer = document.getElementById('tabButtons');
+       if (!tabContainer) return [];
 
      tabContainer.innerHTML = '';  // 기존 버튼 지우기
 
