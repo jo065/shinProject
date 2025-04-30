@@ -76,13 +76,16 @@ class CmsBbsMng {
 
 // 갤러리형 게시판 렌더링
   _renderGallery(callback) {
-    const images = this.contentList.map(item => {
+    const images = this.contentList.map((item, index) => {
       const fileId = item.file_id;
       const imageUrl = `/cms/cdn/img/${fileId}`;
       return `
-        <a href="${imageUrl}" class="glightbox" data-gallery="bbsGallery">
-          <img src="${imageUrl}" alt="${item.title || ''}" style="width:200px;">
-        </a>
+       <a href="${imageUrl}" class="glightbox" data-gallery="bbsGallery" style="position: relative; display: inline-block;">
+               <img src="${imageUrl}" alt="${item.title || ''}" style="width:300px;">
+               <div style="position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.5); color: white; padding: 5px; font-size: 14px;">
+                 a-${index}
+               </div>
+             </a>
       `;
     }).join('');
 

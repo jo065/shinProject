@@ -255,6 +255,15 @@
             grid-template-columns: 1fr;
           }
         }
+
+        .shortcut-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;}
     </style>
 
 </head>
@@ -278,6 +287,8 @@
         </div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
+      <div style="text-align:right;">
+      <a href="/cms/bbs/17" class="shortcut-button" style="display: inline-block;"><i class="fa-solid fa-share-from-square"></i>  바로가기</a></div>
     </section>
 
 <section class="about-section" id="about">

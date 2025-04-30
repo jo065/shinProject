@@ -235,7 +235,7 @@
             contents = #{contents},
             mod_id = #{reg_id},
             mod_dt = NOW()
-        WHERE content_id = #{content_id}
+            WHERE content_id = -1
     </update>
 
     <delete id="deleteContent" parameterType="Long">

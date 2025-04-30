@@ -9,6 +9,7 @@
 <input type="hidden" id="bbs_type" value="${bbs_type}" />
 <style>
 .ginner-container {height: 720px;}
+.gallery-wrap {text-align: center;}
 </style>
 
 <script>
