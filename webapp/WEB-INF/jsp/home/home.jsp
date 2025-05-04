@@ -401,51 +401,31 @@ function initTabs(flatList) {
 
 
 async function openTab(tabId, bbs_id) {
-  // 모든 탭 콘텐츠에서 active 클래스 제거
-  document.querySelectorAll('.tab-content').forEach(content => {
-    content.classList.remove('active');
-  });
-
-  // 클릭된 탭에 해당하는 콘텐츠 활성화
-  const targetContent = document.getElementById(tabId);
-  if (targetContent) {
-    targetContent.classList.add('active');
-  }
-
-  // 탭 버튼의 active 상태도 업데이트 (직접 클릭하지 않은 경우를 위해)
+  // 탭 버튼 활성화 처리
   document.querySelectorAll('#tabButtons .tab-btn').forEach(btn => {
-    if (btn.getAttribute('data-tab') === tabId) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
+    btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
   });
 
+  // swiper-wrapper 비우기
+  const wrapper = document.querySelector('.swiper-wrapper');
+  if (wrapper) wrapper.innerHTML = '';
+
+  // swiper 초기화 제거
   if (swiper) {
     swiper.destroy(true, true);
     swiper = null;
   }
 
+  // 이미지 로드 후 Swiper 인스턴스 생성
+  bbs_id = 17;
   await loadSwiperImages(bbs_id);
-
-  swiper = new Swiper('.swiper-container', {
-    loop: true,
-    slidesPerView: 3,
-    spaceBetween: 30,
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    }
-  });
 }
 
 
-
 async function loadSwiperImages(bbs_id) {
+
+console.log("bbs_id", bbs_id)
+
   try {
     const list = await getContentsList(bbs_id);
     if (!list || !Array.isArray(list)) return;
@@ -455,6 +435,7 @@ async function loadSwiperImages(bbs_id) {
 
     wrapper.innerHTML = '';
 
+    // 이미지 슬라이드 추가
     list.forEach(item => {
       const slide = document.createElement('div');
       slide.className = 'swiper-slide';
@@ -470,19 +451,28 @@ async function loadSwiperImages(bbs_id) {
       wrapper.appendChild(slide);
     });
 
-    if (swiper) {
-      swiper.update();
-      swiper.slideTo(0, 0);
-      swiper.autoplay.start();
-    }
+    // Swiper 인스턴스를 이미지 로드 후에 생성
+    swiper = new Swiper('.swiper-container', {
+      loop: true,
+      slidesPerView: 3,
+      spaceBetween: 30,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
   } catch (error) {
     console.error('Swiper 이미지 로드 실패', error);
   }
 }
 
+
+
 window.addEventListener('load', async function () {
-
-
       // ✅ 4. 지도 로딩
      var container = document.getElementById('map');
      var options = {
