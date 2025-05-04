@@ -443,7 +443,7 @@ function createShortcutButtons() {
 
 async function openTab(tabId, bbs_id) {
   // 활성화된 bbs_id 저장
-  activeBbsId = bbs_id;  // 현재 활성화된 탭의 bbs_id를 저장
+  activeBbsId = bbs_id;
 
   // 모든 탭 콘텐츠에서 active 클래스 제거
   document.querySelectorAll('.tab-content').forEach(content => {
@@ -465,14 +465,16 @@ async function openTab(tabId, bbs_id) {
     }
   });
 
-  // Swiper 초기화
+  // Swiper 초기화 및 슬라이드 재갱신
   if (swiper) {
-    swiper.destroy(true, true);
+    swiper.destroy(true, true); // 기존 Swiper 인스턴스를 파괴
     swiper = null;
   }
 
+  // Swiper 이미지 로딩 후에 다시 초기화
   await loadSwiperImages(bbs_id);
 
+  // Swiper 인스턴스 새로 생성
   swiper = new Swiper('.swiper-container', {
     loop: true,
     slidesPerView: 3,
@@ -487,12 +489,13 @@ async function openTab(tabId, bbs_id) {
     }
   });
 
+  // Swiper 업데이트 및 첫 번째 슬라이드로 이동
+  swiper.update();
+  swiper.slideTo(0, 0); // 첫 번째 슬라이드로 이동
+
   // createShortcutButtons를 openTab 이후에 호출 (단 한 번만 호출)
   createShortcutButtons();
 }
-
-
-
 
 
 async function loadSwiperImages(bbs_id) {
@@ -503,7 +506,7 @@ async function loadSwiperImages(bbs_id) {
     const wrapper = document.querySelector('.swiper-wrapper');
     if (!wrapper) return;
 
-    wrapper.innerHTML = '';
+    wrapper.innerHTML = ''; // 기존 슬라이드를 초기화
 
     list.forEach(item => {
       const slide = document.createElement('div');
@@ -520,6 +523,7 @@ async function loadSwiperImages(bbs_id) {
       wrapper.appendChild(slide);
     });
 
+    // 이미지 로드 후 Swiper 갱신
     if (swiper) {
       swiper.update();
       swiper.slideTo(0, 0);
@@ -533,9 +537,7 @@ async function loadSwiperImages(bbs_id) {
 
 
 window.addEventListener('load', async function () {
-
-
-      // ✅ 4. 지도 로딩
+      // 4. 지도 로딩
       var container = document.getElementById('map');
       var options = {
           center: new kakao.maps.LatLng(37.32531500274263, 126.78658727671835),
