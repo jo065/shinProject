@@ -391,16 +391,15 @@ function initTabs(flatList) {
   });
 
   // 첫 번째 탭을 기본으로 활성화
-  if (tabsData.length > 0) {
-    setTimeout(() => {
-      const firstButton = document.querySelector('#tabButtons .tab-btn');
-      if (firstButton) {
-        firstButton.classList.add('active');
-        activeBbsId = tabsData[0].bbs_id;  // 첫 번째 탭의 bbs_id를 activeBbsId에 저장
-        openTab(`tab${tabsData[0].bbs_id}`, tabsData[0].bbs_id); // 첫 번째 탭을 열 때 activeBbsId 설정
-      }
-    }, 0);
-  }
+if (tabsData.length > 0) {
+  setTimeout(() => {
+    const firstButton = document.querySelector('#tabButtons .tab-btn');
+    if (firstButton) {
+      firstButton.click();  // ✅ 실제 클릭 이벤트 강제 실행 (openTab 호출 포함됨)
+    }
+  }, 0);
+}
+
 
   // 첫 번째 탭을 위한 버튼들만 생성 (한 번만 생성)
   createShortcutButtons();
@@ -441,6 +440,7 @@ function createShortcutButtons() {
 }
 
 let swiperLoading = false;
+
 async function openTab(tabId, bbs_id) {
 
   if (swiperLoading) return; // 중복 실행 방지
