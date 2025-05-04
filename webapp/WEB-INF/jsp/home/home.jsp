@@ -440,8 +440,12 @@ function createShortcutButtons() {
   });
 }
 
-
+let swiperLoading = false;
 async function openTab(tabId, bbs_id) {
+
+  if (swiperLoading) return; // 중복 실행 방지
+  swiperLoading = true;
+
   // 활성화된 bbs_id 저장
   activeBbsId = bbs_id;
 
@@ -496,6 +500,8 @@ async function openTab(tabId, bbs_id) {
 
   // createShortcutButtons를 openTab 이후에 호출 (단 한 번만 호출)
   createShortcutButtons();
+
+   swiperLoading = false;
 }
 
 
