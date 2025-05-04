@@ -20,7 +20,7 @@
 <body>
     <section class="about-section" id="about">
         <h2 class="section-title">오시는 길</h2>
-        <p class="address-text">경기 안산시 단원구 산단로 432 편익A동 201호</p>
+        <p class="address-text">경기 안산시 단원구 산단로 342 편익A동 201호</p>
           <div class="case-studies">
             <div id="map" style="width:100%; height:350px;"></div>
           </div>

@@ -79,7 +79,7 @@
         <div class="footer-column">
             <h3>연락처</h3>
             <ul>
-                <li>경기 안산시 단원구 산단로 432 편익A동 201호</li>
+                <li>경기 안산시 단원구 산단로 342 편익A동 201호</li>
                 <li>전화: 031-494-2315</li>
                 <li>이메일: is2315@hanmail.net</li>
             </ul>

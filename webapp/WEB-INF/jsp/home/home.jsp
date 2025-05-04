@@ -273,8 +273,8 @@
 
 </head>
 <body>
-<section class="about-section" id="about">
-    <img src="/static/img/shinMain.jpeg" alt="shinMain">
+<section class="about-section" id="about" style="max-width: none; text-align: center;">
+    <img src="/static/img/s_main2.jpg" alt="s_main2" style="width: 79%;">
 </section>
     <!-- 제품 섹션 -->
     <section class="products-section" id="products" style="margin-bottom:50px;">
@@ -336,7 +336,7 @@
     <!--위치 안내 -->
     <section class="cases-section" id="address" style="display:none;">
     <h2 class="section-title">LOCATION</h2>
-     <p class="address-text">경기 안산시 단원구 산단로 432 편익A동 201호</p>
+     <p class="address-text">경기 안산시 단원구 산단로 342 편익A동 201호</p>
       <div class="case-studies">
         <div id="map" style="width:100%; height:350px;"></div>
       </div>
