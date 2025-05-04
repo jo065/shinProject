@@ -482,6 +482,7 @@ async function openTab(tabId, bbs_id) {
     autoplay: {
       delay: 3000,
       disableOnInteraction: false,
+      reverseDirection: false,  // 자동 슬라이드가 뒤로 넘어가게 할 경우 true로 설정
     },
     navigation: {
       nextEl: '.swiper-button-next',
@@ -496,6 +497,7 @@ async function openTab(tabId, bbs_id) {
   // createShortcutButtons를 openTab 이후에 호출 (단 한 번만 호출)
   createShortcutButtons();
 }
+
 
 
 async function loadSwiperImages(bbs_id) {
@@ -526,8 +528,8 @@ async function loadSwiperImages(bbs_id) {
     // 이미지 로드 후 Swiper 갱신
     if (swiper) {
       swiper.update();
-      swiper.slideTo(0, 0);
-      swiper.autoplay.start();
+      swiper.slideTo(0, 0); // 첫 번째 슬라이드로 이동
+      swiper.autoplay.start(); // autoplay 시작
     }
   } catch (error) {
     console.error('Swiper 이미지 로드 실패', error);
