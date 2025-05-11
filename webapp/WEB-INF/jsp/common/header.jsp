@@ -167,9 +167,9 @@
          justify-content: center;
          color: white;
          padding-left: 0px;}
-         .company-desc {font-size:18px;}
-         .company-logo img {margin-left: 55px !important; margin-bottom: 5px;}
-         .company-name {margin-left: 55px;}
+         .company-desc {font-size:18px; text-align: center;}
+         .company-logo img {margin-left: 57px !important; margin-bottom: 5px;}
+         .company-name {margin-left: 57px;}
 
 .banner-content .image {width: 100%;}
 #animated-image {    width: 121%;
