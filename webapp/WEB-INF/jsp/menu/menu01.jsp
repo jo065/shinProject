@@ -323,7 +323,7 @@
                  <div class="blue-accent accent-1"></div>
                  <div class="blue-accent accent-2"></div>
                  <div class="image-frame">
-                   <img id="animated-image" src="/static/img/earth.jpg" alt="Image">
+                   <img id="earth" src="/static/img/earth.jpg" alt="Image">
                  </div>
                </div>
              </div>

@@ -264,12 +264,14 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;}
-    </style>
 
+            #cmMain {width: 1084px;}
+    </style>
 </head>
+
 <body>
 <section class="about-section">
-    <img src="/static/img/cm_main.jpeg" alt="Image" style="width: 1084px;">
+    <img src="/static/img/cm_main.jpeg" alt="Image" id="cmMain">
 </section>
     <!-- 제품 섹션 -->
     <section class="products-section" id="products">
@@ -315,7 +317,7 @@
                     <a href="mailto:dyt1532@naver.com">dyt1532@naver.com</a>
                   </div>
                 </div>
-                <div class="contact-card">
+                <div class="contact-card" style="display: none;">
                   <div class="icon-wrapper">
                     <i class="fa-solid fa-print" style="color: #2b7ae1; font-size: 20px;"></i>
                   </div>
@@ -464,6 +466,12 @@ console.log("bbs_id", bbs_id)
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
+       breakpoints: {
+
+              360: {
+                slidesPerView: 1
+              }
+            }
     });
   } catch (error) {
     console.error('Swiper 이미지 로드 실패', error);

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/cms/CmsMenuMng.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
@@ -95,7 +98,86 @@
     color: #2b7ae1;
     font-weight: bold;
 }
+
+.mobile-menu-toggle {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  color: #333;
+}
+#animated-image {width: 210%;height: 564px;position: relative;right: 54px;top: -22px;}
+
+@media screen and (max-width: 768px) {
+
+         .header-container {padding: 19px 5%; display: block ; }
+         #cmLogo {width:230px !important;}
+         .logo { margin-bottom: 0px; margin-left: -23px;}
+         .logo a {margin-right: 29px; margin-left: 23px;}
+         #menuToggle {margin-left: -43px; line-height: 0.3;}
+         .admin-btn{display: none;}
+
+         .mobile-menu-toggle {
+            display: block;
+            position: absolute;
+            top: 25px;
+            left: 355px;
+            z-index: 1001;
+          }
+
+          #targetElement {
+              display: none;
+            }
+
+            #targetElement.show {
+              display: block;
+            }
+
+            #targetElement ul {
+              text-align: center;
+              display: block;
+              padding: 0;
+            }
+
+            #targetElement ul li {
+              margin: 10px 0;
+            }
+
+
+
+        .premium-banner {height: 642px;}
+        .banner-text{
+        z-index: 100;
+         margin-top: -216px;
+         flex: 1;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         color: white;
+         padding-left: 0px;}
+         .company-desc {font-size:18px; text-align: center;}
+         .company-logo img {margin-left: -5px !important; margin-bottom: 5px;}
+         .company-name {margin-left: 57px;}
+
+        .banner-content .image {width: 100% ;}
+        #animated-image {            width: 310%;
+                                     height: 542px;
+                                     position: relative;
+                                     right: 21px;
+                                     top: 70px;}
+
+
+         #s_main {width : 100% !important; }
+        }
+        #cmMain {width: 100% !important;}
+
+        .swiper-button-prev, .swiper-button-next {top: 60% !important; position: absolute !important;}
+
 </style>
+</head>
+
 <header>
 <button id="scrollToTopBtn" class="scroll-to-top-btn">
     <i class="fa fa-arrow-up"></i>
@@ -103,9 +185,12 @@
     <div class="header-container">
         <div class="logo">
             <a href="/home/home.do">
-                <img src="/static/img/cm_logo.jpeg" alt="Logo" style="width: 180px;">
+                <img src="/static/img/cm_logo.jpeg" alt="Logo" style="width: 180px;" id="cmLogo">
             </a>
         </div>
+        <button id="menuToggle" class="mobile-menu-toggle" aria-label="메뉴 열기">
+          ☰
+        </button>
        <div id="targetElement" style="margin-top: 10px;"></div>
     </div>
 
@@ -124,7 +209,7 @@
 
     <div class="banner-content">
         <div class="image">
-            <img id="animated-image" src="/static/img/cm1.png" alt="Image" style="width: 210%;height: 564px;position: relative;right: 54px;top: -22px;">
+            <img id="animated-image" src="/static/img/cm1.png" alt="Image">
         </div>
 
         <div class="banner-text">
@@ -138,6 +223,15 @@
 <script>
 
  document.addEventListener('DOMContentLoaded', function() {
+  const toggleButton = document.getElementById('menuToggle');
+    const targetMenu = document.getElementById('targetElement');
+
+    if (toggleButton && targetMenu) {
+      toggleButton.addEventListener('click', function () {
+        targetMenu.classList.toggle('show');
+      });
+    }
+
      const menu = new CmsMenuMng('#targetElement', {
        maxDepth: -1,
        direction: 'horizontal'
