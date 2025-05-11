@@ -117,7 +117,7 @@
                      right: 58px;
                      top: 113px;}
 
-    @media screen and (min-width: 360px) and (max-width: 400px) {
+    @media screen and (min-width: 360px) and (max-width: 420px) {
 
          .header-container {padding: 25px 5%; display: block ; }
          #shinLogo {width:230px !important;}
