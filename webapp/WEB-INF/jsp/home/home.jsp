@@ -4,6 +4,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>신원명판산업</title>
       <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
      <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e756b74a4c2b9dc078781e79e685e4ed"></script>
@@ -269,12 +271,18 @@
           background-color: #0056b3;
         }
         #buttonContainer {margin-top: 32px; text-align: end;}
+    #s_main {width: 75%;}
+
+      //모바일 버전
+      @media screen and (min-width: 360px) {
+
+        }
     </style>
 
 </head>
 <body>
-<section class="about-section" id="about" style="max-width: none; text-align: center;">
-    <img src="/static/img/s_main2.jpg" alt="s_main2" style="width: 79%;">
+<section class="about-section" id="about" style="max-width: none; text-align: center; padding: 26px 5%;">
+    <img src="/static/img/s_main2.jpg" alt="s_main2" style="" id="s_main">
 </section>
     <!-- 제품 섹션 -->
     <section class="products-section" id="products" style="margin-bottom:50px;">
@@ -491,7 +499,15 @@ async function openTab(tabId, bbs_id) {
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
-    }
+    },
+
+     breakpoints: {
+        // 360px 이하일 때
+        360: {
+          slidesPerView: 1
+        }
+      }
+
   });
 
   // Swiper 업데이트 및 첫 번째 슬라이드로 이동

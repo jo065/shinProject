@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/cms/CmsMenuMng.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
@@ -34,7 +38,7 @@
 
        .circle-inner { width: 85%; height: 85%; border-radius: 50%; background: rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; }
        .machine-icon { width: 100%; height: 100%; background-image: url('/static/img/img1.png'); background-size: cover; background-position: center center; }
-       .banner-text { flex: 1; display: flex; flex-direction: column; justify-content: center; color: white; padding-left: 40px; }
+       .banner-text { margin-top: 63px; flex: 1; display: flex; flex-direction: column; justify-content: center; color: white; padding-left: 40px; }
 
        .company-logo { font-size: 28px; font-weight: 700; letter-spacing: 1px; position: relative; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
        .company-name {filter: opacity(0.9) drop-shadow(0 0 5px #66ccff); margin-left: 103px; font-size: 46px; font-weight: 800; letter-spacing: -1px; margin-bottom: 27px; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
@@ -95,7 +99,94 @@
     color: #2b7ae1;
     font-weight: bold;
 }
+
+/* 햄버거 버튼 초기 숨김 */
+.mobile-menu-toggle {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  color: #333;
+}
+
+#animated-image {    width: 100%;
+                     height: auto;
+                     position: relative;
+                     right: 58px;
+                     top: 113px;}
+
+    @media screen and (min-width: 360px) and (max-width: 400px) {
+
+         .header-container {padding: 25px 5%; display: block ; }
+         #shinLogo {width:230px !important;}
+         .logo { text-align: center; margin-bottom: 0px;}
+         .logo a {margin-right: 29px;}
+         #menuToggle {    line-height: 0.8;}
+         .admin-btn{display: none;}
+
+         .mobile-menu-toggle {
+            display: block;
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            z-index: 1001;
+          }
+
+          #targetElement {
+            display: none;
+            width: 100%;
+            background-color: #fff;
+          }
+
+          #targetElement.show {
+            display: block;
+          }
+
+          #targetElement ul {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+          }
+
+          #targetElement ul li {
+            margin: 10px 0;
+          }
+
+
+
+        .premium-banner {height: 689px;}
+        .banner-text{
+        z-index: 100;
+         margin-top: -195px;
+         flex: 1;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         color: white;
+         padding-left: 0px;}
+         .company-desc {font-size:18px;}
+         .company-logo img {margin-left: 55px !important; margin-bottom: 5px;}
+         .company-name {margin-left: 55px;}
+
+.banner-content .image {width: 100%;}
+#animated-image {    width: 121%;
+                     height: auto;
+                     position: relative;
+                     right: 32px;
+                     top: 32px;}
+
+
+         #s_main {width : 100% !important; }
+        }
+
+
+        .swiper-button-prev, .swiper-button-next {top: 77% !important; position: absolute !important;}
 </style>
+</head>
+
 <header>
 <button id="scrollToTopBtn" class="scroll-to-top-btn">
     <i class="fa fa-arrow-up"></i>
@@ -103,9 +194,12 @@
     <div class="header-container">
         <div class="logo">
             <a href="/home/home.do">
-                <img src="/static/img/logo.png" alt="Logo" style="width: 230px;">
+                <img src="/static/img/logo.png" alt="Logo" style="width: 230px;" id="shinLogo">
             </a>
         </div>
+        <button id="menuToggle" class="mobile-menu-toggle" aria-label="메뉴 열기">
+          ☰
+        </button>
        <div id="targetElement" style="margin-top: 10px;"></div>
     </div>
 
@@ -124,7 +218,7 @@
 
     <div class="banner-content">
         <div class="image">
-            <img id="animated-image" src="/static/img/img1.png" alt="Image" style="width: 100%; height: auto; position: relative; right: 58px; top: 113px;">
+            <img id="animated-image" src="/static/img/img1.png" alt="Image" >
         </div>
 
         <div class="banner-text">
@@ -137,6 +231,16 @@
 <script>
 
  document.addEventListener('DOMContentLoaded', function() {
+
+  const toggleButton = document.getElementById('menuToggle');
+   const targetMenu = document.getElementById('targetElement');
+
+   if (toggleButton && targetMenu) {
+     toggleButton.addEventListener('click', function () {
+       targetMenu.classList.toggle('show');
+     });
+   }
+
      const menu = new CmsMenuMng('#targetElement', {
        maxDepth: -1,
        direction: 'horizontal'
