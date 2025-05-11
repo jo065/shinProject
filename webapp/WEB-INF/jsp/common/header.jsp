@@ -183,7 +183,7 @@
         }
 
 
-        .swiper-button-prev, .swiper-button-next {top: 77% !important; position: absolute !important;}
+        .swiper-button-prev, .swiper-button-next {top: 60% !important; position: absolute !important;}
 </style>
 </head>
 
