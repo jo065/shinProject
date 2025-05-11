@@ -540,7 +540,7 @@ async function loadSwiperImages(bbs_id) {
       img.src = item.imageUrl || item.file_path || '';
       img.alt = item.title || '이미지';
       img.style.width = '100%';
-      img.style.height = '300px';
+      img.style.height = '500px';
       img.style.objectFit = 'cover';
 
       slide.appendChild(img);
