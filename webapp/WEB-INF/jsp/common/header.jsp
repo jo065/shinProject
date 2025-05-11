@@ -171,12 +171,12 @@
          .company-logo img {margin-left: 57px !important; margin-bottom: 5px;}
          .company-name {margin-left: 57px;}
 
-.banner-content .image {width: 100%;}
-#animated-image {    width: 121%;
-                     height: auto;
-                     position: relative;
-                     right: 32px;
-                     top: 32px;}
+        .banner-content .image {width: 100%;}
+        #animated-image {    width: 121%;
+                             height: auto;
+                             position: relative;
+                             right: 32px;
+                             top: 32px;}
 
 
          #s_main {width : 100% !important; }

@@ -135,7 +135,9 @@ class CmsBbsMng {
 
     // 객체로 되어 있을 경우 Object.entries()로 반복
     if (typeof this.cateMap === 'object') {
-      Object.entries(this.cateMap).forEach(([catId, category], categoryIndex) => {
+      Object.entries(this.cateMap)
+      .sort((a, b) => Number(a[0]) - Number(b[0]))
+      .forEach(([catId, category], categoryIndex) => {
         const filteredItems = filteredList.filter(item => item.cat_id == catId);
 
         if (filteredItems.length > 0) {
@@ -159,7 +161,6 @@ class CmsBbsMng {
 
           categorySection.appendChild(categoryTitle);
 
-          // 해당 카테고리의 이미지들 추가
           // 해당 카테고리의 이미지들 추가
                const galleryWrap = document.createElement('div');
                galleryWrap.classList.add('gallery-wrap');
