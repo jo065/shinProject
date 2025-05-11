@@ -315,7 +315,7 @@
                     <a href="mailto:dyt1532@naver.com">dyt1532@naver.com</a>
                   </div>
                 </div>
-                <div class="contact-card" style="display:none;">
+                <div class="contact-card">
                   <div class="icon-wrapper">
                     <i class="fa-solid fa-print" style="color: #2b7ae1; font-size: 20px;"></i>
                   </div>

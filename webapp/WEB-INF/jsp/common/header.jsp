@@ -34,7 +34,7 @@
 
        .circle-inner { width: 85%; height: 85%; border-radius: 50%; background: rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; }
        .machine-icon { width: 100%; height: 100%; background-image: url('/static/img/img1.png'); background-size: cover; background-position: center center; }
-       .banner-text { flex: 1; display: flex; flex-direction: column; justify-content: center; color: white; padding-left: 40px; }
+       .banner-text { flex: 1; display: flex; flex-direction: column; justify-content: center; color: white; }
 
        .company-logo { font-size: 28px; font-weight: 700; letter-spacing: 1px; position: relative; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
        .company-name { margin-left: 73px; font-size: 46px; font-weight: 800; letter-spacing: -1px; margin-bottom: 27px; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
@@ -129,7 +129,7 @@
 
         <div class="banner-text">
             <div class="company-logo">
-            <img src="/static/img/cm_whiteLogo.png" alt="Image" style="width: 300px; margin-left: 97px; filter: opacity(0.9) drop-shadow(0 0 5px #66ccff);"></div>
+            <img src="/static/img/cm_whiteLogo.png" alt="Image" style="width: 300px;  margin-left: 143px; filter: opacity(0.9) drop-shadow(0 0 5px #66ccff);"></div>
             <p class="company-desc">저희 씨엠테크는 성실과 풍부한 경험을 바탕으로 자동화 기계, <br>
             LCD장비 제작, 반도체부품, 정밀부품가공을 전문으로 하는 업체입니다.</p>
         </div>
