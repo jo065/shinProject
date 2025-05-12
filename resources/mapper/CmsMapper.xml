@@ -148,7 +148,7 @@
         GROUP BY
             a.content_id
         ORDER BY
-            MAX(a.reg_dt) DESC;
+            MAX(a.order_idx) desc;
     </select>
 
     <select id="getFileInfo" parameterType="Long" resultType="hmap">
