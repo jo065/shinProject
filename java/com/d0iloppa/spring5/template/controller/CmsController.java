@@ -647,6 +647,50 @@ public class CmsController {
 
 
 
+    @PostMapping("api/swapOrder")
+    @ResponseBody
+    public Map<String, Object> swapContentOrder(@RequestBody Map<String, Long> requestData) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Long contentId1 = requestData.get("contentId1");
+            Long contentId2 = requestData.get("contentId2");
+
+            // 순서 교환 처리
+            boolean success = cmsService.swapContentOrder(contentId1, contentId2);
+            response.put("success", success);
+
+            if (success) {
+                response.put("message", "순서 변경 성공");
+            } else {
+                response.put("message", "순서 변경 실패");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "서버 오류: " + e.getMessage());
+        }
+
+        return response;
+    }
+
+    @PostMapping("api/updateContentOrder")
+    @ResponseBody
+    public Map<String, Object> updateContentOrder(@RequestBody List<Map<String, Object>> orderData) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            cmsService.updateContentOrder(orderData);
+            response.put("success", true);
+            response.put("message", "순서 변경 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "서버 오류: " + e.getMessage());
+        }
+        return response;
+    }
+
+
+
 
 
 }

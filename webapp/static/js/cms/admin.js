@@ -77,6 +77,7 @@ function tabulatorInit(){
       ajaxResponse: function (url, params, response) {
         return response.data;  // ✅ response에서 data만 추출
       },
+      movableRows: true,
       columns: [
         {
             title: "",
@@ -172,6 +173,84 @@ function tabulatorInit(){
       ]
     });
 
+    let initialIndexMap = new Map();
+
+    adminTable.on('rowMoving', function(row) {
+        const rows = adminTable.getRows();
+        initialIndexMap.clear();  // 기존 인덱스 초기화
+
+        rows.forEach((r, index) => {
+            const rowData = r.getData();
+            initialIndexMap.set(rowData.content_id, index);  // content_id를 키로 인덱스 저장
+        });
+    });
+
+    adminTable.on("rowMoveCancelled", function(row){
+        initialIndexMap.clear();
+    });
+
+    adminTable.on('rowMoved',function(row) {
+        handleRowShift(row);
+    })
+
+
+    function handleRowShift(row) {
+        const rows = adminTable.getRows();
+        const changedRows = [];
+
+        rows.forEach((r, newIndex) => {
+            const rowData = r.getData();
+            const oldIndex = initialIndexMap.get(rowData.content_id);  // 이동 전 인덱스
+
+            // 인덱스가 변하지 않은 경우는 무시
+            if (oldIndex === newIndex) return;
+
+            // 이동 전 인덱스와 이동 후 인덱스가 다를 경우 처리
+            if (newIndex < oldIndex) {
+                // 앞으로 이동한 경우: -1 처리
+                rowData.order_idx += (oldIndex - newIndex);
+            } else {
+                // 뒤로 이동한 경우: +1 처리
+                rowData.order_idx -= (newIndex - oldIndex);
+            }
+
+            // 변경이 있는 경우에만 저장
+            changedRows.push({ content_id: rowData.content_id, order_idx: rowData.order_idx });
+        });
+
+        // 변경된 행이 있으면 서버로 업데이트 요청
+        if (changedRows.length > 0) {
+            updateOrderOnServer(changedRows);
+        }
+
+        // 초기화
+        initialIndexMap.clear();
+    }
+
+}
+
+
+
+
+function updateOrderOnServer(orderData) {
+    $.ajax({
+        url: '/cms/api/updateContentOrder',  // 순서 변경 API 경로
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(orderData),
+        success: function (res) {
+            if (res.success) {
+                // 목록 새로고침
+                adminTable.setData();
+                Swal.fire('✅ 순서 변경 완료', '콘텐츠 순서가 성공적으로 변경되었습니다.', 'success');
+            } else {
+                Swal.fire('⚠️ 순서 변경 실패', '잠시 후 다시 시도해주세요.', 'error');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("서버 오류:", xhr.responseText);
+        }
+    });
 }
 
 function moveBBSContent(data = {}) {

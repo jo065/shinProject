@@ -629,4 +629,35 @@ public class CmsService {
 	public Map<String, Object> getCateInfo(Integer catId) {
 		return cmsDAO.selectOne("CmsMapper.getCateInfo", catId);
 	}
+
+	public boolean swapContentOrder(Long contentId1, Long contentId2) {
+		try {
+			// 두 콘텐츠의 order_idx 가져오기
+			Long orderIdx1 = cmsDAO.selectOne("CmsMapper.getOrderIdx", contentId1);
+			Long orderIdx2 = cmsDAO.selectOne("CmsMapper.getOrderIdx", contentId2);
+
+			// 순서 교환
+			Map<String, Object> params1 = new HashMap<>();
+			params1.put("contentId", contentId1);
+			params1.put("orderIdx", orderIdx2);
+
+			Map<String, Object> params2 = new HashMap<>();
+			params2.put("contentId", contentId2);
+			params2.put("orderIdx", orderIdx1);
+
+			// 순서 교환
+			cmsDAO.update("CmsMapper.updateOrderIdx", params1);
+			cmsDAO.update("CmsMapper.updateOrderIdx", params2);
+
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public void updateContentOrder(List<Map<String, Object>> orderData) {
+		cmsDAO.update("CmsMapper.updateOrderIdx_list", orderData);
+	}
 }

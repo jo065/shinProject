@@ -319,4 +319,26 @@
     </delete>
 
 
+    <select id="getOrderIdx" parameterType="Long" resultType="Long">
+        SELECT order_idx
+        FROM cms_content_info
+        WHERE content_id = #{contentId}
+        LIMIT 1;
+    </select>
+
+    <update id="updateOrderIdx" parameterType="hmap">
+        UPDATE cms_content_info
+        SET order_idx = #{orderIdx}
+        WHERE content_id = #{contentId}
+    </update>
+
+    <update id="updateOrderIdx_list" parameterType="list">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE cms_content_info
+            SET order_idx = #{item.order_idx}
+            WHERE content_id = #{item.content_id}
+        </foreach>
+    </update>
+
+
 </mapper>
