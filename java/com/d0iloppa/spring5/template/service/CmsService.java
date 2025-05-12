@@ -530,4 +530,8 @@ public class CmsService {
 	public Map<String, Object> getContent(Long contentId) {
 		return cmsDAO.getContent(contentId);
 	}
+
+    public void updateContentOrder(List<Map<String, Object>> orderData) {
+		cmsDAO.update("CmsMapper.updateOrderIdx_list", orderData);
+    }
 }

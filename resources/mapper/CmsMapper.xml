@@ -148,7 +148,7 @@
         GROUP BY
             a.content_id
         ORDER BY
-            MAX(a.reg_dt) DESC;
+            MAX(a.order_idx) desc;
     </select>
 
     <select id="getFileInfo" parameterType="Long" resultType="hmap">
@@ -280,6 +280,14 @@
         LIMIT 1;
 
     </select>
+
+    <update id="updateOrderIdx_list" parameterType="list">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE cms_content_info
+            SET order_idx = #{item.order_idx}
+            WHERE content_id = #{item.content_id}
+        </foreach>
+    </update>
 
 
 </mapper>

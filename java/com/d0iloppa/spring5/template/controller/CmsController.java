@@ -603,6 +603,22 @@ public class CmsController {
         return result;
     }
 
+    @PostMapping("api/updateContentOrder")
+    @ResponseBody
+    public Map<String, Object> updateContentOrder(@RequestBody List<Map<String, Object>> orderData) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            cmsService.updateContentOrder(orderData);
+            response.put("success", true);
+            response.put("message", "순서 변경 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "서버 오류: " + e.getMessage());
+        }
+        return response;
+    }
+
 
 
 

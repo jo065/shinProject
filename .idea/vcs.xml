@@ -3,6 +3,5 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/spring5-template-jdk8" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/spring5-template-jdk8/src/main" vcs="Git" />
   </component>
 </project>
