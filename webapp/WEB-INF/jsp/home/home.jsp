@@ -53,7 +53,7 @@
         .about-content {flex-direction: column;}
         .banner-content h1 {font-size: 36px;}
     }
-    .swiper {width: 600px; height: 400px;}
+
 
     #animated-image {transform: scale(1); transition: transform 3s ease-in-out;  object-fit: cover;}
     #animated-image.zoom-in {transform: scale(1.1);}
@@ -266,6 +266,13 @@
             border-radius: 5px;}
 
             #cmMain {width: 1084px;}
+
+           .swiper-slide {
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             height: auto; /* 슬라이드 높이 자동 */
+           }
     </style>
 </head>
 
@@ -447,7 +454,7 @@ console.log("bbs_id", bbs_id)
       img.alt = item.title || '이미지';
       img.style.width = '100%';
       img.style.height = '300px';
-      img.style.objectFit = 'cover';
+      img.style.objectFit = 'contain';
 
       slide.appendChild(img);
       wrapper.appendChild(slide);
