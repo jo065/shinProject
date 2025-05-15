@@ -268,9 +268,7 @@
             #cmMain {width: 1084px;}
 
            .swiper-slide {
-             display: flex;
-             justify-content: center;
-             align-items: center;
+
              height: auto; /* 슬라이드 높이 자동 */
            }
     </style>
