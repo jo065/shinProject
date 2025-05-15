@@ -135,13 +135,15 @@ class CmsBbsMng {
 
     // 객체로 되어 있을 경우 Object.entries()로 반복
     if (typeof this.cateMap === 'object') {
-    const customOrder = ['2', '1'];
+    const customOrder = ['10', '9'];
 
      Object.entries(this.cateMap)
        .sort((a, b) => {
          const aIndex = customOrder.indexOf(a[0]);
          const bIndex = customOrder.indexOf(b[0]);
-         return aIndex - bIndex;
+
+         // 정의된 순서가 없으면 뒤로 보내기
+         return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
        })
       .forEach(([catId, category], categoryIndex) => {
         const filteredItems = filteredList.filter(item => item.cat_id == catId);
