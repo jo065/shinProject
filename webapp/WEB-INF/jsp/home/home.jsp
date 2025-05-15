@@ -277,6 +277,11 @@
       @media screen and (min-width: 360px) {
 
         }
+
+         .swiper-slide {
+
+                     height: auto; /* 슬라이드 높이 자동 */
+                   }
     </style>
 
 </head>
@@ -540,8 +545,8 @@ async function loadSwiperImages(bbs_id) {
       img.src = item.imageUrl || item.file_path || '';
       img.alt = item.title || '이미지';
       img.style.width = '100%';
-      img.style.height = '500px';
-      img.style.objectFit = 'cover';
+      img.style.height = '400px';
+      img.style.objectFit = 'contain';
 
       slide.appendChild(img);
       wrapper.appendChild(slide);
