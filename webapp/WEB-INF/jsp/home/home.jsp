@@ -462,7 +462,7 @@ console.log("bbs_id", bbs_id)
     swiper = new Swiper('.swiper-container', {
       loop: true,
       slidesPerView: 3,
-      spaceBetween: 5
+      spaceBetween: 30,
       autoplay: {
         delay: 3000,
         disableOnInteraction: false,
