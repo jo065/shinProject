@@ -488,7 +488,7 @@ console.log("bbs_id", bbs_id)
 
 
 window.addEventListener('load', async function () {
-      // ✅ 4. 지도 로딩
+
      var container = document.getElementById('map');
      var options = {
          center: new kakao.maps.LatLng(37.2009732, 126.9790237), // 경기도 화성시 봉담읍 쇠틀길 86의 위도, 경도
