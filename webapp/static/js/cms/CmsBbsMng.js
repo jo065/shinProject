@@ -81,7 +81,7 @@ class CmsBbsMng {
       const imageUrl = `/cms/cdn/img/${fileId}`;
       return `
        <a href="${imageUrl}" class="glightbox" data-gallery="bbsGallery" style="position: relative; display: inline-block;">
-               <img src="${imageUrl}" alt="${item.title || ''}" style="width:300px;">
+               <img src="${imageUrl}" alt="${item.title || ''}" style="width:100%;">
                <div style="position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.5); color: white; padding: 5px; font-size: 14px;">
                  a-${index}
                </div>

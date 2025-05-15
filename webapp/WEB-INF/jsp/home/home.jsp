@@ -471,12 +471,14 @@ console.log("bbs_id", bbs_id)
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
-       breakpoints: {
-
-              360: {
-                slidesPerView: 1
-              }
-            }
+      breakpoints: {
+        420: {
+          slidesPerView: 3
+        },
+        0: {
+          slidesPerView: 1
+        }
+      }
     });
   } catch (error) {
     console.error('Swiper 이미지 로드 실패', error);
