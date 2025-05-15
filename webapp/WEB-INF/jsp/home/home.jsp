@@ -506,12 +506,14 @@ async function openTab(tabId, bbs_id) {
       prevEl: '.swiper-button-prev',
     },
 
-     breakpoints: {
-        // 360px 이하일 때
-        360: {
-          slidesPerView: 1
-        }
+    breakpoints: {
+      420: {
+        slidesPerView: 3
+      },
+      0: {
+        slidesPerView: 1
       }
+    }
 
   });
 
