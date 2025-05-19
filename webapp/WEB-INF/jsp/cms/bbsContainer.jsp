@@ -57,7 +57,7 @@
 
 @media screen and (max-width: 768px) {
 
-.gallery-wrap a {flex: 0 0 calc(50% - 5px);}
+.gallery-wrap a {flex: 0 0 100%;}
 
 }
 </style>

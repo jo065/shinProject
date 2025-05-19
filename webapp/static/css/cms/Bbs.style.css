@@ -51,9 +51,3 @@
 }
 
 .glightbox-container .ginner-container {width: 735px !important;}
-
-@media screen and (max-width: 768px) {
-.glightbox-container .ginner-container {width: 300px !important;}
-.gallery-wrap a {flex: 0 0 calc(50% - 5px);}
-.glightbox-container .ginner-container img{width: 300px !important; height: 300px !important;}
-}
