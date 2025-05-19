@@ -51,3 +51,7 @@
 }
 
 .glightbox-container .ginner-container {width: 735px !important;}
+
+@media screen and (max-width: 768px) {
+.glightbox-container .ginner-container {width:100% !important;}
+}
