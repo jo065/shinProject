@@ -218,6 +218,7 @@ class CmsBbsMng {
        selector: '.glightbox',  // glightbox에 대한 selector 설정
        closeButton: true,       // 닫기 버튼 활성화
        touchNavigation: true,   // 터치 네비게이션 활성화
+        gestureNavigation: true,
      });
 
     /* this.galleryInstance.on('slide_after_load', () => {
