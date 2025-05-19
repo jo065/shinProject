@@ -58,6 +58,7 @@
 @media screen and (max-width: 768px) {
 
 .gallery-wrap a {flex: 0 0 calc(50% - 5px);}
+.glightbox-container .ginner-container {width: 300px !important;}
 }
 </style>
 
