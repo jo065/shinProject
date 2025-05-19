@@ -163,10 +163,10 @@
 
         .banner-content .image {width: 100% ;}
         #animated-image {            width: 310%;
-                                     height: 542px;
+                                     height: 558px;
                                      position: relative;
                                      right: 21px;
-                                     top: 70px;}
+                                     top: 52px;}
 
 
          #s_main {width : 100% !important; }
