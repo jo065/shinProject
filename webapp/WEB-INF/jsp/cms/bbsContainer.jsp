@@ -10,7 +10,23 @@
 <style>
 
 .small-title {color: #224b96;}
-.gallery-wrap {margin-bottom: 35px;}
+.gallery-wrap {
+  display: flex;
+  flex-wrap: wrap;       /* 여러 줄로 자동 줄바꿈 */
+  gap: 10px;             /* 이미지 사이 간격 */
+}
+
+.gallery-wrap a {
+  flex: 0 0 calc(33.333% - 10px);  /* 너비: 전체의 1/3에서 간격 빼기 */
+  position: relative;
+}
+
+.gallery-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* ginner-container 크기 설정 */
 .ginner-container {
   max-width: 900px;
