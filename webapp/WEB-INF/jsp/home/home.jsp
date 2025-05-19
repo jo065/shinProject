@@ -534,9 +534,14 @@ async function loadSwiperImages(bbs_id) {
     const list = await getContentsList(bbs_id);
     if (!list || !Array.isArray(list)) return;
 
-      if (bbs_id == 11) {
-          list.sort((a, b) => a.order_idx - b.order_idx);
-        }
+      if (bbs_id == 11 || bbs_id == 12) {
+           list.sort((a, b) => a.order_idx - b.order_idx);
+         }
+
+         if (bbs_id == 13) {
+           list.sort((a, b) => b.order_idx - a.order_idx);
+         }
+
 
     const wrapper = document.querySelector('.swiper-wrapper');
     if (!wrapper) return;
