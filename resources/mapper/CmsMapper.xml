@@ -340,5 +340,22 @@
         </foreach>
     </update>
 
+    <insert id="upsertVisitorCount">
+        INSERT INTO visitor_count (visit_date, visit_cnt, updated_at)
+        VALUES (CURRENT_DATE, 1, NOW())
+        ON CONFLICT (visit_date)
+        DO UPDATE SET
+        visit_cnt = visitor_count.visit_cnt + 1,
+        updated_at = NOW();
+    </insert>
+
+    <select id="getCounter" resultType="hmap">
+        SELECT
+            COALESCE(SUM(CASE WHEN visit_date = CURRENT_DATE THEN visit_cnt END), 0) AS today_cnt,
+            SUM(visit_cnt) AS total_cnt,
+            CURRENT_DATE as today
+        FROM visitor_count;
+    </select>
+
 
 </mapper>

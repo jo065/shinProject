@@ -54,4 +54,5 @@ public class CmsDAO extends AbstractDAO {
     public Map<String, Object> getContent(Long contentId) {
         return sqlSession.selectOne("CmsMapper.getContent", contentId);
     }
+
 }

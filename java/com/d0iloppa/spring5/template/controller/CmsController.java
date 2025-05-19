@@ -689,6 +689,18 @@ public class CmsController {
         return response;
     }
 
+    @GetMapping("api/getCounter")
+    @ResponseBody
+    public Map<String, Object> getCounter() {
+        Map<String, Object> response = new HashMap<>();
+
+
+        Map<String, Object> counter = cmsService.getCounter();
+
+        response.put("data", counter);
+        return response;
+    }
+
 
 
 

@@ -660,4 +660,12 @@ public class CmsService {
 	public void updateContentOrder(List<Map<String, Object>> orderData) {
 		cmsDAO.update("CmsMapper.updateOrderIdx_list", orderData);
 	}
+
+	public void visitCount() {
+		cmsDAO.insert("CmsMapper.upsertVisitorCount",null);
+	}
+
+	public Map<String, Object> getCounter() {
+		return cmsDAO.selectOne("CmsMapper.getCounter");
+	}
 }
