@@ -52,3 +52,61 @@
 .glightbox-container .ginner-container {width: 735px !important;}
 
 
+/* 모바일에서 GLightbox 이미지 크기 조정을 위한 CSS */
+@media screen and (max-width: 768px) {
+  /* GLightbox 컨테이너 크기 조정 */
+  .glightbox-container {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* GLightbox 슬라이드 콘텐츠 크기 조정 */
+  .gslide {
+    width: 100% !important;
+  }
+
+  /* 슬라이드 내부 미디어(이미지) 영역 크기 조정 */
+  .gslide-media {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* iframe 크기 조정 */
+  .gslide-media iframe,
+  .gvideo {
+    width: 100% !important;
+    max-height: 80vh !important; /* 화면 높이의 80%까지만 사용 */
+  }
+
+  /* 이미지 크기 조정 */
+  .gslide-image img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 80vh !important;
+    object-fit: contain !important; /* 비율 유지하면서 컨테이너에 맞춤 */
+  }
+
+  /* 이미지 주변 여백 제거 (필요한 경우) */
+  .gslide-image {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 외부 컨텐츠(iframe) 크기 조정 */
+  .gslide-external {
+    width: 100% !important;
+    height: auto !important;
+    padding-bottom: 56.25% !important; /* 16:9 비율 유지 (선택 사항) */
+    position: relative !important;
+  }
+
+  /* 외부 컨텐츠 내부 요소 크기 조정 */
+  .gslide-external * {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    object-fit: contain !important;
+  }
+}
