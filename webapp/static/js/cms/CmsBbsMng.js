@@ -183,7 +183,7 @@ class CmsBbsMng {
                        const image = document.createElement('img');
                        image.src = imageUrl;
                        image.alt = item.title || '';
-                       image.style.width = '300px';
+                       image.style.width = '100%';
 
                        // 이미지 위에 인덱스를 표시 (예: "a-0")
                        const imageTitle = document.createElement('div');
