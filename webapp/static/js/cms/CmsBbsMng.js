@@ -191,7 +191,7 @@ class CmsBbsMng {
 
                        // 인덱스를 이미지 위 왼쪽에 표시
                        imageTitle.style.position = 'absolute';
-                       imageTitle.style.top = '0px';
+                       imageTitle.style.top = '10px';
                        imageTitle.style.left = '10px';
                        imageTitle.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
                        imageTitle.style.color = 'white';
