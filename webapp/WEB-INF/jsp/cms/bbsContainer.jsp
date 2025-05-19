@@ -8,11 +8,12 @@
 <input type="hidden" id="bbs_id" value="${bbs_id}" />
 <input type="hidden" id="bbs_type" value="${bbs_type}" />
 <style>
-.ginner-container {height: 720px;}
+
 .gallery-wrap {
   display: flex;
   flex-wrap: wrap;       /* 여러 줄로 자동 줄바꿈 */
   gap: 10px;             /* 이미지 사이 간격 */
+  margin-bottom: 35px;
 }
 
 .gallery-wrap a {

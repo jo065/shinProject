@@ -91,9 +91,19 @@ class CmsBbsMng {
 
     this.container.innerHTML = `<div class="gallery-wrap" id="bbsGallery">${images}</div>`;
 
-    this.galleryInstance = GLightbox({
-      selector: '#bbsGallery .glightbox'
-    });
+   this.galleryInstance = GLightbox({
+     selector: '#bbsGallery .glightbox',
+     openEffect: 'fade',
+     closeEffect: 'fade'
+   });
+
+   // 이벤트는 이렇게 따로 등록해야 작동함
+   this.galleryInstance.on('slide_after_load', (data) => {
+     const container = document.querySelector('.ginner-container');
+     if (container) {
+       container.style.width = '735px';
+     }
+   });
   }
 
 // 포토 슬라이드형 게시판 렌더링

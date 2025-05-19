@@ -174,7 +174,6 @@
         #cmMain {width: 100% !important;}
 
         .swiper-button-prev, .swiper-button-next {top: 60% !important; position: absolute !important;}
-
 </style>
 </head>
 
