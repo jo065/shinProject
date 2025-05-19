@@ -538,11 +538,11 @@ async function loadSwiperImages(bbs_id) {
          list.sort((a, b) => a.order_idx - b.order_idx); // 전체 정렬 먼저
 
          // cat_id == 6인 항목만 따로 필터링해서 내림차순 정렬
-         const cat6Items = list.filter(item => item.cat_id == 6 || item.cat_id == 9 || item.cat_id == 10).sort((a, b) => b.order_idx - a.order_idx);
+         const cat6Items = list.filter(item => item.cat_id == 6 || item.cat_id == 10).sort((a, b) => b.order_idx - a.order_idx);
 
          // 원래 리스트에서 cat_id == 6인 항목의 인덱스 구함
         const cat6Indexes = list
-          .map((item, idx) => (item.cat_id == 6 || item.cat_id == 9 || item.cat_id == 10) ? idx : -1)
+          .map((item, idx) => (item.cat_id == 6 || item.cat_id == 10) ? idx : -1)
           .filter(idx => idx !== -1);
 
 
