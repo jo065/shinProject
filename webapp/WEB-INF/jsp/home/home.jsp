@@ -531,17 +531,29 @@ async function openTab(tabId, bbs_id) {
 
 async function loadSwiperImages(bbs_id) {
   try {
-    const list = await getContentsList(bbs_id);
-    if (!list || !Array.isArray(list)) return;
+   const list = await getContentsList(bbs_id);
+       if (!list || !Array.isArray(list)) return;
 
-      if (bbs_id == 11 || bbs_id == 12) {
-           list.sort((a, b) => a.order_idx - b.order_idx);
-         }
+       if (bbs_id == 11 || bbs_id == 12) {
+         list.sort((a, b) => a.order_idx - b.order_idx); // 전체 정렬 먼저
 
-         if (bbs_id == 13) {
-           list.sort((a, b) => b.order_idx - a.order_idx);
-         }
+         // cat_id == 6인 항목만 따로 필터링해서 내림차순 정렬
+         const cat6Items = list.filter(item => item.cat_id == 6).sort((a, b) => b.order_idx - a.order_idx);
 
+         // 원래 리스트에서 cat_id == 6인 항목의 인덱스 구함
+         const cat6Indexes = list
+           .map((item, idx) => item.cat_id == 6 ? idx : -1)
+           .filter(idx => idx !== -1);
+
+         // 정렬된 cat6Items를 원래 위치에 다시 삽입
+         cat6Indexes.forEach((originalIdx, i) => {
+           list[originalIdx] = cat6Items[i];
+         });
+       }
+
+       if (bbs_id == 13) {
+         list.sort((a, b) => b.order_idx - a.order_idx);
+       }
 
     const wrapper = document.querySelector('.swiper-wrapper');
     if (!wrapper) return;
