@@ -220,6 +220,13 @@ class CmsBbsMng {
        touchNavigation: true,   // 터치 네비게이션 활성화
      });
 
+     this.galleryInstance.on('slide_after_load', () => {
+       const container = document.querySelector('.ginner-container');
+       if (container) {
+         container.style.width = '735px';
+       }
+     });
+
      // 닫기 버튼을 동적으로 추가 (이미지가 확대될 때마다 나타나도록)
      const slides = document.querySelectorAll('.gslide');
      slides.forEach(slide => {

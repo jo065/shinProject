@@ -14,6 +14,7 @@
   display: flex;
   flex-wrap: wrap;       /* 여러 줄로 자동 줄바꿈 */
   gap: 10px;             /* 이미지 사이 간격 */
+  margin-bottom: 35px;
 }
 
 .gallery-wrap a {
