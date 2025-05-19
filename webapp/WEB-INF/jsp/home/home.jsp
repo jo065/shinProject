@@ -552,8 +552,13 @@ async function loadSwiperImages(bbs_id) {
        }
 
        if (bbs_id == 13) {
-         list.sort((a, b) => b.order_idx - a.order_idx);
-       }
+             // cat_id == 10만 내림차순 정렬
+             const cat10Items = list.filter(item => item.cat_id == 10).sort((a, b) => b.order_idx - a.order_idx);
+             const cat10Indexes = list.map((item, idx) => item.cat_id == 10 ? idx : -1).filter(idx => idx !== -1);
+             cat10Indexes.forEach((originalIdx, i) => {
+               list[originalIdx] = cat10Items[i];
+             });
+           }
 
     const wrapper = document.querySelector('.swiper-wrapper');
     if (!wrapper) return;
