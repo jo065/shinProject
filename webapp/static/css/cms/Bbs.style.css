@@ -52,6 +52,58 @@
 
 .glightbox-container .ginner-container {width: 735px !important;}
 
+/* 모바일 환경에서 GLightbox 스타일 개선 */
 @media screen and (max-width: 768px) {
-.glightbox-container .ginner-container {width:100% !important;}
+  /* GLightbox 컨테이너 */
+  .glightbox-container {
+    width: 100% !important;
+  }
+
+  /* 슬라이드 */
+  .gslide {
+    width: 100% !important;
+  }
+
+  /* 내부 컨테이너 */
+  .ginner-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* 이미지 컨테이너 */
+  .gslide-media {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* 외부 컨텐츠(iframe)에 대한 스타일 */
+  .gslide-external {
+    width: 100% !important;
+    height: auto !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  /* iframe 스타일 */
+  .gslide iframe {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 300px !important;
+  }
+
+  /* 커스텀 닫기 버튼 */
+  .custom-close-btn {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 9999 !important;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+  }
 }
