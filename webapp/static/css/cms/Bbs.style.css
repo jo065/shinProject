@@ -56,7 +56,7 @@
 @media screen and (max-width: 768px) {
   /* GLightbox 컨테이너 크기 조정 */
   ginner-container {
-      height: 100vh !important;
+     height: 800px !important;
       width: 100% !important;
   }
 
@@ -100,7 +100,7 @@
   /* 외부 컨텐츠(iframe) 크기 조정 */
   .gslide-external {
     width: 100% !important;
-    height: auto !important;
+   height: 500px !important;
     padding-bottom: 56.25% !important; /* 16:9 비율 유지 (선택 사항) */
     position: relative !important;
   }
@@ -108,7 +108,7 @@
   /* 외부 컨텐츠 내부 요소 크기 조정 */
   .gslide-external * {
     width: 100% !important;
-    height: 100% !important;
+    height: 500px !important;
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
