@@ -100,9 +100,9 @@ class CmsBbsMng {
    // 이벤트는 이렇게 따로 등록해야 작동함
    this.galleryInstance.on('slide_after_load', (data) => {
      const container = document.querySelector('.ginner-container');
-     if (container) {
+    /* if (container) {
        container.style.width = '735px';
-     }
+     }*/
    });
   }
 
