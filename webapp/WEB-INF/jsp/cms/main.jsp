@@ -114,6 +114,8 @@
      .header-right a {
        margin-left: 10px; /* 버튼 사이 간격 */
      }
+     .visitor-stats {margin-right: 10px;}
+      .visitor-stats span{margin-right: 10px;}
   </style>
 </head>
 <body>
@@ -174,9 +176,9 @@ $(document).ready(function() {
         console.log("data", data);
 
         const html =
-          '<span>📅 오늘 날짜: ' + data.today + '</span>' +
-          '<span>👁️ 오늘 접속자 수: ' + data.today_cnt + '명</span>' +
-          '<span>📊 누적 접속자 수: ' + data.total_cnt + '명</span>';
+          '<span><i class="fa-solid fa-table"></i> 오늘 날짜: ' + data.today + '</span>' +
+          '<span><i class="fa-solid fa-person"></i> 오늘 접속자 수: ' + data.today_cnt + '명</span>' +
+          '<span><i class="fa-solid fa-people-arrows"></i> 누적 접속자 수: ' + data.total_cnt + '명</span>';
 
         const element = document.getElementById('visitor-stats');
         console.log("DOM 요소:", element);
