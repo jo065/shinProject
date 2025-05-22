@@ -291,7 +291,7 @@ _renderGallery(callback) {
           this.galleryInstance.close(); // GLightbox의 내장 close 메서드 사용
         });
 
-        slide.appendChild(closeButton);
+        //slide.appendChild(closeButton);
       });
     }, 100);
   });

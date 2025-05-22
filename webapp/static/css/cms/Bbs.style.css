@@ -50,8 +50,6 @@
   border-radius: 4px;
 }
 
-.glightbox-container .ginner-container {width: 735px !important;}
-
 /* 모바일 환경에서 GLightbox 스타일 개선 */
 @media screen and (max-width: 768px) {
   /* GLightbox 컨테이너 */
