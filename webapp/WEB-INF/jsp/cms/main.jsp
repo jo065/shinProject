@@ -169,6 +169,15 @@
 </html>
   <script src="${pageContext.request.contextPath}/static/js/common/common.js"></script>
 <script>
-
+    getCounter().then((data) => {
+        const html = `
+          <span>📅 오늘 날짜: <strong>${data.today}</strong></span>
+          <span>👁️ 오늘 접속자 수: <strong>${data.today_cnt}</strong>명</span>
+          <span>📊 누적 접속자 수: <strong>${data.total_cnt}</strong>명</span>
+        `;
+        $('#visitor-stats').html(html);
+      }).catch((err) => {
+        console.error("카운터 불러오기 실패:", err);
+      });
 </script>
 
