@@ -54,6 +54,10 @@
 
 /* 모바일에서 GLightbox 이미지 크기 조정을 위한 CSS */
 @media screen and (max-width: 768px) {
+
+.glightbox-container .ginner-container{
+    height: 800px !important;
+}
   /* GLightbox 컨테이너 크기 조정 */
   ginner-container {
      height: 800px !important;
