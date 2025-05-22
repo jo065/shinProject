@@ -114,8 +114,8 @@
      .header-right a {
        margin-left: 10px; /* 버튼 사이 간격 */
      }
-          #visitor-stats {margin-right: 10px;}
-          #visitor-stats span{margin-right: 10px;}
+     #visitor-stats {margin-right: 10px;}
+     #visitor-stats span{margin-right: 10px;}
   </style>
 </head>
 <body>
@@ -132,16 +132,18 @@
 
   <!-- 왼쪽 -->
   <div class="header-left">
-    <img src="/static/img/cm_whiteLogo.png" alt="Logo" style="width: 140px;">
+    <img src="/static/img/whiteLogo.png" alt="Logo" style="width: 100px;">
     <span style="font-weight: bold; color:white;">관리자 시스템</span>
   </div>
 
   <!-- 오른쪽 -->
   <div class="header-right">
-   <div id="visitor-stats">
-    <span>
+  <div id="visitor-stats">
+<span>
       <i class="fa-solid fa-circle-user"></i> <strong>${admin.lgn_id}</strong> 님 어서오세요
     </span>
+  </div>
+
 
     <!-- 홈페이지 이동 버튼 -->
     <a href="/home/home.do" class="btn btn-home">
@@ -167,8 +169,7 @@
 
 </body>
 </html>
-
-<script src="${pageContext.request.contextPath}/static/js/common/common.js"></script>
+  <script src="${pageContext.request.contextPath}/static/js/common/common.js"></script>
 <script>
 $(document).ready(function() {
     getCounter().then((data) => {
@@ -195,3 +196,4 @@ function addCommas(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 </script>
+
