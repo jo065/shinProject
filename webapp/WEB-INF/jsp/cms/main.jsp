@@ -169,7 +169,12 @@
 </html>
   <script src="${pageContext.request.contextPath}/static/js/common/common.js"></script>
 <script>
+
+javascript$(document).ready(function() {
     getCounter().then((data) => {
+
+    console.log("data", data)
+
         const html = `
           <span>📅 오늘 날짜: <strong>${data.today}</strong></span>
           <span>👁️ 오늘 접속자 수: <strong>${data.today_cnt}</strong>명</span>
@@ -179,5 +184,6 @@
       }).catch((err) => {
         console.error("카운터 불러오기 실패:", err);
       });
+          });
 </script>
 

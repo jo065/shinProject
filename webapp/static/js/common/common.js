@@ -31,20 +31,20 @@ function getContentsList(bbs_id) {
 
 
 function getCounter() {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      url: `/cms/api/getCounter`,
-      method: "GET",
-      success: function (res) {
+       return new Promise((resolve, reject) => {
+         $.ajax({
+           url: `/cms/api/getCounter`,
+           method: "GET",
+           success: function (res) {
 
-      const {data}  = res;
-        console.log(data);
-        resolve(data); // ✅ 성공시 resolve
-      },
-      error: function (xhr, status, error) {
-        console.error("카운터 조회 실패:", error);
-        reject(error); // ✅ 실패시 reject
-      }
-    });
-  });
+           const {data}  = res;
+             console.log(data);
+             resolve(data); // ✅ 성공시 resolve
+           },
+           error: function (xhr, status, error) {
+             console.error("카운터 조회 실패:", error);
+             reject(error); // ✅ 실패시 reject
+           }
+         });
+       });
 }
