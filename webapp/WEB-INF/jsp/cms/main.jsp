@@ -137,11 +137,11 @@
   <!-- 오른쪽 -->
   <div class="header-right">
   <div id="visitor-stats">
-
-  </div>
-    <span>
+<span>
       <i class="fa-solid fa-circle-user"></i> <strong>${admin.lgn_id}</strong> 님 어서오세요
     </span>
+  </div>
+
 
     <!-- 홈페이지 이동 버튼 -->
     <a href="/home/home.do" class="btn btn-home">
