@@ -170,19 +170,5 @@
   <script src="${pageContext.request.contextPath}/static/js/common/common.js"></script>
 <script>
 
-getCounter().then((data) => {
-  const { total_cnt, today_cnt, today } = data;
-
-  // HTML 문자열 생성
-  const html = `
-    <p>📅 오늘 날짜: <strong>${today}</strong></p>
-    <p>👁️ 오늘 접속자 수: <strong>${today_cnt}</strong>명</p>
-    <p>📊 누적 접속자 수: <strong>${total_cnt}</strong>명</p>
-  `;
-
-  // 특정 div에 삽입
-  $('#visitor-stats').html(html);
-});
-
 </script>
 

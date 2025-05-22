@@ -39,6 +39,16 @@ function getCounter() {
 
       const {data}  = res;
 
+        // HTML 문자열 생성
+        const html = `
+          <span>📅 오늘 날짜: <strong>${data.today}</strong></span>
+          <span>👁️ 오늘 접속자 수: <strong>${data.today_cnt}</strong>명</span>
+          <span>📊 누적 접속자 수: <strong>${data.total_cnt}</strong>명</span>
+        `;
+
+        // 특정 div에 삽입
+        $('#visitor-stats').html(html);
+
 
         console.log(data);
         resolve(data); // ✅ 성공시 resolve
