@@ -177,8 +177,8 @@ $(document).ready(function() {
 
         const html =
           '<span><i class="fa-solid fa-table"></i> 오늘 날짜: ' + data.today + '</span>' +
-          '<span><i class="fa-solid fa-person"></i> 오늘 접속자 수: ' + data.today_cnt + '명</span>' +
-          '<span><i class="fa-solid fa-people-arrows"></i> 누적 접속자 수: ' + data.total_cnt + '명</span>';
+          '<span><i class="fa-solid fa-person"></i> 오늘 접속자 수: ' + addCommas(data.today_cnt) + '명</span>' +
+          '<span><i class="fa-solid fa-people-arrows"></i> 누적 접속자 수: ' + addCommas(data.total_cnt) + '명</span>';
 
         const element = document.getElementById('visitor-stats');
         console.log("DOM 요소:", element);
@@ -191,5 +191,9 @@ $(document).ready(function() {
         console.error("카운터 불러오기 실패:", err);
     });
 });
+
+function addCommas(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 </script>
 
