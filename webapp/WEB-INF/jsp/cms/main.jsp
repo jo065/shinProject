@@ -114,8 +114,8 @@
      .header-right a {
        margin-left: 10px; /* 버튼 사이 간격 */
      }
-     .visitor-stats {margin-right: 10px;}
-      .visitor-stats span{margin-right: 10px;}
+     #visitor-stats {margin-right: 10px;}
+     #visitor-stats span{margin-right: 10px;}
   </style>
 </head>
 <body>
