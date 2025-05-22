@@ -170,7 +170,7 @@
   <script src="${pageContext.request.contextPath}/static/js/common/common.js"></script>
 <script>
 
-javascript$(document).ready(function() {
+$(document).ready(function() {
     getCounter().then((data) => {
 
     console.log("data", data)
