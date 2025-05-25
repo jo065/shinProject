@@ -168,8 +168,8 @@
          color: white;
          padding-left: 0px;}
          .company-desc {font-size:18px; text-align: center;}
-         .company-logo img {margin-left: 57px !important; margin-bottom: 5px;}
-         .company-name {margin-left: 57px;}
+         .company-logo img {margin-left: 50px !important; margin-bottom: 5px;}
+         .company-name {margin-left: 50px;}
 
         .banner-content .image {width: 100%;}
         #animated-image {    width: 121%;
